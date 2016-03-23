@@ -73,13 +73,19 @@ body {
 	display:flex;
 	flex-direction: column;	
 }
-.list-element:hover{
-	background-color: #aaa;
-}
 .list-element > div{
+	/* covers bkgrd image, set bkgrd to transparent when :hovered */
+	background-color: #FFF;
+	
 	display:flex;
 	flex-direction: row;
 	line-height: 20px;
+}
+.list-element > div:hover{
+	background-color: transparent;
+}
+.list-element > div:hover .list-number, .list-element > div:hover .title-bold{
+	color: #fff;
 }
 .list-element > div > div{
 	/* enables width control */
