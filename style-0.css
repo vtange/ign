@@ -70,8 +70,17 @@ body {
     min-height: 100px;
 }
 .list-element{
+	/* start bkgrd size larger, drop it when :hovered */
+	background-position: center;
+	background-size: 110%;
+	transition: all 0.2s ease;
+	
 	display:flex;
 	flex-direction: column;	
+}
+.list-element:hover{
+	/* start bkgrd size larger, drop it when :hovered */
+	background-size: 100%;
 }
 .list-element > div{
 	/* covers bkgrd image, set bkgrd to transparent when :hovered */
