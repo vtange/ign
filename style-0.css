@@ -7,9 +7,9 @@ a{
 }
 body {
   margin: 0;/*reset page*/
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   margin-top: 10px;
   background:#000;
+  font-family: "Arial Rounded MT Bold", "Arial";
 }
 .vert-centered{
   position: absolute;
@@ -45,12 +45,11 @@ body {
 
 .tab-menu li{
   display: inline-block; 	/* remove li dot */
-	
-  font-family: "Archivo Narrow", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-family: "Arial Rounded MT Bold", "Arial";
   text-align: center;
   color: rgba(205,0,0,1);
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 700;
   
   width:50%;
 	
@@ -94,14 +93,16 @@ body {
 	
 }
 .list-number{
-	color:#000;
+	color:#222;
+    font-weight: 700;
 	width:14%;
+
 	margin-right: 2px;
-	
 	border-bottom: 2px dotted #ccc;
 }
 .time-number{
-	color:#444;
+	color:#555;
+    font-weight: 700;
 	width:15%;
 	
 	border-bottom: 2px solid #ccc;
@@ -119,8 +120,9 @@ body {
 	white-space: nowrap;
 }
 .title-bold{
-	color:#000;
+	color:#444;
+    font-weight: 700;
 }
 .title-grey{
-	color:#444;
+	color:#666;
 }
