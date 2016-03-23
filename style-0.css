@@ -124,6 +124,7 @@ body {
 }
 .title-grey{
 	color:#666;
+    font-weight: 500;
 }
 #red-rectangle{
 	position: absolute;

@@ -40,9 +40,25 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     $scope.print = function(){
         console.log($scope.storage.articles);
         console.log($scope.storage.videos);
-    }
+    };
+	// set background image
     $scope.listBkgrd = function(list_element){
-    }
+    };
+	// set list numbers to double digits
+	$scope.dbldgt = function(number){
+		return number+1 < 10 ? "0"+(number+1) : number+1;
+	};
+	// set times for videos
+	$scope.times = function (d) {
+		d = Number(d);
+		var h = Math.floor(d / 3600);
+		var m = Math.floor(d % 3600 / 60);
+		var s = Math.floor(d % 3600 % 60);
+		return (
+		  (h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s
+		); 
+  	};
+	
     //tabs btwn articles | videos
     $scope.Tab = 1;
     $scope.changeTab = function(tgtTab){
