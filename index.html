@@ -11,19 +11,21 @@
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="filters.js"></script>
 </head>
-<body data-ng-app="ChannelSearcher">
-    <article class="twitchThing" data-ng-controller="MainCtrl as searcher">
-      <div class="menu-container">
-          <div class="menu">
-            <li data-ng-click="changeTab(1)" data-ng-class="{ active: checkTab(1)}">All</li><li data-ng-click="changeTab(2)" data-ng-class="{ active: checkTab(2)}">Online</li><li data-ng-click="changeTab(3)" data-ng-class="{ active: checkTab(3)}">Offline</li>
+<body data-ng-app="art-vid-widget">
+    <article class="tabbed-list-widget" data-ng-controller="MainCtrl">
+      <div class="tab-menu-container">
+          <div class="tab-menu">
+            <li data-ng-click="changeTab(1)" data-ng-class="{ active: checkTab(1)}">Articles</li>
+			<li data-ng-click="changeTab(2)" data-ng-class="{ active: checkTab(2)}">Videos</li>
           </div>
       </div>
-      <div class="whitespace">
+      <div class="list-container">
 
           <div class="channellist">
-            <a data-ng-if="checkTab(1)" data-ng-href="{{baseTwitchURL + user.name}}" data-ng-repeat="user in storage.combinedUsers | filter:sera"><li><img class="avatar" data-ng-if="!user.logo" src="https://cdn1.iconfinder.com/data/icons/simple-icons/2048/twitch-2048-black.png"/><img class="avatar" data-ng-if="user.logo" data-ng-src="{{user.logo}}"/><span data-ng-if="user.stream" class="playing">{{user.stream.game}}</span><span class="username">{{user.display_name}}</span><span class="onOff">&nbsp;<i data-ng-if="user.stream" class="fa fa-video-camera"></i><i data-ng-if="!user.stream" class="fa fa-times-circle"></i></span></li></a>
+			  
           </div>
       </div>
+		<button data-ng-click="print()">get data</button>
     </article>
 </body>
 </html>
