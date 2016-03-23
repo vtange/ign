@@ -22,11 +22,10 @@ body {
   position:relative;
   width: 500px;
   margin:auto;
-	
+
   padding: 20px 0px 20px 0px;
   border-radius: 3px;
-	
-  overflow: hidden;
+
   background-color:#FFF;
 }
 /* ARTICLES | VIDEO Section */
@@ -118,7 +117,7 @@ body {
 .list-number{
 	color:#222;
     font-weight: 700;
-	width:14%;
+	width:15%;
 
 	border-bottom: 2px dotted #ccc;
 }
@@ -129,13 +128,19 @@ body {
 	
 	border-bottom: 2px solid #ccc;
 }
+.headlines{
+	width:85%;
+	overflow: hidden;
+	
+	border-bottom: 2px solid #ccc;
+}
 .titles{
 	width:70%;
 	overflow: hidden;
 	
 	border-bottom: 2px solid #ccc;
 }
-.list a:last-child .list-number, .list a:last-child .titles, .list a:last-child .time-number {
+.list a:nth-last-child(-n+2) .list-number, .list a:nth-last-child(-n+2) .headlines, .list a:nth-last-child(-n+2) .titles, .list a:nth-last-child(-n+2) .time-number {
 	border:0px;
 }
 .title{

@@ -23,9 +23,10 @@
 		  <div class="list" data-ng-if="checkTab(1)">
 			  <a data-ng-repeat="article in storage.articles" data-ng-href="#">
 				  <li data-ng-style="listBkgrd(article)" class="list-element">
-					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="titles"><div class="title title-bold">{{article.metadata.headline}}</div><div class="title title-grey">{{article.metadata.publishDate}}</div></div><div class="number time-number">{{times(100)}}</div></div>
+					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="headlines"><div class="title title-bold">{{article.metadata.headline | truncate:48}}</div><div class="title title-grey">{{article.metadata.publishDate}}</div></div></div>
 				  </li>
 			  </a>
+			  <a href="#"><span id="see-more">See More Articles</span></a>
           </div>
           <div class="list" data-ng-if="checkTab(2)">
 			  <a data-ng-repeat="video in storage.videos" data-ng-href="{{video.metadata.url}}">
@@ -33,8 +34,9 @@
 					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="titles"><div class="title title-bold">{{video.objectRelations[0].objectName}}</div><div class="title title-grey">{{video.metadata.name | truncate:42}}</div></div><div class="number time-number">{{times(video.metadata.duration)}}</div></div>
 				  </li>
 			  </a>
+			  <a href="#"><span id="see-more">See More Videos</span></a>
           </div>
-		  <a href="#"><span id="see-more">See More Videos</span></a>
+		  
       </div>
 	<button data-ng-click="print()">get data</button>
     </article>
