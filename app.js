@@ -1,6 +1,6 @@
 (function() {
     //start of function
-  var app = angular.module('ChannelSearcher', ['filters']);
+  var app = angular.module('art-vid-widget', []);
 
 app.factory('DATASTORE', function($http){
 
@@ -17,11 +17,7 @@ app.factory('DATASTORE', function($http){
   //immediately HTTP get data and push to articles/videos respectively
   //GET /articles
   $http.jsonp(baseUrl + artExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
-console.log("Articles:");
-console.log(data);
-
-
-
+  	  storage.articles = data.data;
   }).error(function(data) {
       storage.articles = [];//error = no data anyways
       console.log("error on http request");
@@ -29,20 +25,15 @@ console.log(data);
 
   //GET /videos
   $http.jsonp(baseUrl + vidExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
-console.log("Videos:");
-console.log(data);
-
-
-
-
+	  storage.videos = data.data;
   }).error(function(data) {
       storage.videos = [];//error = no data anyways
       console.log("error on http request");
   });
 
-
   return storage;
 });//end of service
+
 
 app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     $scope.storage = DATASTORE; // load service
