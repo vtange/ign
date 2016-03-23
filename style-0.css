@@ -1,10 +1,14 @@
 *{
     box-sizing: border-box;/*reset page*/
 }
+a{
+	color:inherit;
+	text-decoration: none;
+}
 body {
   margin: 0;/*reset page*/
-  font-family: "Open Sans";
-  margin-top: 40px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  margin-top: 10px;
   background:#000;
 }
 .vert-centered{
@@ -13,24 +17,26 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-.tabbed-list-widget /* the whole thing*/ {
+/* the whole thing */
+.tabbed-list-widget {
   position:relative;
-  width: 400px;
+  width: 500px;
   margin:auto;
   border-radius: 3px;
   background-color:#FFF;
 }
+/* ARTICLES | VIDEO Section */
 .tab-menu-container{
   position:relative;
   height:57px;
 	
-  padding: 10px;
+  padding: 15px;
 }
 .tab-menu{
-
+  width: 90%;
+	margin: auto;
   border: 2px solid rgba(205,0,0,1);
-  border-radius: 18px;
+  border-radius: 20px;
   overflow:hidden;
 
   display: flex;
@@ -38,73 +44,83 @@ body {
 }
 
 .tab-menu li{
-  display: inline-block;
+  display: inline-block; 	/* remove li dot */
+	
+  font-family: "Archivo Narrow", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   text-align: center;
   color: rgba(205,0,0,1);
+  text-transform: uppercase;
   font-weight: bold;
+  
   width:50%;
 	
-  padding:5px;
+  padding:8px;
   cursor:pointer;
 }
 .tab-menu li.active{
   color: white;
   background-color:rgba(205,0,0,1);
 }
+/* red rectangle thing */
 
+/* List Section */
 .list-container{
     min-height: 100px;
 }
-.search-area{
-    position:relative;
-    width:auto;
-    height: 67px;
-    border-bottom: 1px solid #FABCB3;
+.list-element{
+	display:flex;
+	flex-direction: column;	
 }
-.search-icon{
-    position:absolute;
-    top:23;
-    left:34;
+.list-element:hover{
+	background-color: #aaa;
 }
-.search-bar{
-    width:87%;
-    margin:6%;
-    border-radius:15px;
-    border:1px solid #FFCCCC;
-    padding:4px;
-    padding-left:40px;
+.list-element > div{
+	display:flex;
+	flex-direction: row;
+	line-height: 20px;
 }
-.channellist{
-    padding:10px;   
+.list-element > div > div{
+	/* enables width control */
+	display: block;
+	position: relative;
+	
+	/* spacing */
+	padding-top: 1em;
+	padding-bottom: 1em;
+    box-sizing: content-box;
 }
-
-.channellist li{
-    position: relative;
-    text-align: left;  
-    display:block;
-    padding:10px;
-    cursor: pointer;
+.number{
+	text-align: center;
+	
 }
-.avatar{
-    width:50px;
-    height:50px;
-    border-radius: 50%;
+.list-number{
+	color:#000;
+	width:14%;
+	margin-right: 2px;
+	
+	border-bottom: 2px dotted #ccc;
 }
-.playing {
-    position: absolute;
-    padding-left: 10px;
-    bottom:12px;
+.time-number{
+	color:#444;
+	width:15%;
+	
+	border-bottom: 2px solid #ccc;
 }
-.username {
-    position: absolute;
-    padding-left: 10px;
-    line-height: 50px;
-    color: #F47564;
+.titles{
+	width:70%;
+	overflow: hidden;
+	
+	border-bottom: 2px solid #ccc;
 }
-.onOff {
-    position: absolute;
-    right:20;
-    line-height: 50px;
-    color: #F47564;
-    display: inline-block;
+.list .titles:last-child{
+	border:4px solid red;
+}
+.title{
+	white-space: nowrap;
+}
+.title-bold{
+	color:#000;
+}
+.title-grey{
+	color:#444;
 }
