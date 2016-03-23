@@ -19,10 +19,15 @@
 			<li data-ng-click="changeTab(2)" data-ng-class="{ active: checkTab(2)}">Videos</li>
           </div>
       </div>
+	  <div id="red-rectangle"></div>
       <div class="list-container">
-
-          <div class="channellist">
-			  
+          <div class="list">
+			  <a data-ng-repeat="video in storage.videos" href="#">
+				  <li data-ng-style="listBkgrd(video)" class="list-element">
+					  <div><span class="list-number">{{$index}}</span><span class="title-bold">{{video.metadata.name}}</span><span class="time-number">{{video.metadata.duration}}</span></div>
+					  <div><span class="title-grey">{{video.metadata.longTitle}}</span></div>
+				  </li>
+			  </a>
           </div>
       </div>
 		<button data-ng-click="print()">get data</button>

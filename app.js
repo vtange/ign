@@ -41,16 +41,17 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
         console.log($scope.storage.articles);
         console.log($scope.storage.videos);
     }
-
-      //tabs btwn articles | videos
-      $scope.Tab = 1;
-      $scope.changeTab = function(tgtTab){
-          $scope.Tab = tgtTab;
-          console.log("now on tab" + tgtTab)
-      };
-      $scope.checkTab = function(tab){
-          return $scope.Tab === tab;
-      };
+    $scope.listBkgrd = function(list_element){
+    }
+    //tabs btwn articles | videos
+    $scope.Tab = 1;
+    $scope.changeTab = function(tgtTab){
+        $scope.Tab = tgtTab;
+        console.log("now on tab" + tgtTab)
+    };
+    $scope.checkTab = function(tab){
+        return $scope.Tab === tab;
+    };
 
 
 }]);//end of controller
