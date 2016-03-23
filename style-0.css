@@ -58,6 +58,9 @@ body {
   padding:8px;
   cursor:pointer;
 }
+.tab-menu li:hover{
+  text-decoration: underline;
+}
 .tab-menu li.active{
   color: white;
   background-color:rgba(205,0,0,1);
@@ -156,6 +159,7 @@ body {
 }
 #see-more{
 	margin-left: 14%;
+	display: block;
 	
 	color:#666;
     font-weight: 700;
