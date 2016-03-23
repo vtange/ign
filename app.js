@@ -1,6 +1,6 @@
 (function() {
     //start of function
-  var app = angular.module('art-vid-widget', []);
+  var app = angular.module('art-vid-widget', ['filters']);
 
 app.factory('DATASTORE', function($http){
 

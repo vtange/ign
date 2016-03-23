@@ -23,7 +23,7 @@
           <div class="list">
 			  <a data-ng-repeat="video in storage.videos" data-ng-href="{{video.metadata.url}}">
 				  <li data-ng-style="listBkgrd(video)" class="list-element">
-					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="titles"><div class="title title-bold">{{video.objectRelations[0].objectName}}</div><div class="title title-grey">{{video.metadata.name}}</div></div><div class="number time-number">{{times(video.metadata.duration)}}</div></div>
+					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="titles"><div class="title title-bold">{{video.objectRelations[0].objectName}}</div><div class="title title-grey">{{video.metadata.name | truncate:42}}</div></div><div class="number time-number">{{times(video.metadata.duration)}}</div></div>
 				  </li>
 			  </a>
           </div>
