@@ -1,0 +1,96 @@
+body {
+  font-family: "Open Sans";
+  margin-top: 40px;
+  text-align:center;
+  background:#F79F94;
+}
+.twitchThing /* the whole thing*/ {
+  position:relative;
+  border:1px solid #F47564;
+  width: 300px;
+  margin:auto;
+}
+.menu-container{
+  position:relative;
+  height:57px;
+  background-color:#F47564;
+}
+.menu{
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  overflow:hidden;
+}
+
+.menu li{
+  font-size:1.1em;
+  color:white;
+  display:inline-block;
+  padding: 15px 0px 16px 0px;
+  width:33%;
+  cursor:pointer;
+}
+.menu li.active{
+  background-color:rgba(0,0,0,0.2);
+}
+.menu li:nth-child(n+2){
+  border-left:1px solid #FABCB3;
+}
+.whitespace{
+  background-color:#FFF;
+    min-height: 100px;
+}
+.search-area{
+    position:relative;
+    width:auto;
+    height: 67px;
+    border-bottom: 1px solid #FABCB3;
+}
+.search-icon{
+    position:absolute;
+    top:23;
+    left:34;
+}
+.search-bar{
+    width:87%;
+    margin:6%;
+    border-radius:15px;
+    border:1px solid #FFCCCC;
+    padding:4px;
+    padding-left:40px;
+}
+.channellist{
+    padding:10px;   
+}
+
+.channellist li{
+    position: relative;
+    text-align: left;  
+    display:block;
+    padding:10px;
+    cursor: pointer;
+}
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+}
+.playing {
+    position: absolute;
+    padding-left: 10px;
+    bottom:12px;
+}
+.username {
+    position: absolute;
+    padding-left: 10px;
+    line-height: 50px;
+    color: #F47564;
+}
+.onOff {
+    position: absolute;
+    right:20;
+    line-height: 50px;
+    color: #F47564;
+    display: inline-block;
+}
