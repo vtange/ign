@@ -2,51 +2,56 @@
     //start of function
   var app = angular.module('ChannelSearcher', ['filters']);
 
-app.factory('memory', function($http){
+app.factory('DATASTORE', function($http){
 
-  var baseUrl = "https://api.twitch.tv/kraken/";
+  //API urls
+  var baseUrl = "http://ign-apis.herokuapp.com";
+  var artExt = "/articles";
+  var vidExt = "/videos";
 
-  var users = ["freecodecamp","tentuzero","watchgintama","lordstormakov", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff", "brunofin",
-"comster404" ];
-
+  // arrays of articles and videos
   var storage = {};
-  storage.combinedUsers = [];
-//courtesy https://plainjs.com/javascript/utilities/merge-two-javascript-objects-19/
-function extend(obj, src) {
-    for (var key in src) {
-        if (src.hasOwnProperty(key)) obj[key] = src[key];
-    }
-    return obj;
-}
+  storage.articles = [];
+  storage.videos = [];
 
-    for (var i=0;i<users.length;i++){
-       var profileExt = "users/";
-       var statusExt = "streams/";
+  //immediately HTTP get data and push to articles/videos respectively
+  //GET /articles
+  $http.jsonp(baseUrl + artExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
+console.log("Articles:");
+console.log(data);
 
-        $http.defaults.headers.common["X-Custom-Header"] = "Angular.js";
-        $http.jsonp(baseUrl + profileExt + users[i] + "?callback=JSON_CALLBACK").success(function(data1) {//pull profile info
-            $http.jsonp(baseUrl + statusExt + data1.name + "?callback=JSON_CALLBACK").success(function(data2) {//then pull status info
-               storage.combinedUsers.push(extend(data1,data2));                                                     //then merge them all together
-            }).error(function(data2) {
-               storage.combinedUsers = [];//error = no data anyways
-               console.log("error1");
-            });
-        }).error(function(data1) {
-           storage.combinedUsers = [];//error = no data anyways
-           console.log("error0");
-        });
-    }//end info pulling
+
+
+  }).error(function(data) {
+      storage.articles = [];//error = no data anyways
+      console.log("error on http request");
+  });
+
+  //GET /videos
+  $http.jsonp(baseUrl + vidExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
+console.log("Videos:");
+console.log(data);
+
+
+
+
+  }).error(function(data) {
+      storage.videos = [];//error = no data anyways
+      console.log("error on http request");
+  });
+
 
   return storage;
 });//end of service
 
-app.controller('MainCtrl', ['$scope', 'memory', function($scope, memory){
-    $scope.storage = memory; // load service
-    $scope.baseTwitchURL = "http://www.twitch.tv/";//use for links
-    /*$scope.print = function(){
-        console.log($scope.storage.combinedUsers);
-    }*///for debug use, to find user info
-      //tabs
+app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
+    $scope.storage = DATASTORE; // load service
+    $scope.print = function(){
+        console.log($scope.storage.articles);
+        console.log($scope.storage.videos);
+    }
+
+      //tabs btwn articles | videos
       $scope.Tab = 1;
       $scope.changeTab = function(tgtTab){
           $scope.Tab = tgtTab;
@@ -55,6 +60,8 @@ app.controller('MainCtrl', ['$scope', 'memory', function($scope, memory){
       $scope.checkTab = function(tab){
           return $scope.Tab === tab;
       };
+
+
 }]);//end of controller
   //end of function
 })();
