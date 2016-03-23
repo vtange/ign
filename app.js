@@ -43,7 +43,6 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     };
 	// set background image
     $scope.listBkgrd = function(list_element){
-		console.log(list_element);
 		return { "background-image" : "url("+list_element.thumbnail+")" }
     };
 	// set list numbers to double digits
