@@ -18,8 +18,8 @@
 			<li data-ng-click="changeTab(2)" data-ng-class="{ active: checkTab(2)}">Videos</li>
           </div>
       </div>
-	  <div id="red-rectangle"></div>
       <div class="list-container">
+		  <div id="red-rectangle"></div>
           <div class="list">
 			  <a data-ng-repeat="video in storage.videos" data-ng-href="{{video.metadata.url}}">
 				  <li data-ng-style="listBkgrd(video)" class="list-element">
@@ -27,6 +27,7 @@
 				  </li>
 			  </a>
           </div>
+		  <a href="#"><span id="see-more">See More Videos</span></a>
       </div>
 		<button data-ng-click="print()">get data</button>
     </article>
