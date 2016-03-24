@@ -6,7 +6,9 @@
 	<title>Articles | Videos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style-0.css"/>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.5/angular-moment.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="filters.js"></script>
 </head>
@@ -23,7 +25,7 @@
 		  <div class="list" data-ng-if="checkTab(1)">
 			  <a data-ng-repeat="article in storage.articles" data-ng-href="#">
 				  <li data-ng-style="listBkgrd(article)" class="list-element">
-					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="headlines"><div class="title title-bold">{{article.metadata.headline | truncate:48}}</div><div class="title title-grey">{{article.metadata.publishDate}}</div></div></div>
+					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="headlines"><div class="title title-bold">{{article.metadata.headline | truncate:48}}</div><div class="title title-grey" title="{{ article.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="article.metadata.publishDate"></div></div></div>
 				  </li>
 			  </a>
 			  <a href="#"><span id="see-more">See More Articles</span></a>
