@@ -79,7 +79,10 @@ body {
 }
 .play-circle i{
 	font-size: 9em;
-	color: rgba(255,255,255,0.8);
+	color: #fff;
+
+	transition: all 0.2s ease;
+	opacity:0.8;
 }
 .time-number{
 	transition: all 0.2s ease;
@@ -91,6 +94,6 @@ body {
 	right:15px;
 	top:15px;
 }
-.background-pic:hover .time-number{
-	opacity:1;
+.background-pic:hover .time-number, .background-pic:hover .play-circle i{
+	opacity:0.9;
 }
