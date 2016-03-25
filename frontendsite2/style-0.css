@@ -33,24 +33,39 @@ body {
 	margin-bottom: 15px;
 }
 .time-n-title{
+	position: relative;
+	
 	padding: 12px;
 	height: 100px;
 }
-.title{
-	white-space: nowrap;
+/* red line */
+#red-line{
+	position: absolute;
+	top:0;
+	left:0;
+	height:2px;
+	width:20%;
+	background-color: red;
 }
 .title-bold{
-    font-weight: 700;
+    font-weight: 900;
 }
 .title-grey{
 	color:#666;
-    font-weight: 500;
+    font-weight: 900;
+
+    font-size: 0.8em;
+	line-height: 20px;
 }
 
 .background-pic{
-	height:172px;
-	
+	/* overlay a circle-play icon if video */
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
+}
+.background-pic img{
+	/* helps .background pic get dimensions of picture */
+	width: 100%;
+	visibility: hidden;
 }

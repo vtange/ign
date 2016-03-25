@@ -18,13 +18,14 @@
 		  <div class="list">
 				  <div data-ng-repeat="item in storage.articlesANDvideos" class="list-element">
 				  	  <div class="time-n-title">
-					  	<div class="title title-grey" title="{{ item.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="item.metadata.publishDate"></div>
-					  	<div class="title title-bold" data-ng-if="isArticle(item)">{{item.metadata.headline | truncate:48}}</div>
-					  	<div class="title title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:48}}</div>
+						<div id="red-line"></div>
+					  	<div class="title-grey" title="{{ item.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="item.metadata.publishDate"></div>
+					  	<div class="title-bold" data-ng-if="isArticle(item)">{{item.metadata.headline | truncate:60}}</div>
+					  	<div class="title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:60}}</div>
 					  </div>
 					  <a data-ng-href="#">
 						  <div class="background-pic" data-ng-style="listBkgrd(item)">
-
+							  <img data-ng-src="{{item.thumbnail}}">
 
 						  </div>
 					  </a>
