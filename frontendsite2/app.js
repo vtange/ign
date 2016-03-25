@@ -1,35 +1,30 @@
 (function() {
     //start of function
-  var app = angular.module('art-vid-widget', ['angularMoment','filters']);
+  var app = angular.module('art-vid-list', ['angularMoment','filters']);
 
 app.factory('DATASTORE', function($http){
 
   //API urls
   var baseUrl = "http://ign-apis.herokuapp.com";
-  var artExt = "/articles";
-  var vidExt = "/videos";
+  var ext = ["/articles", "/videos"];
 
   // arrays of articles and videos
   var storage = {};
-  storage.articles = [];
-  storage.videos = [];
+  storage.articlesANDvideos = [];
 
   //immediately HTTP get data and push to articles/videos respectively
-  //GET /articles
-  $http.jsonp(baseUrl + artExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
-  	  storage.articles = data.data;
-  }).error(function(data) {
-      storage.articles = [];//error = no data anyways
-      console.log("error on http request");
-  });
+  //GET /articles and /videos
+	ext.forEach(function(extension){
+	  $http.jsonp(baseUrl + extension + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
+		  data.data.forEach(function(arr_item){
+			  storage.articlesANDvideos.push(arr_item);
+		  })
+	  }).error(function(data) {
+		  storage.articlesANDvideos = [];//error = no data anyways
+		  console.log("error on http request");
+	  });
+	});
 
-  //GET /videos
-  $http.jsonp(baseUrl + vidExt + "?callback=JSON_CALLBACK").success(function(data) {//pull profile info
-	  storage.videos = data.data;
-  }).error(function(data) {
-      storage.videos = [];//error = no data anyways
-      console.log("error on http request");
-  });
 
   return storage;
 });//end of service
