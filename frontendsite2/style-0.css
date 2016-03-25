@@ -59,6 +59,7 @@ body {
 }
 
 .background-pic{
+	position: relative;
 	/* overlay a circle-play icon if video */
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -68,4 +69,28 @@ body {
 	/* helps .background pic get dimensions of picture */
 	width: 100%;
 	visibility: hidden;
+}
+
+/* video stuff */
+.play-circle {
+	position: absolute;
+	left: 15px;
+	bottom:5px;
+}
+.play-circle i{
+	font-size: 9em;
+	color: rgba(255,255,255,0.8);
+}
+.time-number{
+	transition: all 0.2s ease;
+	color: rgba(255,255,255,0.8);
+	opacity: 0;
+	
+	font-size: 2em;
+	position: absolute;
+	right:15px;
+	top:15px;
+}
+.background-pic:hover .time-number{
+	opacity:1;
 }

@@ -20,13 +20,21 @@
 				  	  <div class="time-n-title">
 						<div id="red-line"></div>
 					  	<div class="title-grey" title="{{ item.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="item.metadata.publishDate"></div>
-					  	<div class="title-bold" data-ng-if="isArticle(item)">{{item.metadata.headline | truncate:60}}</div>
-					  	<div class="title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:60}}</div>
+					  	<!--if article--><div class="title-bold" data-ng-if="isArticle(item)">{{item.metadata.headline | truncate:90}}</div>
+					  	<!--if video--><div class="title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:90}}</div>
 					  </div>
-					  <a data-ng-href="#">
+					  <!--if article-->
+					  <a data-ng-if="isArticle(item)" data-ng-href="#">
 						  <div class="background-pic" data-ng-style="listBkgrd(item)">
 							  <img data-ng-src="{{item.thumbnail}}">
-
+						  </div>
+					  </a>
+					  <!--if video-->
+					  <a data-ng-if="!isArticle(item)" data-ng-href="{{item.metadata.url}}">
+						  <div class="background-pic" data-ng-style="listBkgrd(item)">
+							  <div class="play-circle"><i class="fa fa-play-circle-o"></i></div>
+							  <div class="time-number">{{times(item.metadata.duration)}}</div>
+							  <img data-ng-src="{{item.thumbnail}}">
 						  </div>
 					  </a>
 				  </div>
