@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Articles | Videos</title>
+	<title>Latest News</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style-0.css"/>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
@@ -12,35 +12,25 @@
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="filters.js"></script>
 </head>
-<body data-ng-app="art-vid-widget">
-    <article class="tabbed-list-widget" data-ng-controller="MainCtrl">
-      <div class="tab-menu-container">
-          <div class="tab-menu">
-            <li data-ng-click="changeTab(1)" data-ng-class="{ active: checkTab(1)}">Articles</li>
-			<li data-ng-click="changeTab(2)" data-ng-class="{ active: checkTab(2)}">Videos</li>
-          </div>
-      </div>
+<body data-ng-app="art-vid-list">
+    <article data-ng-controller="MainCtrl">
       <div class="list-container">
-		  <div id="red-rectangle"></div>
-		  <div class="list" data-ng-if="checkTab(1)">
-			  <a data-ng-repeat="article in storage.articles" data-ng-href="#">
-				  <li data-ng-style="listBkgrd(article)" class="list-element">
-					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="headlines"><div class="title title-bold">{{article.metadata.headline | truncate:48}}</div><div class="title title-grey" title="{{ article.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="article.metadata.publishDate"></div></div></div>
-				  </li>
-			  </a>
-			  <a href="#"><span id="see-more">See More Articles</span></a>
+		  <div class="list">
+				  <div data-ng-repeat="item in storage.articlesANDvideos" class="list-element">
+				  	  <div class="time-n-title">
+					  	<div class="title title-grey" title="{{ item.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="item.metadata.publishDate"></div>
+					  	<div class="title title-bold" data-ng-if="isArticle(item)">{{item.metadata.headline | truncate:48}}</div>
+					  	<div class="title title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:48}}</div>
+					  </div>
+					  <a data-ng-href="#">
+						  <div class="background-pic" data-ng-style="listBkgrd(item)">
+
+
+						  </div>
+					  </a>
+				  </div>
           </div>
-          <div class="list" data-ng-if="checkTab(2)">
-			  <a data-ng-repeat="video in storage.videos" data-ng-href="{{video.metadata.url}}">
-				  <li data-ng-style="listBkgrd(video)" class="list-element">
-					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="titles"><div class="title title-bold">{{video.objectRelations[0].objectName}}</div><div class="title title-grey">{{video.metadata.name | truncate:42}}</div></div><div class="number time-number">{{times(video.metadata.duration)}}</div></div>
-				  </li>
-			  </a>
-			  <a href="#"><span id="see-more">See More Videos</span></a>
-          </div>
-		  
       </div>
-	<button data-ng-click="print()">get data</button>
     </article>
 </body>
 </html>

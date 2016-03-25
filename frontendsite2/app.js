@@ -54,16 +54,10 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		  (h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s
 		); 
   	};
-	
-    //tabs btwn articles | videos
-    $scope.Tab = 1;
-    $scope.changeTab = function(tgtTab){
-        $scope.Tab = tgtTab;
-        console.log("now on tab" + tgtTab)
-    };
-    $scope.checkTab = function(tab){
-        return $scope.Tab === tab;
-    };
+	// determines metadata.headline or metadata.name for ng-repeat, determines handling of vid;
+	$scope.isArticle = function(list_element){
+		return list_element.metadata.articleType;
+	};
 
 
 }]);//end of controller

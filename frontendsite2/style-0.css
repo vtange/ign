@@ -6,168 +6,51 @@ a{
 	text-decoration: none;
 }
 body {
-  margin: 0;/*reset page*/
-  margin-top: 10px;
-  background:#000;
-  font-family: "Arial Rounded MT Bold", "Arial";
+	margin: 0;/*reset page*/
+	margin-top: 10px;
+	background:#000;
+	color:#fff;
+	text-transform: uppercase;
+	font-family: "Arial Rounded MT Bold", "Arial";
 }
 .vert-centered{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
-/* the whole thing */
-.tabbed-list-widget {
-  position:relative;
-  width: 500px;
-  margin:auto;
-
-  padding: 20px 0px 20px 0px;
-  border-radius: 3px;
-
-  background-color:#FFF;
-}
-/* ARTICLES | VIDEO Section */
-.tab-menu-container{
-  position:relative;
-  padding: 0px 15px 15px 15px;
-}
-.tab-menu{
-  width: 90%;
-	margin: auto;
-  border: 2px solid rgba(205,0,0,1);
-  border-radius: 20px;
-  overflow:hidden;
-
-  display: flex;
-  flex-direction: row;
-}
-
-.tab-menu li{
-  display: inline-block; 	/* remove li dot */
-  font-family: "Arial Rounded MT Bold", "Arial";
-  text-align: center;
-  color: rgba(205,0,0,1);
-  text-transform: uppercase;
-  font-weight: 700;
-  
-  width:50%;
-	
-  padding:8px;
-  cursor:pointer;
-}
-.tab-menu li:hover{
-  text-decoration: underline;
-}
-.tab-menu li.active{
-  color: white;
-  background-color:rgba(205,0,0,1);
-}
-/* red rectangle thing */
-
 /* List Section */
 .list-container{
 	position: relative;
-    min-height: 100px;
+	width: 50%;
+	margin: auto;
 }
 .list-element{
-	/* start bkgrd size larger, drop it when :hovered */
-	background-position: center;
-	background-size: 110%;
-	transition: all 0.2s ease;
-	/* tint the bkgrd dark grey for contrast */
-	box-shadow: 0px 1000px rgba(0, 0, 0, 0.5) inset;
+	background-color: #222;
 	
 	display:flex;
-	flex-direction: column;	
+	flex-direction: column;
+	margin-bottom: 15px;
 }
-.list-element:hover{
-	/* start bkgrd size larger, drop it when :hovered */
-	background-size: 100%;
-}
-.list-element > div{
-	/* covers bkgrd image, set bkgrd to transparent when :hovered */
-	background-color: #FFF;
-	
-	display:flex;
-	flex-direction: row;
-	line-height: 20px;
-}
-.list-element > div:hover{
-	background-color: transparent;
-}
-.list-element > div:hover .list-number, .list-element > div:hover .title-bold{
-	color: #fff;
-}
-.list-element > div > div{
-	/* enables width control */
-	display: block;
-	position: relative;
-	
-	/* spacing */
-	padding-top: 1em;
-	padding-bottom: 1em;
-    box-sizing: content-box;
-}
-.number{
-	text-align: center;
-	
-}
-.list-number{
-	color:#222;
-    font-weight: 700;
-	width:15%;
-
-	border-bottom: 2px dotted #ccc;
-}
-.time-number{
-	color:#555;
-    font-weight: 700;
-	width:15%;
-	
-	border-bottom: 2px solid #ccc;
-}
-.headlines{
-	width:85%;
-	overflow: hidden;
-	
-	border-bottom: 2px solid #ccc;
-}
-.titles{
-	width:70%;
-	overflow: hidden;
-	
-	border-bottom: 2px solid #ccc;
-}
-.list a:nth-last-child(-n+2) .list-number, .list a:nth-last-child(-n+2) .headlines, .list a:nth-last-child(-n+2) .titles, .list a:nth-last-child(-n+2) .time-number {
-	border:0px;
+.time-n-title{
+	padding: 12px;
+	height: 100px;
 }
 .title{
 	white-space: nowrap;
 }
 .title-bold{
-	color:#444;
     font-weight: 700;
 }
 .title-grey{
 	color:#666;
     font-weight: 500;
 }
-#red-rectangle{
-	position: absolute;
-	top:20px;
-	left:-5px;
-  	background-color:rgba(205,0,0,1);
-	width:10px;
-	height:40px;
-}
-#see-more{
-	margin-left: 14%;
-	display: block;
+
+.background-pic{
+	height:172px;
 	
-	color:#666;
-    font-weight: 700;
-    font-size: 0.8em;
-	text-transform: uppercase;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 }
