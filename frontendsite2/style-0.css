@@ -23,7 +23,7 @@ body {
 .list-container{
 	position: relative;
 	width: 50%;
-	min-width: 400px;
+	min-width: 320px;
 	max-width: 600px;
 	margin: auto;
 }
@@ -51,6 +51,11 @@ body {
 }
 .title-bold{
     font-weight: 900;
+}
+@media screen and (max-width: 640px) {
+	.title-bold{
+		font-size: 0.8em;
+	}
 }
 .title-grey{
 	color:#666;
