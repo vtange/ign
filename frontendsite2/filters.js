@@ -1,6 +1,9 @@
 (function() {
     //start of function
 var filters=angular.module('filters', []);
+//----------------------
+// truncate string filter	
+//----------------------	
 filters.filter('truncate', function() {
         return function (input, num) {
 
@@ -21,6 +24,18 @@ filters.filter('truncate', function() {
       }
     }
 });
-
+//----------------------
+// sort by date filter	
+//----------------------
+filters.filter('latest_first', function() {
+    return function (input_arr) {
+		return input_arr.sort(function(a,b){
+		  	// Turn your strings into dates, and then subtract them
+		  	// to get a value that is either negative, positive, or zero.
+		  	return new Date(b.metadata.publishDate) - new Date(a.metadata.publishDate);
+		});
+    };
+});
+	
       //end of function
 })();

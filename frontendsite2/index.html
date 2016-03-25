@@ -16,7 +16,7 @@
     <article data-ng-controller="MainCtrl">
       <div class="list-container">
 		  <div class="list">
-				  <div data-ng-repeat="item in storage.articlesANDvideos" class="list-element">
+				  <div data-ng-repeat="item in storage.articlesANDvideos | latest_first" class="list-element">
 				  	  <div class="time-n-title">
 						<div id="red-line"></div>
 					  	<div class="title-grey" title="{{ item.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="item.metadata.publishDate"></div>
