@@ -58,8 +58,13 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	$scope.isArticle = function(list_element){
 		return list_element.metadata.articleType;
 	};
-
-
+	// get url of article on IGN using slug and datePublished
+	$scope.getArticleUrl = function(list_element){
+		return "http://www.ign.com/articles/"+folderfy(list_element.metadata.publishDate)+"/"+list_element.metadata.slug;
+	};
+	function folderfy(date_string){
+		return date_string.slice(0,10).replace(/[-]/g,"/");
+	}
 }]);//end of controller
   //end of function
 })();

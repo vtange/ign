@@ -59,6 +59,13 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		  (h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s
 		); 
   	};
+	// get url of article on IGN using slug and datePublished
+	$scope.getArticleUrl = function(list_element){
+		return "http://www.ign.com/articles/"+folderfy(list_element.metadata.publishDate)+"/"+list_element.metadata.slug;
+	};
+	function folderfy(date_string){
+		return date_string.slice(0,10).replace(/[-]/g,"/");
+	}
 	
     //tabs btwn articles | videos
     $scope.Tab = 1;

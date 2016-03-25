@@ -23,7 +23,7 @@
       <div class="list-container">
 		  <div id="red-rectangle"></div>
 		  <div class="list" data-ng-if="checkTab(1)">
-			  <a data-ng-repeat="article in storage.articles" data-ng-href="#">
+			  <a data-ng-repeat="article in storage.articles" data-ng-href="{{getArticleUrl(article)}}">
 				  <li data-ng-style="listBkgrd(article)" class="list-element">
 					  <div><div class="number list-number">{{dbldgt($index)}}</div><div class="headlines"><div class="title title-bold">{{article.metadata.headline | truncate:48}}</div><div class="title title-grey" title="{{ article.metadata.publishDate | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="article.metadata.publishDate"></div></div></div>
 				  </li>

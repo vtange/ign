@@ -24,7 +24,7 @@
 					  	<!--if video--><div class="title-bold" data-ng-if="!isArticle(item)">{{item.metadata.name | truncate:90}}</div>
 					  </div>
 					  <!--if article-->
-					  <a data-ng-if="isArticle(item)" data-ng-href="#">
+					  <a data-ng-if="isArticle(item)" data-ng-href="{{getArticleUrl(item)}}">
 						  <div class="background-pic" data-ng-style="listBkgrd(item)">
 							  <img data-ng-src="{{item.thumbnail}}">
 						  </div>
