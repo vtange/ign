@@ -27,7 +27,7 @@ app.factory('DATASTORE', function(){
 
 app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     $scope.storage = DATASTORE; // load service
-		//controls image on JQK
+	//controls image on JQK
 	$scope.getFace = function(suit,value){
 		switch(suit){
 			case "spades":
@@ -85,9 +85,21 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			return [];
 		}
 	};
-	
+	//show title
+	$scope.showMenu = function(){
+		if(!$scope.playingGame)
+			return { "opacity" : 1 , "z-index": 9};
+		else
+			return { "opacity" : 0 , "z-index": -9};
+	};
+	//show deck during play
+	$scope.showDeck = function(){
+		if($scope.playingGame)
+			return { "opacity" : 1 , "z-index": 9};
+		else
+			return { "opacity" : 0 , "z-index": -9};
+	};	
 	/* GAME STATE */
-	
 	$scope.player1 = {
 		human: false,
 		sec_palace:[],
@@ -112,8 +124,27 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		upp_palace:[],
 		hand:[],
 	};
+	$scope.pile = [];
 	$scope.outOfPlay = [];
+	
+	//whose turn is it?
+	$scope.currentPlayer = 1;
+	
+	//controls if "PALACE (Play)" is shown or deck
+	$scope.playingGame = false;
+	/**/
+	/* GAME PLAY */
+	$scope.startGame = function(){
+		//remove "PALACE (Play)", show deck
+		$scope.playingGame = true;
+		
+		
+		
+	};
 
 }]);//end of controller
+	
+	
+	
   //end of function
 })();

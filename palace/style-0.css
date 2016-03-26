@@ -93,6 +93,13 @@ body {
 #center-area{
 	color:gold;
 }
+#center-area > div{
+	transition: all 0.2s ease;
+}
+#center-area > div:last-child{
+	display: flex;
+	flex-direction: row;
+}
 .btn{
 	transition: all 0.5s ease;
 	border: 1px solid #dce;
@@ -105,12 +112,29 @@ body {
  	box-shadow: 0px 0px 10px rgba(200,200,200,0.5);
  	text-shadow: 0px 0px 10px rgba(200,200,100,0.5);
 }
+#pile{
+	position: relative;
+	height:300px;
+	width:200px;
+	background:rgba(50,50,50,0.5);
+	border-radius: 5px;
+	padding:10px;
+	margin:10px;
+}
+#deck{
+	position: relative;
+	height:300px;
+	width:200px;
+	background:#fff;
+	border-radius: 5px;
+	padding:10px;
+	margin:10px;
+}
+/* playing area */
 .player-area, .btn{
 	border-radius:10px;
 	background-color: rgba(50,50,50,0.5);
 }
-
-/* playing area */
 .player-area{
 	position: absolute;
 	min-width:25%;
