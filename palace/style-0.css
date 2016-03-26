@@ -36,12 +36,18 @@ body {
 }
 /* the middle part of card */
 .center-stuff{
-	border:2px solid lime;
 	height:80%;
 	width:100px;
-	
+}
+/* center smaller numbers of stuff */
+.center-stuff > div{
+	width:100%;
 	display: flex;
 	flex-wrap: wrap;
+}
+/* make singletons centered */
+.center-stuff .card-suit{
+	margin: auto;
 }
 /* lower half of card */
 .card > div:last-child{

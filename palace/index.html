@@ -12,9 +12,9 @@
 <body data-ng-app="palace-game">
     <article data-ng-controller="MainCtrl">
 		<div data-ng-repeat="card in storage.deck" class="card">
-			<div><div class="card-value" data-ng-style="color(card.suit)">{{card.value}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
-			<div class="vert-centered center-stuff"><div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div></div>
-			<div><div class="card-value" data-ng-style="color(card.suit)">{{card.value}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+			<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+			<div class="vert-centered center-stuff"><div class="vert-centered"><div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div></div></div>
+			<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 		</div>
     </article>
 </body>
