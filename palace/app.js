@@ -45,9 +45,22 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			case "diamonds": return { "color" : "#d00" };
 		}
 	};
+	// controls colors for numbers
+	$scope.JQK = function(value){
+		switch(value){
+			case 11: return "J";
+			case 12: return "Q";
+			case 13: return "K";
+			default: return value;
+		}
+	};
 	// controls number of stuff in the card center
 	$scope.getNum = function(value){
-		 return new Array(value);
+		if(value < 11)
+		 	return new Array(value);
+		else{
+			return [];
+		}
 	};
 	
 	
