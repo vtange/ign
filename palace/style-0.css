@@ -7,11 +7,19 @@ a{
 }
 body {
 	margin: 0;/*reset page*/
-	margin-top: 10px;
-	background:#000;
 	text-transform: uppercase;
 	font-family: "Arial Rounded MT Bold", "Arial";
 }
+#playing-field{
+	position: absolute;
+	width:100%;
+	height:100vh;
+	background-image: url(http://res.cloudinary.com/dmj8qtant/image/upload/v1459018757/parts/palacebg.jpg);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 .vert-centered{
 	position: absolute;
 	top: 50%;
@@ -78,4 +86,57 @@ body {
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-position: center;
+}
+/*              */
+
+/* center area */
+#center-area{
+	color:gold;
+}
+.btn{
+	transition: all 0.5s ease;
+	border: 1px solid #dce;
+	padding:10px;
+	text-align: center;
+	
+	cursor: pointer;
+}
+.btn:hover{
+ 	box-shadow: 0px 0px 10px rgba(200,200,200,0.5);
+ 	text-shadow: 0px 0px 10px rgba(200,200,100,0.5);
+}
+.player-area, .btn{
+	border-radius:10px;
+	background-color: rgba(50,50,50,0.5);
+}
+
+/* playing area */
+.player-area{
+	position: absolute;
+	min-width:25%;
+	min-height:25%;
+}
+#player1-area{
+	top:0;
+	left:0;
+	border-right:1px solid gold;
+	border-bottom:1px solid gold;
+}
+#player2-area{
+	top:0;
+	right:0;
+	border-left:1px solid gold;
+	border-bottom:1px solid gold;
+}
+#player3-area{
+	right:0;
+	bottom:0;
+	border-left:1px solid gold;
+	border-top:1px solid gold;
+}
+#player4-area{
+	left:0;
+	bottom:0;
+	border-right:1px solid gold;
+	border-top:1px solid gold;
 }
