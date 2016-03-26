@@ -31,9 +31,6 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-.card > div{
-	position: relative;
-}
 /* upper half of card */
 .card > div:first-child{
 }
@@ -44,9 +41,15 @@ body {
 	right:10px;
 	transform: rotateZ(180deg)
 }
-.card > div > div{
-	/* enables width control */
-	display: block;
-	position: relative;
-	width:50%;
+.card-value{
+	width: 48px;
+	text-align: center;
+	font-size: 2em;
+	color:#222;
+}
+/* base pic is 48 x 48 */
+.card-suit{
+	background-repeat: no-repeat;
+	height:48px;
+	width: 48px;
 }

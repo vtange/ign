@@ -27,7 +27,22 @@ app.factory('DATASTORE', function(){
 
 app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     $scope.storage = DATASTORE; // load service
-	
+	$scope.getSuit = function(suit){
+		switch(suit){
+			case "spades": return { "background-image" : "url(img/Emblem-spade.svg)" };
+			case "hearts": return { "background-image" : "url(img/Emblem-heart.svg)" };
+			case "clubs": return { "background-image" : "url(img/Emblem-club.svg)" };
+			case "diamonds": return { "background-image" : "url(img/Emblem-diamond.svg)" };
+		}
+	}
+	$scope.color = function(suit){
+		switch(suit){
+			case "spades": return { "color" : "#222" };
+			case "hearts": return { "color" : "#d00" };
+			case "clubs": return { "color" : "#222" };
+			case "diamonds": return { "color" : "#d00" };
+		}
+	}
 	
 	
 	
