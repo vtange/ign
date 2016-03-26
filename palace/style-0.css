@@ -34,6 +34,15 @@ body {
 /* upper half of card */
 .card > div:first-child{
 }
+/* the middle part of card */
+.center-stuff{
+	border:2px solid lime;
+	height:80%;
+	width:100px;
+	
+	display: flex;
+	flex-wrap: wrap;
+}
 /* lower half of card */
 .card > div:last-child{
 	position: absolute;
