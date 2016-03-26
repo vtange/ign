@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Play Palace</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style-0.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body data-ng-app="palace-game">
+    <article data-ng-controller="MainCtrl">
+		<div data-ng-repeat="card in storage.deck" class="card">
+			<div><div class="card-value">{{card.value}}</div><div class="card-suit">{{card.suit}}</div></div>
+			<div class="center-pic"></div>
+			<div><div class="card-value">{{card.value}}</div><div class="card-suit">{{card.suit}}</div></div>
+		</div>
+    </article>
+</body>
+</html>
