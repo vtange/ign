@@ -19,20 +19,108 @@
 			<div class="btn">Play</div>
 		</div>
 		<div class="player-area" id="player1-area">
-			<div class="secret-palace"></div>
-			<div class="upper-palace"></div>
+			<div class="secret-palace">
+					<div data-ng-repeat="card in player1.sec_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
+			<div class="upper-palace">
+					<div data-ng-repeat="card in player1.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
 		</div>
 		<div class="player-area" id="player2-area">
-			<div class="secret-palace"></div>
-			<div class="upper-palace"></div>
+			<div class="secret-palace">
+					<div data-ng-repeat="card in player2.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
+			<div class="upper-palace">
+					<div data-ng-repeat="card in player2.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
 		</div>
 		<div class="player-area" id="player3-area">
-			<div class="secret-palace"></div>
-			<div class="upper-palace"></div>
+			<div class="secret-palace">
+					<div data-ng-repeat="card in player3.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
+			<div class="upper-palace">
+					<div data-ng-repeat="card in player3.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
 		</div>
 		<div class="player-area" id="player4-area">
-			<div class="secret-palace"></div>
-			<div class="upper-palace"></div>
+			<div class="secret-palace">
+					<div data-ng-repeat="card in player4.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
+			<div class="upper-palace">
+					<div data-ng-repeat="card in player4.upp_palace" class="card">
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						<div class="vert-centered center-stuff">
+							<div class="vert-centered">
+								<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+								<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+							</div>
+						</div>
+						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					</div>
+			</div>
 		</div>
 		<div id="player-hand"></div>
     </div>

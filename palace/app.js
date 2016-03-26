@@ -89,25 +89,29 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	/* GAME STATE */
 	
 	$scope.player1 = {
+		human: false,
 		sec_palace:[],
 		upp_palace:[],
 		hand:[],
-	}
+	};
 	$scope.player2 = {
+		human: false,
 		sec_palace:[],
 		upp_palace:[],
 		hand:[],
-	}
+	};
 	$scope.player3 = {
+		human: false,
 		sec_palace:[],
 		upp_palace:[],
 		hand:[],
-	}
+	};
 	$scope.player4 = {
+		human: false,
 		sec_palace:[],
 		upp_palace:[],
 		hand:[],
-	}
+	};
 	$scope.outOfPlay = [];
 
 }]);//end of controller
