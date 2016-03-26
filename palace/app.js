@@ -27,6 +27,25 @@ app.factory('DATASTORE', function(){
 
 app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
     $scope.storage = DATASTORE; // load service
+		//controls image on JQK
+	$scope.getFace = function(suit,value){
+		switch(suit){
+			case "spades":
+			case "clubs": 
+				switch(value){
+					case 11: return { "width": "150px", "background-size": "150px", "background-image" : "url(img/jack.png)" };
+					case 12: return { "background-image" : "url(img/queen.png)" };
+					case 13: return { "background-image" : "url(img/king.png)" };
+				}
+			case "hearts":
+			case "diamonds":
+				switch(value){
+					case 11: return { "width": "150px", "background-size": "150px", "background-image" : "url(img/jack2.png)" };
+					case 12: return { "background-image" : "url(img/queen2.png)" };
+					case 13: return { "background-image" : "url(img/king2.png)" };
+				}
+		}
+	};
 	// controls icon
 	$scope.getSuit = function(suit){
 		switch(suit){
@@ -39,13 +58,13 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	// controls colors for numbers
 	$scope.color = function(suit){
 		switch(suit){
-			case "spades": return { "color" : "#222" };
-			case "hearts": return { "color" : "#d00" };
+			case "spades":
 			case "clubs": return { "color" : "#222" };
+			case "hearts":
 			case "diamonds": return { "color" : "#d00" };
 		}
 	};
-	// controls colors for numbers
+	// use JQK instead of numbers
 	$scope.JQK = function(value){
 		switch(value){
 			case 11: return "J";

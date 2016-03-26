@@ -68,3 +68,11 @@ body {
 	height:48px;
 	width: 48px;
 }
+.card-face{
+	width: 100px;
+	height:160px;
+	
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
