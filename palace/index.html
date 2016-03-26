@@ -16,7 +16,7 @@
 			<div class="vert-centered center-stuff">
 				<div class="vert-centered">
 					<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
-					<div class="card-face" data-ng-style="getFace(card.suit,card.value)"></div>
+					<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
 				</div>
 			</div>
 			<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>

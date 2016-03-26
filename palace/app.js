@@ -46,6 +46,10 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 				}
 		}
 	};
+	// controls number of stuff in the card center
+	$scope.isFace = function(value){
+		return value > 10;
+	};
 	// controls icon
 	$scope.getSuit = function(suit){
 		switch(suit){
