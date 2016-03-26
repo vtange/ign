@@ -20,6 +20,8 @@ body {
 }
 /* Cards */
 .card{
+	transition: translate 0.5s ease;
+	
 	position: relative;
 	height:300px;
 	width:200px;
@@ -56,6 +58,7 @@ body {
 	right:10px;
 	transform: rotateZ(180deg)
 }
+/* number font, default black */
 .card-value{
 	width: 48px;
 	text-align: center;

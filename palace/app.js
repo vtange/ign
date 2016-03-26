@@ -86,8 +86,30 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		}
 	};
 	
+	/* GAME STATE */
 	
-	
+	$scope.player1 = {
+		sec_palace:[],
+		upp_palace:[],
+		hand:[],
+	}
+	$scope.player2 = {
+		sec_palace:[],
+		upp_palace:[],
+		hand:[],
+	}
+	$scope.player3 = {
+		sec_palace:[],
+		upp_palace:[],
+		hand:[],
+	}
+	$scope.player4 = {
+		sec_palace:[],
+		upp_palace:[],
+		hand:[],
+	}
+	$scope.outOfPlay = [];
+
 }]);//end of controller
   //end of function
 })();
