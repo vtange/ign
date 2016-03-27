@@ -92,14 +92,21 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	//show deck during play
+	//show deck during play, also controls show whose turn
 	$scope.showDeck = function(){
 		if($scope.playingGame)
 			return { "opacity" : 1 , "z-index": 9};
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	//controls flipped in secret palace
+	//show player area animations
+	$scope.showPlayer = function(player){
+		if(player.ready)
+			return { "opacity" : 1 , "z-index": 9};
+		else
+			return { "opacity" : 0 , "z-index": -9};
+	};
+	//controls flipped cards in secret palace
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};

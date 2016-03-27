@@ -14,7 +14,7 @@
 </head>
 <body data-ng-app="palace-game">
     <div id="playing-field" data-ng-controller="MainCtrl">
-		<div id="whose-turn">{{currentPlayerName}}'s Turn</div>
+		<div id="whose-turn" data-ng-style="showDeck()">{{currentPlayerName}}'s Turn</div>
 		<div class="vert-centered" id="center-area">
 			<div class="vert-centered" data-ng-style="showMenu()">
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div>
@@ -24,7 +24,7 @@
 				<div id="deck"><div id="mock-card1"></div><div id="mock-card2"></div></div>
 			</div>			
 		</div>
-		<div class="player-area" id="player1-area">
+		<div class="player-area" id="player1-area" data-ng-style="showPlayer(player1)">
 			<div class="secret-palace">
 					<div data-ng-repeat="card in player1.sec_palace" data-ng-if="isHidden(card)" class="card flipped-card"></div>
 					<div data-ng-repeat="card in player1.sec_palace" data-ng-if="!isHidden(card)" class="card">
@@ -52,7 +52,7 @@
 			</div>
 			<span>Player 1</span>
 		</div>
-		<div class="player-area" id="player2-area">
+		<div class="player-area" id="player2-area" data-ng-style="showPlayer(player2)">
 			<div class="secret-palace">
 					<div data-ng-repeat="card in player2.sec_palace" data-ng-if="isHidden(card)" class="card flipped-card"></div>
 					<div data-ng-repeat="card in player2.sec_palace" data-ng-if="!isHidden(card)" class="card">
@@ -80,7 +80,7 @@
 			</div>
 			<span>Player 2</span>
 		</div>
-		<div class="player-area" id="player3-area">
+		<div class="player-area" id="player3-area" data-ng-style="showPlayer(player3)">
 			<div class="secret-palace">
 				  	<div data-ng-repeat="card in player3.sec_palace" data-ng-if="isHidden(card)" class="card flipped-card"></div>
 					<div data-ng-repeat="card in player3.sec_palace" data-ng-if="!isHidden(card)" class="card">
@@ -108,7 +108,7 @@
 			</div>
 			<span>Player 3</span>
 		</div>
-		<div class="player-area" id="player4-area">
+		<div class="player-area" id="player4-area" data-ng-style="showPlayer(player4)">
 			<div class="secret-palace">
 					<div data-ng-repeat="card in player4.sec_palace" data-ng-if="isHidden(card)" class="card flipped-card"></div>
 					<div data-ng-repeat="card in player4.sec_palace" data-ng-if="!isHidden(card)" class="card">
