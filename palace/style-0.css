@@ -112,7 +112,7 @@ body {
 	border: 1px solid #dce;
 	padding:10px;
 	text-align: center;
-	
+	margin-bottom: 10px;
 	cursor: pointer;
 }
 .btn:hover{
