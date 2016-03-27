@@ -130,21 +130,21 @@ body {
 	margin:10px;
 	border: 1px solid #dce;
 }
-/* back of card */
+/* deck placeholder positioning */
 #deck > div {
 	position: absolute;
 	left:-1px;
 	top:-1px;
-	height:300px;
-	width:200px;
-	background-color:#4a4;
-	border:20px solid #363;
-	border-radius: 5px;
-	padding:10px;
+	margin: 0;
 }
+/* card behind */
 #deck > div , .flipped-card {
+	background-image: url(img/rose.svg);
+	background-size: 60%;
+	background-position: center;
+	background-repeat: no-repeat;
 	background-color:#4a4;
-	border:20px solid #363;
+	border:20px solid #255525;
 }
 /* playing area */
 .player-area, .btn{
