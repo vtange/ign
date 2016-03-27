@@ -13,7 +13,7 @@ app.factory('DATASTORE', function(){
 
 		suits.forEach(function(suit){
 			for(let i=1;i<14;i++){
-				deck.push({id:id,suit:suit,value:i});	
+				deck.push({id:id,suit:suit,value:i,hidden:false});
 				id++;
 			}
 		});
@@ -99,7 +99,10 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	
+	//controls flipped in secret palace
+	$scope.isHidden = function(card){
+		return card.hidden;
+	};
 	/* GAME STATE */
 	
 	//used to loop over players
@@ -173,6 +176,8 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			//repeat 3 times
 			$scope.times(3,function(times){
 				var cardID = Math.floor(Math.random()*$scope.deck.length);
+				//set deck[cardID] to hidden mode
+				$scope.deck[cardID].hidden = true;
 				//push random card of deck.length
 				$scope[player].sec_palace.push($scope.deck[cardID]);
 				//remove card from deck

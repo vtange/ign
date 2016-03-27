@@ -125,7 +125,7 @@ body {
 	border: 1px solid #dce;
 }
 /* back of card */
-#deck div{
+#deck > div {
 	position: absolute;
 	left:-1px;
 	top:-1px;
@@ -135,6 +135,10 @@ body {
 	border:20px solid #363;
 	border-radius: 5px;
 	padding:10px;
+}
+#deck > div , .flipped-card {
+	background-color:#4a4;
+	border:20px solid #363;
 }
 /* playing area */
 .player-area, .btn{
