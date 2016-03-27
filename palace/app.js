@@ -152,6 +152,12 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			$scope.setupGame();
 		}
 	};
+	//used to repeat things x times
+	$scope.times = function(n, iterator) {
+	  var accum = Array(Math.max(0, n));
+	  for (var i = 0; i < n; i++) accum[i] = iterator.call();
+	  return accum;
+	};
 	//set up game. disallow clicks during set up.
 	$scope.setupGame = function(){
 		
@@ -165,10 +171,17 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		//allocate 3 cards for each player's sec_palace
 		players.forEach(function(player){
 			//repeat 3 times
-			[1,2,3].forEach(function(times){
+			$scope.times(3,function(times){
 				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//push random card of deck.length
 				$scope[player].sec_palace.push($scope.deck[cardID]);
+				//remove card from deck
+				$scope.deck.splice(cardID,1);
+			});
+			$scope.times(3,function(times){
+				var cardID = Math.floor(Math.random()*$scope.deck.length);
+				//push random card of deck.length
+				$scope[player].upp_palace.push($scope.deck[cardID]);
 				//remove card from deck
 				$scope.deck.splice(cardID,1);
 			});

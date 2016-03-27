@@ -9,6 +9,7 @@ body {
 	margin: 0;/*reset page*/
 	text-transform: uppercase;
 	font-family: "Arial Rounded MT Bold", "Arial";
+	overflow: hidden;
 }
 #playing-field{
 	position: absolute;
@@ -172,4 +173,13 @@ body {
 .secret-palace, .upper-palace {
 	display: flex;
 	flex-direction: row;
+}
+.upper-palace{
+	position: absolute;
+	top:50px;
+	left:0px;
+	z-index:5;
+}
+.upper-palace .card{
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
 }
