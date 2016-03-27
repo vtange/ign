@@ -6,7 +6,7 @@ app.factory('DATASTORE', function(){
 
 	var storage = {};
   //generate Deck
-	function makeDeck(){
+	storage.makeDeck = function(){
 		var deck = [];
 		var id = 1;
 		let suits = ["spades","hearts","clubs","diamonds"];
@@ -18,15 +18,15 @@ app.factory('DATASTORE', function(){
 			}
 		});
 		return deck;
-	}
-	storage.deck = makeDeck();
+	};
+	storage.deck = storage.makeDeck();
 
   return storage;
 });//end of service
 
 
 app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
-    $scope.storage = DATASTORE; // load service
+    $scope.deck = DATASTORE.deck; // load service
 	//controls image on JQK
 	$scope.getFace = function(suit,value){
 		switch(suit){
@@ -98,8 +98,12 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			return { "opacity" : 1 , "z-index": 9};
 		else
 			return { "opacity" : 0 , "z-index": -9};
-	};	
+	};
+	
 	/* GAME STATE */
+	
+	//used to loop over players
+	var players = ['player1','player2','player3','player4'];
 	$scope.player1 = {
 		human: false,
 		sec_palace:[],
@@ -127,21 +131,50 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	$scope.pile = [];
 	$scope.outOfPlay = [];
 	
-	//whose turn is it?
-	$scope.currentPlayer = 1;
-	
 	//controls if "PALACE (Play)" is shown or deck
 	$scope.playingGame = false;
+	
+	//whose turn is it?
+	$scope.currentPlayer = 1;
+
+	//game is waiting for player input?
+	$scope.waitingForInput = true;
 	/**/
+	
+	
 	/* GAME PLAY */
 	$scope.startGame = function(){
-		//remove "PALACE (Play)", show deck
-		$scope.playingGame = true;
-		
-		
-		
+		//prevent double-tap => only start game once
+		if(!$scope.playingGame){
+			$scope.playingGame = true;
+			$scope.setupGame();
+		}
 	};
-
+	//set up game. disallow clicks during set up.
+	$scope.setupGame = function(){
+		
+		//disallow clicks
+		$scope.waitingForInput = false;
+		
+		//rebuild deck, reset palaces, hands, pile, outOfPlay cards
+		$scope.deck = DATASTORE.makeDeck();
+		players.forEach(function(player){
+			$scope[player].sec_palace = [];
+			$scope[player].upp_palace = [];
+			$scope[player].hand = [];
+		});
+		$scope.pile = [];
+		$scope.outOfPlay = [];
+		
+		//allocate 3 cards for each player's sec_palace
+		players.forEach(function(player){
+			//repeat 3 times
+				//push random card of deck.length
+				$scope[player].sec_palace.push($scope.deck[Math.floor(Math.random()*$scope.deck.length)]);
+				console.log($scope[player]);
+		});
+		
+	}
 }]);//end of controller
 	
 	
