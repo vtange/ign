@@ -104,44 +104,46 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
-	$scope.player1 = {
-		human: false,
-		sec_palace:[],
-		upp_palace:[],
-		hand:[],
+	//clean slate for game
+	$scope.resetState = function(){		
+		$scope.player1 = {
+			human: false,
+			sec_palace:[],
+			upp_palace:[],
+			hand:[],
+		};
+		$scope.player2 = {
+			human: false,
+			sec_palace:[],
+			upp_palace:[],
+			hand:[],
+		};
+		$scope.player3 = {
+			human: false,
+			sec_palace:[],
+			upp_palace:[],
+			hand:[],
+		};
+		$scope.player4 = {
+			human: false,
+			sec_palace:[],
+			upp_palace:[],
+			hand:[],
+		};
+		$scope.pile = [];
+		$scope.outOfPlay = [];
 	};
-	$scope.player2 = {
-		human: false,
-		sec_palace:[],
-		upp_palace:[],
-		hand:[],
-	};
-	$scope.player3 = {
-		human: false,
-		sec_palace:[],
-		upp_palace:[],
-		hand:[],
-	};
-	$scope.player4 = {
-		human: false,
-		sec_palace:[],
-		upp_palace:[],
-		hand:[],
-	};
-	$scope.pile = [];
-	$scope.outOfPlay = [];
-	
+
 	//controls if "PALACE (Play)" is shown or deck
 	$scope.playingGame = false;
-	
+
 	//whose turn is it?
 	$scope.currentPlayer = 1;
 
 	//game is waiting for player input?
 	$scope.waitingForInput = true;
 	/**/
-	
-	
+
 	/* GAME PLAY */
 	$scope.startGame = function(){
 		//prevent double-tap => only start game once
@@ -158,26 +160,24 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		
 		//rebuild deck, reset palaces, hands, pile, outOfPlay cards
 		$scope.deck = DATASTORE.makeDeck();
-		players.forEach(function(player){
-			$scope[player].sec_palace = [];
-			$scope[player].upp_palace = [];
-			$scope[player].hand = [];
-		});
-		$scope.pile = [];
-		$scope.outOfPlay = [];
-		
+		$scope.resetState();
+	
 		//allocate 3 cards for each player's sec_palace
 		players.forEach(function(player){
 			//repeat 3 times
+			[1,2,3].forEach(function(times){
+				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//push random card of deck.length
-				$scope[player].sec_palace.push($scope.deck[Math.floor(Math.random()*$scope.deck.length)]);
-				console.log($scope[player]);
+				$scope[player].sec_palace.push($scope.deck[cardID]);
+				//remove card from deck
+				$scope.deck.splice(cardID,1);
+			});
 		});
 		
 	}
 }]);//end of controller
 	
-	
+
 	
   //end of function
 })();

@@ -112,6 +112,7 @@ body {
  	box-shadow: 0px 0px 10px rgba(200,200,200,0.5);
  	text-shadow: 0px 0px 10px rgba(200,200,100,0.5);
 }
+/* shows on no card */
 #pile, #deck{
 	position: relative;
 	height:300px;
@@ -122,14 +123,15 @@ body {
 	margin:10px;
 	border: 1px solid #dce;
 }
+/* back of card */
 #deck div{
 	position: absolute;
 	left:-1px;
 	top:-1px;
 	height:300px;
 	width:200px;
-	background-color:lightgreen;
-	border:20px solid #444;
+	background-color:#4a4;
+	border:20px solid #363;
 	border-radius: 5px;
 	padding:10px;
 }
@@ -166,4 +168,8 @@ body {
 	bottom:0;
 	border-right:1px solid gold;
 	border-top:1px solid gold;
+}
+.secret-palace, .upper-palace {
+	display: flex;
+	flex-direction: row;
 }
