@@ -128,7 +128,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			hand:[],
 		};
 		$scope.player4 = {
-			human: false,
+			human: true,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -141,7 +141,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	$scope.playingGame = false;
 
 	//whose turn is it?
-	$scope.currentPlayer = 1;
+	$scope.currentPlayer = 'player1';
 
 	//game is waiting for player input?
 	$scope.waitingForInput = true;
@@ -171,9 +171,10 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		$scope.deck = DATASTORE.makeDeck();
 		$scope.resetState();
 	
-		//allocate 3 cards for each player's sec_palace
+		//for each player...
 		players.forEach(function(player){
-			//repeat 3 times
+			//3 cards each for...
+			//their secret palace
 			$scope.times(3,function(times){
 				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//set deck[cardID] to hidden mode
@@ -183,6 +184,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 				//remove card from deck
 				$scope.deck.splice(cardID,1);
 			});
+			//their upper palace
 			$scope.times(3,function(times){
 				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//push random card of deck.length
@@ -190,7 +192,17 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 				//remove card from deck
 				$scope.deck.splice(cardID,1);
 			});
+			//their hand
+			$scope.times(3,function(times){
+				var cardID = Math.floor(Math.random()*$scope.deck.length);
+				//push random card of deck.length
+				$scope[player].hand.push($scope.deck[cardID]);
+				//remove card from deck
+				$scope.deck.splice(cardID,1);
+			});
 		});
+		
+		
 		
 	}
 }]);//end of controller

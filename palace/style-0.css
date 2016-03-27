@@ -149,16 +149,24 @@ body {
 	position: absolute;
 	min-width:25%;
 	min-height:25%;
+	color:gold;
+}
+.player-area span{
+	font-size: 2em;
+	opacity:0.5;
+	position: absolute;
 }
 #player1-area{
 	top:0;
 	left:0;
+	padding-bottom: 10px;
 	border-right:1px solid gold;
 	border-bottom:1px solid gold;
 }
 #player2-area{
 	top:0;
 	right:0;
+	padding-bottom: 10px;
 	border-left:1px solid gold;
 	border-bottom:1px solid gold;
 }
@@ -174,14 +182,30 @@ body {
 	border-right:1px solid gold;
 	border-top:1px solid gold;
 }
+#player1-area span{
+	bottom:-1.25em;
+	left:0;
+}
+#player2-area span{
+	bottom:-1.25em;
+	right:0;
+}
+#player3-area span{
+	top:-1.25em;
+	right:0;
+}
+#player4-area span{
+	top:-1.25em;
+	left:0;
+}
 .secret-palace, .upper-palace {
 	display: flex;
 	flex-direction: row;
 }
 .upper-palace{
 	position: absolute;
-	top:50px;
-	left:0px;
+	top:10px;
+	left:10px;
 	z-index:5;
 }
 .upper-palace .card{
