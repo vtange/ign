@@ -1,6 +1,6 @@
 (function() {
     //start of function
-  var app = angular.module('palace-game', []);
+  var app = angular.module('palace-game', ['ngAnimate']);
 
 app.factory('DATASTORE', function(){
 
@@ -250,6 +250,13 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		$scope.gameIsAt = $scope[$scope.nextPlayer].name + "'s Turn";
 		//if human is false, continue running code
 		if(!$scope[$scope.nextPlayer].human){
+			//get card to beat
+			//check hand (show hand (face down), highlight each card before selecting the played card)
+				//play minimum card to beat, maximum number (multiple 3s or 2s) unless it's a magic card or ace.
+			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+			
+			
+			
 			console.log("ran turn for" + $scope.nextPlayer);
 			//when finished, set next player and runTurn.
 			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
@@ -259,6 +266,11 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		else{
 			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
 		}
+	}
+	
+	//gets the value of top card on pile
+	$scope.cardToBeat = function(){
+		return $scope.pile[$scope.pile.length-1].value;
 	}
 		//weakest to strongest = [3,4,5,6,9,11,12,13,1];
 		//magic: weakest to strongest = [7,8,2,10];
