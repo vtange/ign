@@ -108,27 +108,37 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
 	//clean slate for game
+	//human -> human player
+	//ready -> controls animation
 	$scope.resetState = function(){		
 		$scope.player1 = {
+			name: "Player 1",
 			human: false,
+			ready: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
 		};
 		$scope.player2 = {
+			name: "Player 2",
 			human: false,
+			ready: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
 		};
 		$scope.player3 = {
+			name: "Player 3",
 			human: false,
+			ready: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
 		};
 		$scope.player4 = {
+			name: "Player 4",
 			human: true,
+			ready: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -136,12 +146,14 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		$scope.pile = [];
 		$scope.outOfPlay = [];
 	};
-
+	$scope.resetState();
+	
 	//controls if "PALACE (Play)" is shown or deck
 	$scope.playingGame = false;
 
 	//whose turn is it?
 	$scope.currentPlayer = 'player1';
+	$scope.currentPlayerName = $scope[$scope.currentPlayer].name;
 
 	//game is waiting for player input?
 	$scope.waitingForInput = true;
@@ -200,6 +212,8 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 				//remove card from deck
 				$scope.deck.splice(cardID,1);
 			});
+			//animate in.
+			$scope[player].ready = true;
 		});
 		
 		

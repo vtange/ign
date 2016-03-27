@@ -91,7 +91,12 @@ body {
 /*              */
 
 /* center area */
-#center-area{
+#whose-turn{
+	font-size: 2em;
+	opacity: 0.9;
+	text-align: center;
+}
+#center-area, #whose-turn, .player-area{
 	color:gold;
 }
 #center-area > div{
@@ -149,7 +154,6 @@ body {
 	position: absolute;
 	min-width:25%;
 	min-height:25%;
-	color:gold;
 }
 .player-area span{
 	font-size: 2em;

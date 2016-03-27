@@ -14,6 +14,7 @@
 </head>
 <body data-ng-app="palace-game">
     <div id="playing-field" data-ng-controller="MainCtrl">
+		<div id="whose-turn">{{currentPlayerName}}'s Turn</div>
 		<div class="vert-centered" id="center-area">
 			<div class="vert-centered" data-ng-style="showMenu()">
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div>
