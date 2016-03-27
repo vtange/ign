@@ -133,11 +133,13 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	//clean slate for game
 	//human -> human player
 	//ready -> controls animation
+	//first -> first turn? controls swapping upper deck with hand
 	$scope.resetState = function(){
 		$scope.player1 = {
 			name: "Player 1",
 			human: false,
 			ready: false,
+			first: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -146,6 +148,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			name: "Player 2",
 			human: false,
 			ready: false,
+			first: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -154,6 +157,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			name: "Player 3",
 			human: false,
 			ready: false,
+			first: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -162,6 +166,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			name: "Player 4",
 			human: true,
 			ready: false,
+			first: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -175,8 +180,10 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	$scope.playingGame = false;
 
 	//whose turn is it?
-	$scope.currentPlayer = 'player1';
-	$scope.currentPlayerName = $scope[$scope.currentPlayer].name;
+	$scope.nextPlayer = 'player1';
+	
+	//whose turn, what the game is doing
+	$scope.gameIsAt = "Setting up Game..."
 
 	//game is waiting for player input?
 	$scope.waitingForInput = true;
@@ -235,10 +242,31 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			//animate in.
 			$scope[player].ready = true;
 		});
-		
-		
-		
+		$scope.runNextTurn();
 	}
+	//runs turn of current player
+	$scope.runNextTurn = function(){
+		//update header
+		$scope.gameIsAt = $scope[$scope.nextPlayer].name + "'s Turn";
+		//if human is false, continue running code
+		if(!$scope[$scope.nextPlayer].human){
+			console.log("ran turn for" + $scope.nextPlayer);
+			//when finished, set next player and runTurn.
+			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
+			$scope.runNextTurn();
+		}
+		//else, set next player
+		else{
+			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
+		}
+	}
+		//weakest to strongest = [3,4,5,6,9,11,12,13,1];
+		//magic: weakest to strongest = [7,8,2,10];
+	
+	//play a card
+		//ng click-> card moves ups and fades, shows up as top card on pile.
+	
+	
 }]);//end of controller
 	
 
