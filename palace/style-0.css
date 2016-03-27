@@ -92,6 +92,7 @@ body {
 
 /* center area */
 #whose-turn{
+	transition: all 0.5s ease;
 	font-size: 2em;
 	opacity: 0.9;
 	text-align: center;
@@ -151,6 +152,7 @@ body {
 	background-color: rgba(50,50,50,0.5);
 }
 .player-area{
+	transition: all 0.5s ease;
 	position: absolute;
 	min-width:25%;
 	min-height:25%;
