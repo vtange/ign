@@ -5,6 +5,21 @@
 app.factory('DATASTORE', function(){
 
 	var storage = {};
+	
+	//shuffle deck
+	storage.shuffle = function(array) {
+		/**
+		 * Randomize array element order in-place.
+		 * Using Durstenfeld shuffle algorithm.
+		 */
+		for (var i = array.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		return array;
+	};
   //generate Deck
 	storage.makeDeck = function(){
 		var deck = [];
@@ -17,8 +32,9 @@ app.factory('DATASTORE', function(){
 				id++;
 			}
 		});
-		return deck;
+		return storage.shuffle(deck);//shuffle before return for convenience
 	};
+
 	storage.deck = storage.makeDeck();
 
   return storage;
@@ -117,7 +133,7 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 	//clean slate for game
 	//human -> human player
 	//ready -> controls animation
-	$scope.resetState = function(){		
+	$scope.resetState = function(){
 		$scope.player1 = {
 			name: "Player 1",
 			human: false,
@@ -195,29 +211,26 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 			//3 cards each for...
 			//their secret palace
 			$scope.times(3,function(times){
-				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//set deck[cardID] to hidden mode
-				$scope.deck[cardID].hidden = true;
+				$scope.deck[0].hidden = true;
 				//push random card of deck.length
-				$scope[player].sec_palace.push($scope.deck[cardID]);
+				$scope[player].sec_palace.push($scope.deck[0]);
 				//remove card from deck
-				$scope.deck.splice(cardID,1);
+				$scope.deck.splice(0,1);
 			});
 			//their upper palace
 			$scope.times(3,function(times){
-				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//push random card of deck.length
-				$scope[player].upp_palace.push($scope.deck[cardID]);
+				$scope[player].upp_palace.push($scope.deck[0]);
 				//remove card from deck
-				$scope.deck.splice(cardID,1);
+				$scope.deck.splice(0,1);
 			});
 			//their hand
 			$scope.times(3,function(times){
-				var cardID = Math.floor(Math.random()*$scope.deck.length);
 				//push random card of deck.length
-				$scope[player].hand.push($scope.deck[cardID]);
+				$scope[player].hand.push($scope.deck[0]);
 				//remove card from deck
-				$scope.deck.splice(cardID,1);
+				$scope.deck.splice(0,1);
 			});
 			//animate in.
 			$scope[player].ready = true;
