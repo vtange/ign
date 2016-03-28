@@ -48,7 +48,7 @@ app.factory('DATASTORE', function(){
 
 app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($scope, $q, $timeout, DATASTORE){
     $scope.deck = DATASTORE.deck; // load service
-	//controls image on JQK
+	//ng-style - controls image on JQK
 	$scope.getFace = function(suit,value){
 		switch(suit){
 			case "spades":
@@ -71,7 +71,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isFace = function(value){
 		return value > 10;
 	};
-	// controls icon
+	//ng-style - controls icon
 	$scope.getSuit = function(suit){
 		switch(suit){
 			case "spades": return { "background-image" : "url(img/Emblem-spade.svg)" };
@@ -80,7 +80,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			case "diamonds": return { "background-image" : "url(img/Emblem-diamond.svg)" };
 		}
 	};
-	// controls colors for numbers
+	//ng-style - controls colors for numbers
 	$scope.color = function(suit){
 		switch(suit){
 			case "spades":
@@ -106,28 +106,28 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return [];
 		}
 	};
-	//show title
+	//ng-style - show title
 	$scope.showMenu = function(){
 		if(!$scope.playingGame)
 			return { "opacity" : 1 , "z-index": 9};
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	//show deck during play, also controls show whose turn
+	//ng-style - show deck during play, also controls show whose turn
 	$scope.showDeck = function(){
 		if($scope.playingGame)
 			return { "opacity" : 1 , "z-index": 9};
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	//show player area animations
+	//ng-style - show player area animations
 	$scope.showPlayer = function(player){
 		if(player.ready)
 			return { "opacity" : 1 , "z-index": 9};
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
-	//show current player hand
+	//ng-style - show current player hand
 	$scope.showHand = function(){
 		if($scope.showHand)
 			return { "opacity" : 1 };
@@ -137,6 +137,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//controls flipped cards in secret palace
 	$scope.isHidden = function(card){
 		return card.hidden;
+	};
+	//ng-style - glows selected cards that "are to be played"
+	$scope.isSelected = function(){
 	};
 	/* ---------- */
 	/* GAME STATE */
@@ -311,37 +314,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		//value prevents player from playing cards of different value
 		//cards keeps track of whole cards. this will be pushed to pile when "played()"
 		//e.g. cardsToPlay = {value:9,cards:[{}{}]}
-		$scope.cardsToPlay = {};
+		$scope.cardsToPlay = {value:null,cards:[]};
 	
 		//if human is false, continue running code
 		if(!player.human){
-			/*-----------------------*/
-			//For Animation
-			/*-----------------------*/
-			//set up promises to clear when card is checked.
+
 			var handIndex = 0;
-			var handPromises = {};
 			var handValues = [];
-			
 			$scope.currentHand.forEach(function(card){
-				handPromises[card] = $q.defer();
 				handValues.push(card.value);
 			});
-
-			function checkNxtCard(){
-				var card = $scope.currentHand[handIndex];
-				$timeout(function(){
-					//highlight card
-					card
-				},100);
-				$timeout(function(){
-					//unhighlight card
-					card
-					handPromises[card].resolve("checked "+card)
-				},500);
-			};
-			/*--*/
-			/*--*/
 			
 			function isMagicOrAce(n){
 				return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
@@ -379,29 +361,54 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						}
 			};
 			
+			//SEMI ADVANCED: Play 2 or 8 as last card in hand and follow up with an upper-palace card
+			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
 			
-			
-			if(handValues.length===1||allSameNumber(handValues)){
-				//if they beat norm, play them all
-				//else, gotta forfeit
+			//if hand has one card or all same cards
+			if(handValues.length===1||handValues.allValuesSame()){
+				//if playable, play them all
+				if($scope.playable.indexOf(handValues[0])!==-1){
+					$scope.cardsToPlay.value = handValues[0];
+					$scope.selectCards();
+					$scope.playCards();
+				}
+				else{
+					//else, gotta forfeit
+					throw "Don't have forfeit function yet."
+				}
 			}
+			//hand has different cards, more than one card
 			else{
+
 				//sort handValues from weakest to greatest
 				handValues = handValues.sort(sortHand);
+
+				//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
+				handValues.forEach(function(number){
+					if ($scope.playable.indexOf(number)!==-1){
+						$scope.cardsToPlay.value = number;
+					}
+				});
+
+				//cycle hand
+				// if cardstoplay.value is 1,2,7,8,10, just find one card to play
+				// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
+				if(isMagicOrAce($scope.cardsToPlay.value)){
+					$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(tot,nxt){
+						if(tot.value !== nxt.value && nxt.value === $scope.cardsToPlay.value){
+							tot = nxt
+						}
+							return tot;
+					},{}));
+				}
+				else{
+					$scope.selectCards();
+				}
 				
-				
+				////play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
+				$scope.playCards();
 				
 			}
-			
-			//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
-			//cycle hand
-				// find all cards that have ^ weakest playable value and push them to cardstoplay
-				// if value is 1,2,7,8,10, just find one card to play
-			////play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
-			
-			//check hand (show hand (face down), highlight each card before selecting the played card)
-			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
-			console.log(player);
 			
 			//when finished, set next player and runTurn.
 			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
@@ -422,15 +429,33 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 		return $scope.pile[$scope.pile.length-1].value;
 	};
-
+	$scope.selectCards = function(){
+		$scope.currentHand.forEach(function(card){
+				if(card.value===$scope.cardsToPlay.value){
+					//highlight card, rdy it for play
+					$scope.cardsToPlay.cards.push(card);
+				}
+		});
+	};
 	
-	//play a card
-		//ng click-> card moves ups and fades, shows up as top card on pile.
+	//play card(s) (make all selected cards float up and move to pile, remove from current hand)
+	
+	
+	
 	
 	
 }]);//end of controller
 	
+Array.prototype.allValuesSame = function() {
 
+    for(var i = 1; i < this.length; i++)
+    {
+        if(this[i] !== this[0])
+            return false;
+    }
+
+    return true;
+}
 	
   //end of function
 })();
