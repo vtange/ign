@@ -49,14 +49,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			case "spades":
 			case "clubs": 
 				switch(value){
-					case 11: return { "width": "150px", "background-size": "150px", "background-image" : "url(img/jack.png)" };
+					case 11: return { "background-image" : "url(img/jack.png)" };
 					case 12: return { "background-image" : "url(img/queen.png)" };
 					case 13: return { "background-image" : "url(img/king.png)" };
 				}
 			case "hearts":
 			case "diamonds":
 				switch(value){
-					case 11: return { "width": "150px", "background-size": "150px", "background-image" : "url(img/jack2.png)" };
+					case 11: return { "background-image" : "url(img/jack2.png)" };
 					case 12: return { "background-image" : "url(img/queen2.png)" };
 					case 13: return { "background-image" : "url(img/king2.png)" };
 				}
@@ -122,6 +122,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
+	//show current player hand
 	$scope.showHand = function(){
 		if($scope.showHand)
 			return { "opacity" : 1 };

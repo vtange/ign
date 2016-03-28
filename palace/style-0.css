@@ -28,7 +28,7 @@ body {
 	transform: translate(-50%, -50%);
 }
 /* Cards */
-.card{
+.card, #pile, #deck{
 	transition: translate 0.5s ease;
 	
 	position: relative;
@@ -81,7 +81,7 @@ body {
 	width: 48px;
 }
 .card-face{
-	width: 100px;
+	width: 100%;
 	height:160px;
 	opacity:0.8;
 	background-repeat: no-repeat;
@@ -89,7 +89,7 @@ body {
 	background-position: center;
 }
 @media screen and (max-width: 1600px) {
-	.card{
+	.card, #pile, #deck{
 		transition: translate 0.5s ease;
 
 		position: relative;
@@ -108,18 +108,28 @@ body {
 	}
 	/* the middle part of card */
 	.center-stuff{
-		display: none;
+		height:80%;
+		width:100px;
+	}
+	/* center smaller numbers of stuff */
+	.center-stuff > div{
+		margin-top: 15px;
+		margin-left: 15px;
+		width:75%;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	/* make singletons centered */
+	.center-stuff .card-suit{
+		margin: auto;
 	}
 	/* lower half of card */
 	.card > div:last-child{
-		position: absolute;
-		bottom:10px;
-		right:10px;
-		transform: rotateZ(180deg)
+		display: none;
 	}
 	/* number font, default black */
 	.card-value{
-		width: 48px;
+		width: 32px;
 		text-align: center;
 		font-size: 2em;
 		color:#222;
@@ -127,12 +137,13 @@ body {
 	/* base pic is 48 x 48 */
 	.card-suit{
 		background-repeat: no-repeat;
-		height:48px;
-		width: 48px;
+		background-size: cover;
+		height:32px;
+		width: 32px;
 	}
 }
 @media screen and (max-width: 1000px) {
-	.card{
+	.card, #pile, #deck {
 		transition: translate 0.5s ease;
 
 		position: relative;
