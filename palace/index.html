@@ -140,7 +140,7 @@
 		<div id="player-hand">
 			<div id="bg"></div>
 			<!-- cards in current player hand -->
-			<div class="card">
+			<div data-ng-repeat="card in currentHand" class="card">
 				<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 				<div class="vert-centered center-stuff">
 					<div class="vert-centered">

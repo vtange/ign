@@ -126,8 +126,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
+	/* ---------- */
 	/* GAME STATE */
-	
+	/* ---------- */
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
 	//clean slate for game
@@ -182,14 +183,18 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//whose turn is it?
 	$scope.nextPlayer = 'player1';
 	
+	//for getting current player's hand
+	$scope.currentHand = [];
+	
 	//whose turn, what the game is doing
-	$scope.gameIsAt = "Setting up Game..."
+	$scope.gameIsAt = "Setting up Game...";
 
 	//game is waiting for player input?
 	$scope.waitingForInput = true;
 	/**/
-
+	/* --------- */
 	/* GAME PLAY */
+	/* --------- */
 	$scope.startGame = function(){
 		//prevent double-tap => only start game once
 		if(!$scope.playingGame){
@@ -263,21 +268,23 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				
 			},playerAppearTime);
 		});
-	}
+	};
 	//runs turn of current player
 	$scope.runNextTurn = function(){
-		//update header
-		$scope.gameIsAt = $scope[$scope.nextPlayer].name + "'s Turn";
+		//set player and hand
+		var player = $scope[$scope.nextPlayer];
+		$scope.currentHand = player.hand;
+		$scope.gameIsAt = player.name + "'s Turn";
+	
 		//if human is false, continue running code
-		if(!$scope[$scope.nextPlayer].human){
+		if(!player.human){
 			//get card to beat
+			var cardToBeat = $scope.cardToBeat();
 			//check hand (show hand (face down), highlight each card before selecting the played card)
 				//play minimum card to beat, maximum number (multiple 3s or 2s) unless it's a magic card or ace.
 			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+			console.log(player);
 			
-			
-			
-			console.log("ran turn for" + $scope.nextPlayer);
 			//when finished, set next player and runTurn.
 			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
 			$scope.runNextTurn();
@@ -286,12 +293,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else{
 			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
 		}
-	}
+	};
 	
 	//gets the value of top card on pile
 	$scope.cardToBeat = function(){
+		if($scope.pile.length===0){
+			return null;
+		}
 		return $scope.pile[$scope.pile.length-1].value;
-	}
+	};
 		//weakest to strongest = [3,4,5,6,9,11,12,13,1];
 		//magic: weakest to strongest = [7,8,2,10];
 	

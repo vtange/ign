@@ -224,12 +224,15 @@ body {
 	left:50%;
 	transform: translateX(-50%);
 	z-index: 99;
+	
+	display: flex;
+	flex-direction: row;
 }
 #player-hand #bg{
+	position: absolute;
 	width:100%;
-	min-width: 200px;
-	min-height:200px;
-	background-color: #aaa;
-	filter: blur(50px);
+	height:100%;
+	background-color: #000;
+	filter: blur(25px);
 	opacity: 0.5;
 }
