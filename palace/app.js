@@ -129,6 +129,21 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	/* ---------- */
 	/* GAME STATE */
 	/* ---------- */
+	//controls if "PALACE (Play)" is shown or deck
+	$scope.playingGame = false;
+
+	//whose turn, what the game is doing
+	$scope.gameIsAt = "Setting up Game...";
+
+	//game is waiting for player input?
+	$scope.waitingForInput = true;
+
+	//whose turn is it?
+	$scope.nextPlayer = 0;
+
+	//for getting current player's hand
+	$scope.currentHand = [];
+
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
 	//clean slate for game
@@ -176,21 +191,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$scope.outOfPlay = [];
 	};
 	$scope.resetState();
-	
-	//controls if "PALACE (Play)" is shown or deck
-	$scope.playingGame = false;
-
-	//whose turn is it?
-	$scope.nextPlayer = 'player1';
-	
-	//for getting current player's hand
-	$scope.currentHand = [];
-	
-	//whose turn, what the game is doing
-	$scope.gameIsAt = "Setting up Game...";
-
-	//game is waiting for player input?
-	$scope.waitingForInput = true;
 	/**/
 	/* --------- */
 	/* GAME PLAY */
@@ -198,6 +198,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.startGame = function(){
 		//prevent double-tap => only start game once
 		if(!$scope.playingGame){
+			//disallow clicks and begin setup
+			$scope.waitingForInput = false;
 			$scope.playingGame = true;
 			$scope.setupGame();
 		}
@@ -210,10 +212,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//set up game. disallow clicks during set up.
 	$scope.setupGame = function(){
-		
-		//disallow clicks
-		$scope.waitingForInput = false;
-		
+
 		//rebuild deck, reset palaces, hands, pile, outOfPlay cards
 		$scope.deck = DATASTORE.makeDeck();
 		$scope.resetState();
@@ -271,10 +270,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//runs turn of current player
 	$scope.runNextTurn = function(){
+		//disallow clicks
+		$scope.waitingForInput = false;
 		//set player and hand
-		var player = $scope[$scope.nextPlayer];
-		$scope.currentHand = player.hand;
+		var player = $scope[players[$scope.nextPlayer]];
 		$scope.gameIsAt = player.name + "'s Turn";
+		$scope.currentHand = player.hand;
 	
 		//if human is false, continue running code
 		if(!player.human){
@@ -286,12 +287,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			console.log(player);
 			
 			//when finished, set next player and runTurn.
-			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
+			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 			$scope.runNextTurn();
 		}
 		//else, set next player
 		else{
-			$scope.nextPlayer = players[players.indexOf($scope.nextPlayer)+1]===undefined ? players[0] : players[players.indexOf($scope.nextPlayer)+1];
+			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
+			//allow clicks
+			$scope.waitingForInput = true;
 		}
 	};
 	
