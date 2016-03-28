@@ -88,6 +88,49 @@ body {
 	background-size: 100%;
 	background-position: center;
 }
+@media screen and (max-width: 1600px) {
+	.card{
+		transition: translate 0.5s ease;
+
+		position: relative;
+		height:200px;
+		width:135px;
+		background:#fff;
+		border-radius: 5px;
+		padding:10px;
+		margin:10px;
+
+		display: flex;
+		flex-direction: column;
+	}
+	/* upper half of card */
+	.card > div:first-child{
+	}
+	/* the middle part of card */
+	.center-stuff{
+		display: none;
+	}
+	/* lower half of card */
+	.card > div:last-child{
+		position: absolute;
+		bottom:10px;
+		right:10px;
+		transform: rotateZ(180deg)
+	}
+	/* number font, default black */
+	.card-value{
+		width: 48px;
+		text-align: center;
+		font-size: 2em;
+		color:#222;
+	}
+	/* base pic is 48 x 48 */
+	.card-suit{
+		background-repeat: no-repeat;
+		height:48px;
+		width: 48px;
+	}
+}
 /*              */
 
 /* center area */
@@ -121,13 +164,7 @@ body {
 }
 /* shows on no card */
 #pile, #deck{
-	position: relative;
-	height:300px;
-	width:200px;
 	background:rgba(50,50,50,0.5);
-	border-radius: 5px;
-	padding:10px;
-	margin:10px;
 	border: 1px solid #dce;
 }
 /* deck placeholder positioning */
