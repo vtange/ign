@@ -131,6 +131,46 @@ body {
 		width: 48px;
 	}
 }
+@media screen and (max-width: 1000px) {
+	.card{
+		transition: translate 0.5s ease;
+
+		position: relative;
+		height:150px;
+		width:100px;
+		background:#fff;
+		border-radius: 5px;
+		padding:10px;
+		margin:10px;
+
+		display: flex;
+		flex-direction: column;
+	}
+	/* upper half of card */
+	.card > div:first-child{
+	}
+	/* the middle part of card */
+	.center-stuff{
+		display: none;
+	}
+	/* lower half of card */
+	.card > div:last-child{
+		display: none;
+	}
+	/* number font, default black */
+	.card-value{
+		width: 48px;
+		text-align: center;
+		font-size: 2em;
+		color:#222;
+	}
+	/* base pic is 48 x 48 */
+	.card-suit{
+		background-repeat: no-repeat;
+		height:48px;
+		width: 48px;
+	}
+}
 /*              */
 
 /* center area */
