@@ -122,6 +122,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else
 			return { "opacity" : 0 , "z-index": -9};
 	};
+	$scope.showHand = function(){
+		if($scope.showHand)
+			return { "opacity" : 1 };
+		else
+			return { "opacity" : 0 };
+	};
 	//controls flipped cards in secret palace
 	$scope.isHidden = function(card){
 		return card.hidden;
@@ -143,6 +149,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//for getting current player's hand
 	$scope.currentHand = [];
+
+	//show hand footer
+	$scope.handOn = false;
 
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
@@ -276,6 +285,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		var player = $scope[players[$scope.nextPlayer]];
 		$scope.gameIsAt = player.name + "'s Turn";
 		$scope.currentHand = player.hand;
+		$scope.handOn = true;
 	
 		//if human is false, continue running code
 		if(!player.human){
