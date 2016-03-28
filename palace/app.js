@@ -295,10 +295,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//get card to beat
 			var cardToBeat = $scope.cardToBeat();
 			//weakest ---> strongest
-			var norms = [3,4,5,6,9,11,12,13,1];
-			var magics = [7,8,2,10];
+			//must also apply to human player
+			$scope.playable = [3,4,5,6,9,11,12,13,1,7,8,2,10];
 			if (cardToBeat !== null){
-				norms = norms.slice(norms.indexOf(cardToBeat));
+				$scope.playable = $scope.playable.slice($scope.playable.indexOf(cardToBeat));
 			}
 
 		//set player and hand, show hand
@@ -343,9 +343,41 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			/*--*/
 			/*--*/
 			
+			function isMagicOrAce(n){
+				return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
+			};
+			function isMagic(n){
+				return n === 2 || n === 7 || n === 8 || n === 10;
+			};
 			function sortHand(a,b){
-				
-			}
+						// 1, 7, 8, 2, 10 in front
+						if(isMagicOrAce(a)){
+							//magics infront of 1
+							if(isMagic(b)){
+								//move 2 over 7 and 8
+								if(a===2){
+									if(b===7||b===8){
+										return 1;
+									}
+									else{
+										return -1;
+									}
+								}
+								else{
+									return -1;
+								}
+							}
+							else{
+								return 1;
+							}
+						}
+						else{
+							if(isMagicOrAce(b)){
+								return -1;
+							}
+							return a > b;
+						}
+			};
 			
 			
 			
@@ -354,11 +386,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//else, gotta forfeit
 			}
 			else{
+				//sort handValues from weakest to greatest
+				handValues = handValues.sort(sortHand);
+				
+				
 				
 			}
-			//sort handValues from weakest to greatest
+			
 			//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
-				//if not in norm, play a magic
 			//cycle hand
 				// find all cards that have ^ weakest playable value and push them to cardstoplay
 				// if value is 1,2,7,8,10, just find one card to play
