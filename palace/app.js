@@ -282,18 +282,46 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.runNextTurn = function(){
 		//disallow clicks
 		$scope.waitingForInput = false;
-		//set player and hand
+		//get rules
+		//weakest ---> strongest
+		var norms = [3,4,5,6,9,11,12,13,1];
+		var magics = [7,8,2,10];
+		//set player and hand, show hand
 		var player = $scope[players[$scope.nextPlayer]];
 		$scope.gameIsAt = player.name + "'s Turn";
 		$scope.currentHand = player.hand;
 		$scope.handOn = true;
+		
+		//initiate form for checking cards to be played
+		//value prevents player from playing cards of different value
+		//cards keeps track of whole cards. this will be pushed to pile when "played()"
+		//e.g. cardsToPlay = {value:9,cards:[{}{}]}
+		$scope.cardsToPlay = {};
 	
 		//if human is false, continue running code
 		if(!player.human){
 			//get card to beat
 			var cardToBeat = $scope.cardToBeat();
+			//norms = norms slice norms.indexOf(cardtoBeat)
+			
+			//make array of values on hand ex. [3,10,3];
+			//if array of values are all the same [1,1];
+				//if they beat norm, play them all
+				//else, gotta forfeit
+			
+			//cycle norms from left to right
+				//if deck has card of value, select that card (push card id to cardstoplay.cards)
+					//find other cards on hand fo that value, select them.
+				//play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
+		//if nothings yet ^
+			//cycle	magics from left to right
+				//if deck has card of value, select that card (push card id to cardstoplay.cards)
+				//play (don't find other cards)
+			
+			//always play minimum card to beat, maximum number (multiple 3s or 2s) unless it's a magic card or ace.
+			var valueToPlay = $scope.beatTopPile();
+			
 			//check hand (show hand (face down), highlight each card before selecting the played card)
-				//play minimum card to beat, maximum number (multiple 3s or 2s) unless it's a magic card or ace.
 			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
 			console.log(player);
 			
@@ -309,15 +337,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 	
-	//gets the value of top card on pile
+	//FOR AI: get the value i'd need to beat on the pile
 	$scope.cardToBeat = function(){
 		if($scope.pile.length===0){
 			return null;
 		}
 		return $scope.pile[$scope.pile.length-1].value;
 	};
-		//weakest to strongest = [3,4,5,6,9,11,12,13,1];
-		//magic: weakest to strongest = [7,8,2,10];
+
 	
 	//play a card
 		//ng click-> card moves ups and fades, shows up as top card on pile.
