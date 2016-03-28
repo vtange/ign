@@ -41,7 +41,7 @@ app.factory('DATASTORE', function(){
 });//end of service
 
 
-app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
+app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($scope, $q, $timeout, DATASTORE){
     $scope.deck = DATASTORE.deck; // load service
 	//controls image on JQK
 	$scope.getFace = function(suit,value){
@@ -213,36 +213,56 @@ app.controller('MainCtrl', ['$scope', 'DATASTORE', function($scope, DATASTORE){
 		$scope.deck = DATASTORE.makeDeck();
 		$scope.resetState();
 	
+		var rdyPlayers = {};
+			players.forEach(function(player){
+				rdyPlayers[player] = $q.defer();
+			});
+		var all = $q.all([rdyPlayers.player1.promise, rdyPlayers.player2.promise, rdyPlayers.player3.promise, rdyPlayers.player4.promise]);
+		function allSuccess(){
+			console.log("all players loaded");
+			$scope.runNextTurn();
+		};
+	    all.then(allSuccess);
 		//for each player...
 		players.forEach(function(player){
-			//3 cards each for...
-			//their secret palace
-			$scope.times(3,function(times){
-				//set deck[cardID] to hidden mode
-				$scope.deck[0].hidden = true;
-				//push random card of deck.length
-				$scope[player].sec_palace.push($scope.deck[0]);
-				//remove card from deck
-				$scope.deck.splice(0,1);
-			});
-			//their upper palace
-			$scope.times(3,function(times){
-				//push random card of deck.length
-				$scope[player].upp_palace.push($scope.deck[0]);
-				//remove card from deck
-				$scope.deck.splice(0,1);
-			});
-			//their hand
-			$scope.times(3,function(times){
-				//push random card of deck.length
-				$scope[player].hand.push($scope.deck[0]);
-				//remove card from deck
-				$scope.deck.splice(0,1);
-			});
-			//animate in.
-			$scope[player].ready = true;
+			var deckAnimateTime = 500*(players.indexOf(player));
+			var playerAppearTime = 500*(players.indexOf(player)+1);
+			$timeout(function(){
+				//animate the deck toward the respective player
+				
+				
+			},deckAnimateTime);
+			$timeout(function(){
+				//3 cards each for...
+				//their secret palace
+				$scope.times(3,function(times){
+					//set deck[cardID] to hidden mode
+					$scope.deck[0].hidden = true;
+					//push random card of deck.length
+					$scope[player].sec_palace.push($scope.deck[0]);
+					//remove card from deck
+					$scope.deck.splice(0,1);
+				});
+				//their upper palace
+				$scope.times(3,function(times){
+					//push random card of deck.length
+					$scope[player].upp_palace.push($scope.deck[0]);
+					//remove card from deck
+					$scope.deck.splice(0,1);
+				});
+				//their hand
+				$scope.times(3,function(times){
+					//push random card of deck.length
+					$scope[player].hand.push($scope.deck[0]);
+					//remove card from deck
+					$scope.deck.splice(0,1);
+				});
+				//animate in. resolve promise
+				$scope[player].ready = true;
+				rdyPlayers[player].resolve(player+" is ready")
+				
+			},playerAppearTime);
 		});
-		$scope.runNextTurn();
 	}
 	//runs turn of current player
 	$scope.runNextTurn = function(){
