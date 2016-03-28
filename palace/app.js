@@ -28,7 +28,12 @@ app.factory('DATASTORE', function(){
 
 		suits.forEach(function(suit){
 			for(let i=1;i<14;i++){
-				deck.push({id:id,suit:suit,value:i,hidden:false});
+				deck.push({
+					id:id,
+					suit:suit,
+					value:i,
+					hidden:false
+				});
 				id++;
 			}
 		});
@@ -280,18 +285,28 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//runs turn of current player
 	$scope.runNextTurn = function(){
+		
 		//disallow clicks
 		$scope.waitingForInput = false;
-		//get rules
-		//weakest ---> strongest
-		var norms = [3,4,5,6,9,11,12,13,1];
-		var magics = [7,8,2,10];
+		
+			/*-----------------------*/
+			//PHASE 1: get playable cards (restrict player too)
+			/*-----------------------*/
+			//get card to beat
+			var cardToBeat = $scope.cardToBeat();
+			//weakest ---> strongest
+			var norms = [3,4,5,6,9,11,12,13,1];
+			var magics = [7,8,2,10];
+			if (cardToBeat !== null){
+				norms = norms.slice(norms.indexOf(cardToBeat));
+			}
+
 		//set player and hand, show hand
 		var player = $scope[players[$scope.nextPlayer]];
 		$scope.gameIsAt = player.name + "'s Turn";
 		$scope.currentHand = player.hand;
 		$scope.handOn = true;
-		
+
 		//initiate form for checking cards to be played
 		//value prevents player from playing cards of different value
 		//cards keeps track of whole cards. this will be pushed to pile when "played()"
@@ -300,26 +315,54 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	
 		//if human is false, continue running code
 		if(!player.human){
-			//get card to beat
-			var cardToBeat = $scope.cardToBeat();
-			//norms = norms slice norms.indexOf(cardtoBeat)
+			/*-----------------------*/
+			//For Animation
+			/*-----------------------*/
+			//set up promises to clear when card is checked.
+			var handIndex = 0;
+			var handPromises = {};
+			var handValues = [];
 			
-			//make array of values on hand ex. [3,10,3];
-			//if array of values are all the same [1,1];
+			$scope.currentHand.forEach(function(card){
+				handPromises[card] = $q.defer();
+				handValues.push(card.value);
+			});
+
+			function checkNxtCard(){
+				var card = $scope.currentHand[handIndex];
+				$timeout(function(){
+					//highlight card
+					card
+				},100);
+				$timeout(function(){
+					//unhighlight card
+					card
+					handPromises[card].resolve("checked "+card)
+				},500);
+			};
+			/*--*/
+			/*--*/
+			
+			function sortHand(a,b){
+				
+			}
+			
+			
+			
+			if(handValues.length===1||allSameNumber(handValues)){
 				//if they beat norm, play them all
 				//else, gotta forfeit
-			
-			//cycle norms from left to right
-				//if deck has card of value, select that card (push card id to cardstoplay.cards)
-					//find other cards on hand fo that value, select them.
-				//play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
-		//if nothings yet ^
-			//cycle	magics from left to right
-				//if deck has card of value, select that card (push card id to cardstoplay.cards)
-				//play (don't find other cards)
-			
-			//always play minimum card to beat, maximum number (multiple 3s or 2s) unless it's a magic card or ace.
-			var valueToPlay = $scope.beatTopPile();
+			}
+			else{
+				
+			}
+			//sort handValues from weakest to greatest
+			//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
+				//if not in norm, play a magic
+			//cycle hand
+				// find all cards that have ^ weakest playable value and push them to cardstoplay
+				// if value is 1,2,7,8,10, just find one card to play
+			////play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
 			
 			//check hand (show hand (face down), highlight each card before selecting the played card)
 			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
@@ -337,7 +380,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 	
-	//FOR AI: get the value i'd need to beat on the pile
+	//FOR AI: get the Number value i'd need to beat on the pile
 	$scope.cardToBeat = function(){
 		if($scope.pile.length===0){
 			return null;
