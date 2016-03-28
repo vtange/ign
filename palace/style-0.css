@@ -29,7 +29,7 @@ body {
 }
 /* Cards */
 .card, #pile, #deck{
-	transition: translate 0.5s ease;
+	transition: all 0.3s ease;
 	
 	position: relative;
 	height:300px;
@@ -90,18 +90,8 @@ body {
 }
 @media screen and (max-width: 1600px) {
 	.card, #pile, #deck{
-		transition: translate 0.5s ease;
-
-		position: relative;
 		height:200px;
 		width:135px;
-		background:#fff;
-		border-radius: 5px;
-		padding:10px;
-		margin:10px;
-
-		display: flex;
-		flex-direction: column;
 	}
 	/* upper half of card */
 	.card > div:first-child{
@@ -144,18 +134,8 @@ body {
 }
 @media screen and (max-width: 1000px) {
 	.card, #pile, #deck {
-		transition: translate 0.5s ease;
-
-		position: relative;
 		height:150px;
 		width:100px;
-		background:#fff;
-		border-radius: 5px;
-		padding:10px;
-		margin:10px;
-
-		display: flex;
-		flex-direction: column;
 	}
 	/* upper half of card */
 	.card > div:first-child{
@@ -324,4 +304,10 @@ body {
 	background-color: #000;
 	filter: blur(25px);
 	opacity: 0.5;
+}
+#player-hand .card{
+	cursor: pointer;
+}
+#player-hand .card:hover{
+	box-shadow: 0px 0px 25px rgba(155,255,255,0.8);
 }
