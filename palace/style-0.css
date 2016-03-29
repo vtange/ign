@@ -231,11 +231,6 @@ body {
 60% {left:-8px;}
 100% {left:0px;}
 }
-#pile .blowUp {
-	animation:pileBlowUp .5s;
-	-webkit-animation:pileBlowUp .5s;
-}
-
 
 /* deck placeholder positioning */
 #deck > div {

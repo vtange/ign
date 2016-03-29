@@ -171,7 +171,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { "opacity" : 0 };
 		}
 	};
-
+	//ng-style - a 10 is played and the pile blows up
+	$scope.blowUpAnim = function(){
+		if($scope.blowUp){
+			return { "animation" : "pileBlowUp .5s;" };
+		}
+		else{
+			return { };
+		}
+	};
 	/* ---------- */
 	/* GAME STATE */
 	/* ---------- */
