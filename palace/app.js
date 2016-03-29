@@ -182,6 +182,45 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
+
+	function isMagicOrAce(n){
+		return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
+	};
+
+	function isMagic(n){
+		return n === 2 || n === 7 || n === 8 || n === 10;
+	};
+
+	function sortHand(a,b){
+		// 1, 7, 8, 2, 10 in front
+		if(isMagicOrAce(a)){
+			//magics infront of 1
+			if(isMagic(b)){
+				//move 2 over 7 and 8
+				if(a===2){
+					if(b===7||b===8){
+						return 1;
+					}
+					else{
+						return -1;
+					}
+				}
+				else{
+					return -1;
+				}
+			}
+			else{
+				return 1;
+			}
+		}
+		else{
+			if(isMagicOrAce(b)){
+				return -1;
+			}
+			return a > b;
+		}
+	};
+
 	//clean slate for game
 	//human -> human player
 	//ready -> controls animation
@@ -239,12 +278,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$scope.setupGame();
 		}
 	};
+
 	//used to repeat things x times
 	$scope.times = function(n, iterator) {
 	  var accum = Array(Math.max(0, n));
 	  for (var i = 0; i < n; i++) accum[i] = iterator.call();
 	  return accum;
 	};
+
 	//set up game. disallow clicks during set up.
 	$scope.setupGame = function(){
 
@@ -303,6 +344,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			},playerAppearTime);
 		});
 	};
+
 	//runs turn of current player
 	$scope.runNextTurn = function(){
 		
@@ -345,49 +387,22 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//if human is false, continue running code
 			if(!player.human){
 
-				var handIndex = 0;
+				//swapMode promise
+				var swapMode = $q.defer();
+				
+				//Upper Palace Swap Phase if player.first
+				if(!player.first){
+					$scope.enterSwapMode(player);
+				}
+				
+				
+				//only continue if swapMode is resolved
+				
 				var handValues = [];
 				$scope.currentHand.forEach(function(card){
 					handValues.push(card.value);
 				});
 
-				function isMagicOrAce(n){
-					return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
-				};
-				function isMagic(n){
-					return n === 2 || n === 7 || n === 8 || n === 10;
-				};
-				function sortHand(a,b){
-							// 1, 7, 8, 2, 10 in front
-							if(isMagicOrAce(a)){
-								//magics infront of 1
-								if(isMagic(b)){
-									//move 2 over 7 and 8
-									if(a===2){
-										if(b===7||b===8){
-											return 1;
-										}
-										else{
-											return -1;
-										}
-									}
-									else{
-										return -1;
-									}
-								}
-								else{
-									return 1;
-								}
-							}
-							else{
-								if(isMagicOrAce(b)){
-									return -1;
-								}
-								return a > b;
-							}
-				};
-
-				//SEMI ADVANCED: Play 2 or 8 as last card in hand and follow up with an upper-palace card
 				//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
 
 				//if hand has one card or all same cards
@@ -448,7 +463,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						
 		},500);
 	};
-	
+
 	//FOR AI: get the Number value i'd need to beat on the pile
 	$scope.cardToBeat = function(){
 		if($scope.pile.length===0){
@@ -456,7 +471,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 		return $scope.pile[$scope.pile.length-1].value;
 	};
-	
+
 	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(){
 		$scope.currentHand.forEach(function(card){
@@ -466,7 +481,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				}
 		});
 	};
-	
+
 	//FOR AI && PLAYER: play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
 
@@ -492,7 +507,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		player.hand = player.hand.filter(function(card){
 			return ids.indexOf(card.id)===-1;
 		});
+
+		//fade out current hand
 		$scope.handOn = false;
+		
+		//wait for card to appear on pile
 		$timeout(function(){
 			//reset current hand. give sometime for fadeout and translation animation (500), as well as pile addon animation (1000)
 			$scope.currentHand = [];
@@ -525,7 +544,58 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			
 		},500)
 
-	}
+	};
+
+	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
+	$scope.drawCards = function(player){
+		while(player.hand.length < 3){
+			player.hand.push($scope.deck[0]);
+			$scope.deck.splice(0,1);
+		}
+	};
+	
+	//FOR AI && PLAYER: upper palace swap mode.
+	$scope.enterSwapMode = function(player){
+		
+		$scope.swapMode = true;
+		
+		//put Upper Palace cards on hand
+		player.upp_palace.forEach(function(card){
+			$scope.currentHand.push(card);
+		});
+		player.upp_palace = [];
+		
+		//if AI
+			//get handValues
+				//sort
+			//for each in handValues, find a card in currhand with that value and push it to upp palace.
+			//resolve promise
+		
+		
+		
+		
+		//else if player, do nothing
+	};
+
+	//FOR PLAYER: select a card.
+	$scope.selectCard = function(){
+		//if in 
+		
+		//else
+			//set cardsToPlay.value to selected card
+				//limit playables to value
+	};
+
+	//FOR PLAYER: deselect a card.
+	$scope.deselectCard = function(){
+		
+		//else
+			//set cardsToPlay.value to selected card
+				//limit playables to value
+	};
+	
+
+	
 	
 	
 	
