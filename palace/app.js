@@ -527,17 +527,18 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 			if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
 				$timeout(function(){
-					//if top of pile is 2 or 8, another turn for current player
+					//if top of pile is 2 or 8, another turn for current player (no draw, since it's not end of turn)
 					$scope.runNextTurn();
 				},1000);
 			}
 			else if($scope.pile[$scope.pile.length-1].value===10){
 				$timeout(function(){
-					//if top of pile is 10, blow up deck, then next player turn
+					//if top of pile is 10, blow up deck, draw phase, then next player turn
 					$scope.pile = [];
 					$scope.blowUp = true;
 					$timeout(function(){
 						$scope.blowUp = false;
+						$scope.drawCards(player);
 						$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 						$scope.runNextTurn();
 					},1000);
@@ -545,7 +546,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			}
 			else{
 				$timeout(function(){
-					//if top of pile is not 2 or 8, next player turn
+					//if top of pile is not 2 or 8, draw phase, next player turn
+					$scope.drawCards(player);
 					$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 					$scope.runNextTurn();
 				},1000);
