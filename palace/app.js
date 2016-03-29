@@ -567,7 +567,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//FOR AI && PLAYER: upper palace swap mode.
 	$scope.enterSwapMode = function(player, promise){
 		
-		$scope.swapMode = true;
+		//prevent double tap and enter swapmode if human
+		if(player.human){
+			$scope.waitingForInput = false;
+			$scope.swapMode = true;
+		}
 		
 		//put Upper Palace cards on hand
 		player.upp_palace.forEach(function(card){
@@ -575,35 +579,45 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		});
 		player.upp_palace = [];
 		
-		//if AI
-		if(!player.human){
-			//get handValues
-			var values = [];
-			$scope.currentHand.forEach(function(card){
-				values.push(card.value);
-			});
-			
-			//sort
-			values = values.sort(sortHand);
-			//for each in handValues top 3, find a card in currhand with that value and push it to upp palace.
-			values.slice(3).forEach(function(value){
-				player.upp_palace.push($scope.currentHand.reduce(function(curr,next){
-					if(curr.value !== next.value && next.value === value){
-						curr = next;
-					}
-					return curr;
-				},$scope.currentHand[0]));
-				$scope.currentHand = $scope.currentHand.filter(function(card){
-					return card.value !== value;
+		//wait for hand to update
+		$timeout(function(){
+			//if AI
+			if(!player.human){
+				//get handValues
+				var values = [];
+				$scope.currentHand.forEach(function(card){
+					values.push(card.value);
 				});
-			});
 
-			//resolve promise
-			promise.resolve("finished swap mode")
-		}
-		else{
-			//else if player, do nothing
-		}
+				//sort
+				values = values.sort(sortHand);
+				//for each in handValues top 3, find a card in currhand with that value and push it to upp palace.
+				values.slice(3).forEach(function(value){
+					var swappedCard = $scope.currentHand.reduce(function(curr,next){
+						if(curr.value !== next.value && next.value === value){
+							curr = next;
+							swappedCard = next;
+						}
+						return curr;
+					},$scope.currentHand[0]);
+					player.upp_palace.push(swappedCard);
+					$scope.currentHand = $scope.currentHand.filter(function(card){
+						return card.id !== swappedCard.id;
+					});
+				});
+
+				//wait for upp_palace to update and hand
+				$timeout(function(){
+					//resolve promise
+					promise.resolve("finished swap mode")
+				},1000);
+
+			}
+			else{
+				//else if player, do nothing. reenable inputs
+				$scope.waitingForInput = true;
+			}
+		},500);
 	};
 
 	//FOR PLAYER: select a card.
