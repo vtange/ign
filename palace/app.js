@@ -384,9 +384,22 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		//WAIT FOR HAND to Fade in
 		$timeout(function(){
 
-			//if human is false, continue running code
+			//if human is false, run AI turn sequence
 			if(!player.human){
-
+				$scope.AITurn(player,cardToBeat);
+			}
+			//else, set next player
+			else{
+				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
+				//allow clicks
+				$scope.waitingForInput = true;
+			}
+						
+		},500);
+	};
+	//FOR AI: general AI Turn sequence
+	$scope.AITurn = function(player,mustBeat){
+		
 				//swapMode promise
 				var swapMode = $q.defer();
 				
@@ -394,7 +407,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				if(!player.first){
 					$scope.enterSwapMode(player);
 				}
-				
+				else{
+					//immediate resolve swapmode
+					
+				}
 				
 				//only continue if swapMode is resolved
 				
@@ -438,7 +454,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					//cycle hand
 					// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
 					// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
-					if(isMagicOrAce($scope.cardsToPlay.value)||cardToBeat===2||cardToBeat===8){
+					if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
 						$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
 							if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
 								curr = next;
@@ -453,17 +469,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						$scope.playCards(player);
 					},500);
 				}
-			}
-			//else, set next player
-			else{
-				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
-				//allow clicks
-				$scope.waitingForInput = true;
-			}
-						
-		},500);
 	};
-
+	
 	//FOR AI: get the Number value i'd need to beat on the pile
 	$scope.cardToBeat = function(){
 		if($scope.pile.length===0){
