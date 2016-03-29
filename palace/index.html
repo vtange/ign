@@ -137,18 +137,20 @@
 			</div>
 			<span>Player 4</span>
 		</div>
-		<div id="player-hand" data-ng-style="showHand()">
+		<div id="player-hand">
 			<div id="bg"></div>
 			<!-- cards in current player hand -->
-			<div data-ng-repeat="card in currentHand" data-ng-style="cardAnims(card)" class="card">
-				<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
-				<div class="vert-centered center-stuff">
-					<div class="vert-centered">
-						<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
-						<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+			<div id="hand" data-ng-style="showHand()">
+				<div data-ng-repeat="card in currentHand" data-ng-style="cardAnims(card)" class="card">
+					<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+					<div class="vert-centered center-stuff">
+						<div class="vert-centered">
+							<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+							<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+						</div>
 					</div>
+					<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 				</div>
-				<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 			</div>
 		</div>
     </div>
