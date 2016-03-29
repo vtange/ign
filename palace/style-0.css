@@ -198,6 +198,12 @@ body {
 	background:rgba(50,50,50,0.5);
 	border: 1px solid #dce;
 }
+#pile .card{
+	position: absolute;
+	top:0;
+	left:0;
+	margin: 0;
+}
 /* deck placeholder positioning */
 #deck > div {
 	position: absolute;

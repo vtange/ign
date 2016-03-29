@@ -21,7 +21,18 @@
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div><div class="btn">How to Play</div>
 			</div>
 			<div class="vert-centered" data-ng-style="showDeck()">
-				<div id="pile"></div>
+				<div id="pile">
+						<div class="card" data-ng-repeat="card in pile">
+							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+							<div class="vert-centered center-stuff">
+								<div class="vert-centered">
+									<div class="card-suit" data-ng-repeat="i in getNum(card.value) track by $index" data-ng-style="getSuit(card.suit)"></div>
+									<div class="card-face" data-ng-style="getFace(card.suit,card.value)" data-ng-if="isFace(card.value)"></div>
+								</div>
+							</div>
+							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+						</div>
+				</div>
 				<div id="deck"><div class="card" id="mock-card1"></div><div class="card" id="mock-card2"></div></div>
 			</div>			
 		</div>
