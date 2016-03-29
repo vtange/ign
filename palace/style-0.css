@@ -193,6 +193,7 @@ body {
  	box-shadow: 0px 0px 10px rgba(200,200,200,0.5);
  	text-shadow: 0px 0px 10px rgba(200,200,100,0.5);
 }
+/* pile */
 /* shows on no card */
 #pile, #deck{
 	background:rgba(50,50,50,0.5);
@@ -213,6 +214,29 @@ body {
 	opacity: 1;
 	transform: scale(1);
 }
+@keyframes pileBlowUp
+{
+0% {left:8px;}
+10% {left:-8px;}
+30% {left:8px;}
+60% {left:-8px;}
+100% {left:0px;}
+}
+
+@-webkit-keyframes pileBlowUp /* Safari and Chrome */
+{
+0% {left:8px;}
+10% {left:-8px;}
+30% {left:8px;}
+60% {left:-8px;}
+100% {left:0px;}
+}
+#pile .blowUp {
+	animation:pileBlowUp .5s;
+	-webkit-animation:pileBlowUp .5s;
+}
+
+
 /* deck placeholder positioning */
 #deck > div {
 	position: absolute;

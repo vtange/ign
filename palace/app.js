@@ -224,7 +224,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			hand:[],
 		};
 		$scope.pile = [];
-		$scope.outOfPlay = [];
 	};
 	$scope.resetState();
 	/**/
@@ -249,7 +248,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//set up game. disallow clicks during set up.
 	$scope.setupGame = function(){
 
-		//rebuild deck, reset palaces, hands, pile, outOfPlay cards
+		//rebuild deck, reset palaces, hands, pile cards
 		$scope.deck = DATASTORE.makeDeck();
 		$scope.resetState();
 	
@@ -327,7 +326,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			else if	(cardToBeat === 2||cardToBeat === 10){
 				$scope.playable = [3,4,5,6,9,11,12,13,1,7,8,2,10];
 			}
-			else {
+			else if (cardToBeat !== null){
 				$scope.playable = $scope.playable.slice($scope.playable.indexOf(cardToBeat));
 			}
 
@@ -504,6 +503,18 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					$scope.runNextTurn();
 				},1000);
 			}
+			else if($scope.pile[$scope.pile.length-1].value===10){
+				$timeout(function(){
+					//if top of pile is 10, blow up deck, then next player turn
+					$scope.pile = [];
+					$scope.blowUp = true;
+					$timeout(function(){
+						$scope.blowUp = false;
+						$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+						$scope.runNextTurn();
+					},1000);
+				},1000);
+			}
 			else{
 				$timeout(function(){
 					//if top of pile is not 2 or 8, next player turn
@@ -511,6 +522,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					$scope.runNextTurn();
 				},1000);
 			}
+			
 		},500)
 
 	}

@@ -21,8 +21,8 @@
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div><div class="btn">How to Play</div>
 			</div>
 			<div class="vert-centered" data-ng-style="showDeck()">
-				<div id="pile">
-						<div class="card" data-ng-repeat="card in pile" ng-animate="{ enter: 'ng-enter' }">
+				<div id="pile" data-ng-class="blowUp:blowUp">
+						<div class="card" data-ng-repeat="card in pile" data-ng-animate="{ enter: 'ng-enter' }">
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 							<div class="vert-centered center-stuff">
 								<div class="vert-centered">
