@@ -370,7 +370,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				if($scope.playable.indexOf(handValues[0])!==-1){
 					$scope.cardsToPlay.value = handValues[0];
 					$scope.selectCards();
-					$scope.playCards();
+					$scope.playCards(player);
 				}
 				else{
 					//else, gotta forfeit
@@ -404,10 +404,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				else{
 					$scope.selectCards();
 				}
-				
-				////play (grab id of cardstoplay.cards, filter your hand of those ids, push cardstoplay.cards to pile)
-				$scope.playCards();
-				
+				$scope.playCards(player);
 			}
 			
 			//when finished, set next player and runTurn.
@@ -429,6 +426,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 		return $scope.pile[$scope.pile.length-1].value;
 	};
+	
+	//Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(){
 		$scope.currentHand.forEach(function(card){
 				if(card.value===$scope.cardsToPlay.value){
@@ -439,7 +438,30 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	
 	//play card(s) (make all selected cards float up and move to pile, remove from current hand)
-	
+	$scope.playCards = function(player){
+		//if player.first is false, set it true now; they can't swap upper-palace cards now.
+		if(!player.first){
+			player.first = true;
+		}
+		
+		//push cards to pile
+		$scope.cardsToPlay.card.forEach(function(card){
+			$scope.pile.push(card);
+		});
+		
+		//remove cards from player hand
+		var ids = $scope.cardsToPlay.map(function(card){
+			return card.id;
+		});
+		//make the cards float on actual hand
+		$scope.currentHand.forEach(function(card){
+			card.beingPlayed = true;
+		});
+		player.hand = player.hand.filter(function(card){
+			return ids.indexOf(card.id)===-1;
+		});
+		$scope.handOn = false;
+	}
 	
 	
 	
