@@ -130,7 +130,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//ng-style - show current player hand
 	$scope.showHand = function(){
-		if($scope.showHand)
+		if($scope.handOn)
 			return { "opacity" : 1 };
 		else
 			return { "opacity" : 0 };
@@ -478,10 +478,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		});
 		$scope.handOn = false;
 		$timeout(function(){
-			//when finished, set next player and runTurn.
-			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
-			$scope.runNextTurn();
-		},500);
+			//reset current hand. give sometime for fadeout and translation animation (500), as well as pile addon animation (1000)
+			$scope.currentHand = [];
+			$timeout(function(){
+				//when finished, set next player and runTurn.
+				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+				$scope.runNextTurn();
+			},1000);
+		},500)
+
 	}
 	
 	
