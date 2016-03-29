@@ -421,9 +421,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					},handValues[handValues.length-1]);
 
 					//cycle hand
-					// if cardstoplay.value is 1,2,7,8,10, just find one card to play
+					// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
 					// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
-					if(isMagicOrAce($scope.cardsToPlay.value)){
+					if(isMagicOrAce($scope.cardsToPlay.value)||cardToBeat===2||cardToBeat===8){
 						$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
 							if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
 								curr = next;
