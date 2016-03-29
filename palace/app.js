@@ -32,7 +32,8 @@ app.factory('DATASTORE', function(){
 					id:id,
 					suit:suit,
 					value:i,
-					hidden:false
+					hidden:false,
+					beingPlayed:false
 				});
 				id++;
 			}
@@ -324,7 +325,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$scope.currentHand.forEach(function(card){
 				handValues.push(card.value);
 			});
-			
+			console.log(player.name+": "+handValues);
 			function isMagicOrAce(n){
 				return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
 			};
@@ -406,10 +407,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				}
 				$scope.playCards(player);
 			}
-			
-			//when finished, set next player and runTurn.
-			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
-			$scope.runNextTurn();
 		}
 		//else, set next player
 		else{
@@ -439,18 +436,20 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	
 	//play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
+		console.log(player);
 		//if player.first is false, set it true now; they can't swap upper-palace cards now.
 		if(!player.first){
 			player.first = true;
 		}
 		
 		//push cards to pile
-		$scope.cardsToPlay.card.forEach(function(card){
+		$scope.cardsToPlay.cards.forEach(function(card){
+			console.log(player.name+" played " + card.value);
 			$scope.pile.push(card);
 		});
 		
 		//remove cards from player hand
-		var ids = $scope.cardsToPlay.map(function(card){
+		var ids = $scope.cardsToPlay.cards.map(function(card){
 			return card.id;
 		});
 		//make the cards float on actual hand
@@ -461,6 +460,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return ids.indexOf(card.id)===-1;
 		});
 		$scope.handOn = false;
+		
+		//when finished, set next player and runTurn.
+		$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+		$scope.runNextTurn();
 	}
 	
 	
