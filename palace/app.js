@@ -139,8 +139,19 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
-	//ng-style - glows selected cards that "are to be played"
-	$scope.isSelected = function(){
+	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
+	$scope.cardAnims = function(card){
+		var selectedCards = $scope.cardsToPlay.cards.map(function(card){
+			return card.id;
+		});
+		if(selectedCards.indexOf(card.id)!==-1){
+			if(card.beingPlayed){
+				//selected and being played
+				return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
+			}
+			//selected only
+			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)" };
+		}
 	};
 	/* ---------- */
 	/* GAME STATE */
@@ -371,7 +382,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				if($scope.playable.indexOf(handValues[0])!==-1){
 					$scope.cardsToPlay.value = handValues[0];
 					$scope.selectCards();
-					$scope.playCards(player);
+					$timeout(function(){
+						$scope.playCards(player);
+					},500);
 				}
 				else{
 					//else, gotta forfeit
@@ -407,7 +420,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				else{
 					$scope.selectCards();
 				}
-				$scope.playCards(player);
+				$timeout(function(){
+					$scope.playCards(player);
+				},500);
 			}
 		}
 		//else, set next player
@@ -426,7 +441,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		return $scope.pile[$scope.pile.length-1].value;
 	};
 	
-	//Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
+	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(){
 		$scope.currentHand.forEach(function(card){
 				if(card.value===$scope.cardsToPlay.value){
@@ -436,7 +451,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		});
 	};
 	
-	//play card(s) (make all selected cards float up and move to pile, remove from current hand)
+	//FOR AI && PLAYER: play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
 
 		//if player.first is false, set it true now; they can't swap upper-palace cards now.
@@ -462,10 +477,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return ids.indexOf(card.id)===-1;
 		});
 		$scope.handOn = false;
-		
-		//when finished, set next player and runTurn.
-		$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
-		$scope.runNextTurn();
+		$timeout(function(){
+			//when finished, set next player and runTurn.
+			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+			$scope.runNextTurn();
+		},500);
 	}
 	
 	
