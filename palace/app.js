@@ -403,7 +403,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		
 				//swapMode promise
 				var swapMode = $q.defer();
-				var steps = $q.all([swapMode]);
 	
 				//Upper Palace Swap Phase if player.first
 				if(!player.first){
@@ -415,7 +414,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				}
 				
 				//only continue if swapMode is resolved
-				steps.then(function(str){
+				swapMode.promise.then(function(str){
 					var handValues = [];
 					$scope.currentHand.forEach(function(card){
 						handValues.push(card.value);
@@ -609,7 +608,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//wait for upp_palace to update and hand
 				$timeout(function(){
 					//resolve promise
-					promise.resolve("finished swap mode")
+					promise.resolve("finished swap mode");
 				},1000);
 
 			}
@@ -617,7 +616,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//else if player, do nothing. reenable inputs
 				$scope.waitingForInput = true;
 			}
-		},500);
+		},1000);
 	};
 
 	//FOR PLAYER: select a card.
