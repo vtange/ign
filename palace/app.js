@@ -397,78 +397,81 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						
 		},500);
 	};
+
 	//FOR AI: general AI Turn sequence
 	$scope.AITurn = function(player,mustBeat){
 		
 				//swapMode promise
 				var swapMode = $q.defer();
-				
+				var steps = $q.all([swapMode]);
+	
 				//Upper Palace Swap Phase if player.first
 				if(!player.first){
-					$scope.enterSwapMode(player);
+					$scope.enterSwapMode(player,swapMode);
 				}
 				else{
 					//immediate resolve swapmode
-					
+					swapMode.resolve("finished swap mode");
 				}
 				
 				//only continue if swapMode is resolved
-				
-				var handValues = [];
-				$scope.currentHand.forEach(function(card){
-					handValues.push(card.value);
-				});
+				steps.then(function(str){
+					var handValues = [];
+					$scope.currentHand.forEach(function(card){
+						handValues.push(card.value);
+					});
 
-				//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+					//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
 
-				//if hand has one card or all same cards
-				if(handValues.length===1||handValues.allValuesSame()){
-					//if playable, play them all
-					if($scope.playable.indexOf(handValues[0])!==-1){
-						$scope.cardsToPlay.value = handValues[0];
-						$scope.selectCards();
+					//if hand has one card or all same cards
+					if(handValues.length===1||handValues.allValuesSame()){
+						//if playable, play them all
+						if($scope.playable.indexOf(handValues[0])!==-1){
+							$scope.cardsToPlay.value = handValues[0];
+							$scope.selectCards();
+							$timeout(function(){
+								$scope.playCards(player);
+							},500);
+						}
+						else{
+							//else, gotta forfeit
+							throw "Don't have forfeit function yet."
+						}
+					}
+					//hand has different cards, more than one card
+					else{
+
+						//sort handValues from weakest to greatest
+						handValues = handValues.sort(sortHand);
+						console.log(player.name+", hand: "+handValues);
+						console.log("playable: "+$scope.playable);
+						//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
+						$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
+							if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
+								curr = next;
+							}
+							return curr;
+						},handValues[handValues.length-1]);
+
+						//cycle hand
+						// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
+						// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
+						if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
+							$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
+								if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
+									curr = next;
+								}
+									return curr;
+							},{}));
+						}
+						else{
+							$scope.selectCards();
+						}
 						$timeout(function(){
 							$scope.playCards(player);
 						},500);
 					}
-					else{
-						//else, gotta forfeit
-						throw "Don't have forfeit function yet."
-					}
-				}
-				//hand has different cards, more than one card
-				else{
-
-					//sort handValues from weakest to greatest
-					handValues = handValues.sort(sortHand);
-					console.log(player.name+", hand: "+handValues);
-					console.log("playable: "+$scope.playable);
-					//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
-					$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
-						if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
-							curr = next;
-						}
-						return curr;
-					},handValues[handValues.length-1]);
-
-					//cycle hand
-					// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
-					// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
-					if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
-						$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
-							if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
-								curr = next;
-							}
-								return curr;
-						},{}));
-					}
-					else{
-						$scope.selectCards();
-					}
-					$timeout(function(){
-						$scope.playCards(player);
-					},500);
-				}
+				});
 	};
 	
 	//FOR AI: get the Number value i'd need to beat on the pile
@@ -549,7 +552,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				},1000);
 			}
 			
-		},500)
+		},500);
 
 	};
 
@@ -562,7 +565,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	
 	//FOR AI && PLAYER: upper palace swap mode.
-	$scope.enterSwapMode = function(player){
+	$scope.enterSwapMode = function(player, promise){
 		
 		$scope.swapMode = true;
 		
@@ -573,15 +576,34 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		player.upp_palace = [];
 		
 		//if AI
+		if(!player.human){
 			//get handValues
-				//sort
-			//for each in handValues, find a card in currhand with that value and push it to upp palace.
+			var values = [];
+			$scope.currentHand.forEach(function(card){
+				values.push(card.value);
+			});
+			
+			//sort
+			values = values.sort(sortHand);
+			//for each in handValues top 3, find a card in currhand with that value and push it to upp palace.
+			values.slice(3).forEach(function(value){
+				player.upp_palace.push($scope.currentHand.reduce(function(curr,next){
+					if(curr.value !== next.value && next.value === value){
+						curr = next;
+					}
+					return curr;
+				},$scope.currentHand[0]));
+				$scope.currentHand = $scope.currentHand.filter(function(card){
+					return card.value !== value;
+				});
+			});
+
 			//resolve promise
-		
-		
-		
-		
-		//else if player, do nothing
+			promise.resolve("finished swap mode")
+		}
+		else{
+			//else if player, do nothing
+		}
 	};
 
 	//FOR PLAYER: select a card.
