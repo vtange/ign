@@ -325,7 +325,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$scope.currentHand.forEach(function(card){
 				handValues.push(card.value);
 			});
-			console.log(player.name+": "+handValues);
+
 			function isMagicOrAce(n){
 				return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
 			};
@@ -364,7 +364,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			
 			//SEMI ADVANCED: Play 2 or 8 as last card in hand and follow up with an upper-palace card
 			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
-			
+
 			//if hand has one card or all same cards
 			if(handValues.length===1||handValues.allValuesSame()){
 				//if playable, play them all
@@ -383,23 +383,25 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 				//sort handValues from weakest to greatest
 				handValues = handValues.sort(sortHand);
-
+				console.log(player.name+", hand: "+handValues);
+				console.log("playable: "+$scope.playable);
 				//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
-				handValues.forEach(function(number){
-					if ($scope.playable.indexOf(number)!==-1){
-						$scope.cardsToPlay.value = number;
+				$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
+					if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
+						curr = next;
 					}
-				});
+					return curr;
+				},handValues[handValues.length-1]);
 
 				//cycle hand
 				// if cardstoplay.value is 1,2,7,8,10, just find one card to play
 				// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
 				if(isMagicOrAce($scope.cardsToPlay.value)){
-					$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(tot,nxt){
-						if(tot.value !== nxt.value && nxt.value === $scope.cardsToPlay.value){
-							tot = nxt
+					$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
+						if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
+							curr = next;
 						}
-							return tot;
+							return curr;
 					},{}));
 				}
 				else{
@@ -436,7 +438,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	
 	//play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
-		console.log(player);
+
 		//if player.first is false, set it true now; they can't swap upper-palace cards now.
 		if(!player.first){
 			player.first = true;
