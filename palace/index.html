@@ -22,7 +22,7 @@
 			</div>
 			<div class="vert-centered" data-ng-style="showDeck()">
 				<div id="pile">
-						<div class="card" data-ng-repeat="card in pile">
+						<div class="card" data-ng-repeat="card in pile" ng-animate="{ enter: 'ng-enter' }">
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 							<div class="vert-centered center-stuff">
 								<div class="vert-centered">

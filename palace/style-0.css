@@ -204,6 +204,15 @@ body {
 	left:0;
 	margin: 0;
 }
+.ng-enter{
+	opacity: 0;
+	transform: scale(1.2);
+}
+
+.ng-enter.ng-enter-active {
+	opacity: 1;
+	transform: scale(1);
+}
 /* deck placeholder positioning */
 #deck > div {
 	position: absolute;
