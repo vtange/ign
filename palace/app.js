@@ -318,7 +318,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//weakest ---> strongest
 			//must also apply to human player
 			$scope.playable = [3,4,5,6,9,11,12,13,1,7,8,2,10];
-			if (cardToBeat !== null){
+			if (cardToBeat === 7){
+				$scope.playable = [3,4,5,6,7,8,2,10];
+			}
+			else if	(cardToBeat === 8){
+				$scope.playable = [9,11,12,13,1,7,8,2,10];
+			}
+			else if	(cardToBeat === 2||cardToBeat === 10){
+				$scope.playable = [3,4,5,6,9,11,12,13,1,7,8,2,10];
+			}
+			else {
 				$scope.playable = $scope.playable.slice($scope.playable.indexOf(cardToBeat));
 			}
 
@@ -330,6 +339,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 		//reset form
 		$scope.cardsToPlay = {value:null,cards:[]};
+
+		//WAIT FOR HAND to Fade in
 		$timeout(function(){
 
 			//if human is false, continue running code
@@ -486,11 +497,20 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$timeout(function(){
 			//reset current hand. give sometime for fadeout and translation animation (500), as well as pile addon animation (1000)
 			$scope.currentHand = [];
-			$timeout(function(){
-				//when finished, set next player and runTurn.
-				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
-				$scope.runNextTurn();
-			},1000);
+
+			if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
+				$timeout(function(){
+					//if top of pile is 2 or 8, another turn for current player
+					$scope.runNextTurn();
+				},1000);
+			}
+			else{
+				$timeout(function(){
+					//if top of pile is not 2 or 8, next player turn
+					$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+					$scope.runNextTurn();
+				},1000);
+			}
 		},500)
 
 	}
