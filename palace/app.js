@@ -168,7 +168,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { "animation" : "drawToPlayer4 0.75s" };
 		}
 		else{
-			return { };
+			return { "opacity" : 0 };
 		}
 	};
 
@@ -562,18 +562,18 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					//if top of pile is 10, blow up deck, draw phase, then next player turn
 					$scope.pile = [];
 					$scope.blowUp = true;
+					$scope.drawCards(player);
 					$timeout(function(){
 						$scope.blowUp = false;
-						$scope.drawCards(player);
 						$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 						$scope.runNextTurn();
 					},1000);
 				},1000);
 			}
 			else{
+				$scope.drawCards(player);
 				$timeout(function(){
 					//if top of pile is not 2 or 8, draw phase, next player turn
-					$scope.drawCards(player);
 					$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 					$scope.runNextTurn();
 				},1000);
@@ -585,6 +585,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
 	$scope.drawCards = function(player){
+		//trigger anim once
+		player.isDrawing = true;
+		$timeout(function(){
+			player.isDrawing = false;
+		},750);
 		while(player.hand.length < 3){
 			player.hand.push($scope.deck[0]);
 			$scope.deck.splice(0,1);
