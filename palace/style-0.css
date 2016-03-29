@@ -253,6 +253,53 @@ body {
 	background-color:#4a4;
 	border:20px solid #255525;
 }
+
+@keyframes drawToPlayer1
+{
+0% {left:-1px;top:-1px;}
+100% {left:-500px;top:-500px;opacity: 0;}
+}
+
+@-webkit-keyframes drawToPlayer1 /* Safari and Chrome */
+{
+0% {left:-1px;top:-1px;}
+100% {left:-500px;top:-500px;opacity: 0;}
+}
+@keyframes drawToPlayer2
+{
+0% {left:-1px;top:-1px;}
+100% {left:500px;top:-500px;opacity: 0;}
+}
+
+@-webkit-keyframes drawToPlayer2 /* Safari and Chrome */
+{
+0% {left:-1px;top:-1px;}
+100% {left:500px;top:-500px;opacity: 0;}
+}
+
+@keyframes drawToPlayer3
+{
+0% {left:-1px;top:-1px;}
+100% {left:500px;top:500px;opacity: 0;}
+}
+
+@-webkit-keyframes drawToPlayer3 /* Safari and Chrome */
+{
+0% {left:-1px;top:-1px;}
+100% {left:500px;top:500px;opacity: 0;}
+}
+
+@keyframes drawToPlayer4
+{
+0% {left:-1px;top:-1px;}
+100% {left:-500px;top:500px;opacity: 0;}
+}
+
+@-webkit-keyframes drawToPlayer4 /* Safari and Chrome */
+{
+0% {left:-1px;top:-1px;}
+100% {left:-500px;top:500px;opacity: 0;}
+}
 /* playing area */
 .player-area, .btn{
 	border-radius:10px;

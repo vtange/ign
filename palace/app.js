@@ -153,6 +153,25 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)" };
 		}
 	};
+	//ng-style - moves deck mock card to simulate deck drawing
+	$scope.drawAnims = function(){
+		if($scope.player1.isDrawing){
+			return { "animation" : "drawToPlayer1 0.75s" };
+		}
+		else if($scope.player2.isDrawing){
+			return { "animation" : "drawToPlayer2 0.75s" };
+		}
+		else if($scope.player3.isDrawing){
+			return { "animation" : "drawToPlayer3 0.75s" };
+		}
+		else if($scope.player4.isDrawing){
+			return { "animation" : "drawToPlayer4 0.75s" };
+		}
+		else{
+			return { };
+		}
+	};
+
 	/* ---------- */
 	/* GAME STATE */
 	/* ---------- */
@@ -223,14 +242,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//clean slate for game
 	//human -> human player
-	//ready -> controls animation
+	//ready -> controls show animation
 	//first -> first turn? controls swapping upper deck with hand
+	//isDrawing -> controls draw animation
 	$scope.resetState = function(){
 		$scope.player1 = {
 			name: "Player 1",
 			human: false,
 			ready: false,
 			first: false,
+			isDrawing: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -240,6 +261,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			human: false,
 			ready: false,
 			first: false,
+			isDrawing: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -249,6 +271,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			human: false,
 			ready: false,
 			first: false,
+			isDrawing: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -258,6 +281,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			human: true,
 			ready: false,
 			first: false,
+			isDrawing: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -305,12 +329,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	    all.then(allSuccess);
 		//for each player...
 		players.forEach(function(player){
-			var deckAnimateTime = 500*(players.indexOf(player));
-			var playerAppearTime = 500*(players.indexOf(player)+1);
+			var deckAnimateTime = 750*(players.indexOf(player));
+			var playerAppearTime = 750*(players.indexOf(player)+1);
 			$timeout(function(){
-				//animate the deck toward the respective player
-				
-				
+				//animate the deck toward the respective player and cancel animation in 500ms
+				$scope[player].isDrawing = true;
+				$timeout(function(){
+					$scope[player].isDrawing = false;
+				},750);
 			},deckAnimateTime);
 			$timeout(function(){
 				//3 cards each for...
