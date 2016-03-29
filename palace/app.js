@@ -124,9 +124,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//ng-style - show player area animations
 	$scope.showPlayer = function(player){
 		if(player.ready)
-			return { "opacity" : 1 , "z-index": 9};
+			return { "opacity" : 1 };
 		else
-			return { "opacity" : 0 , "z-index": -9};
+			return { "opacity" : 0 };
 	};
 	//ng-style - show current player hand
 	$scope.showHand = function(){
@@ -173,6 +173,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//show hand footer
 	$scope.handOn = false;
+	
+	//initiate form for checking cards to be played
+	//value prevents player from playing cards of different value
+	//cards keeps track of whole cards. this will be pushed to pile when "played()"
+	//e.g. cardsToPlay = {value:9,cards:[{}{}]}
+	$scope.cardsToPlay = {value:null,cards:[]};
 
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
@@ -322,115 +328,115 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$scope.currentHand = player.hand;
 		$scope.handOn = true;
 
-		//initiate form for checking cards to be played
-		//value prevents player from playing cards of different value
-		//cards keeps track of whole cards. this will be pushed to pile when "played()"
-		//e.g. cardsToPlay = {value:9,cards:[{}{}]}
+		//reset form
 		$scope.cardsToPlay = {value:null,cards:[]};
-	
-		//if human is false, continue running code
-		if(!player.human){
+		$timeout(function(){
 
-			var handIndex = 0;
-			var handValues = [];
-			$scope.currentHand.forEach(function(card){
-				handValues.push(card.value);
-			});
+			//if human is false, continue running code
+			if(!player.human){
 
-			function isMagicOrAce(n){
-				return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
-			};
-			function isMagic(n){
-				return n === 2 || n === 7 || n === 8 || n === 10;
-			};
-			function sortHand(a,b){
-						// 1, 7, 8, 2, 10 in front
-						if(isMagicOrAce(a)){
-							//magics infront of 1
-							if(isMagic(b)){
-								//move 2 over 7 and 8
-								if(a===2){
-									if(b===7||b===8){
-										return 1;
+				var handIndex = 0;
+				var handValues = [];
+				$scope.currentHand.forEach(function(card){
+					handValues.push(card.value);
+				});
+
+				function isMagicOrAce(n){
+					return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
+				};
+				function isMagic(n){
+					return n === 2 || n === 7 || n === 8 || n === 10;
+				};
+				function sortHand(a,b){
+							// 1, 7, 8, 2, 10 in front
+							if(isMagicOrAce(a)){
+								//magics infront of 1
+								if(isMagic(b)){
+									//move 2 over 7 and 8
+									if(a===2){
+										if(b===7||b===8){
+											return 1;
+										}
+										else{
+											return -1;
+										}
 									}
 									else{
 										return -1;
 									}
 								}
 								else{
-									return -1;
+									return 1;
 								}
 							}
 							else{
-								return 1;
+								if(isMagicOrAce(b)){
+									return -1;
+								}
+								return a > b;
 							}
-						}
-						else{
-							if(isMagicOrAce(b)){
-								return -1;
-							}
-							return a > b;
-						}
-			};
-			
-			//SEMI ADVANCED: Play 2 or 8 as last card in hand and follow up with an upper-palace card
-			//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+				};
 
-			//if hand has one card or all same cards
-			if(handValues.length===1||handValues.allValuesSame()){
-				//if playable, play them all
-				if($scope.playable.indexOf(handValues[0])!==-1){
-					$scope.cardsToPlay.value = handValues[0];
-					$scope.selectCards();
+				//SEMI ADVANCED: Play 2 or 8 as last card in hand and follow up with an upper-palace card
+				//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+
+				//if hand has one card or all same cards
+				if(handValues.length===1||handValues.allValuesSame()){
+					//if playable, play them all
+					if($scope.playable.indexOf(handValues[0])!==-1){
+						$scope.cardsToPlay.value = handValues[0];
+						$scope.selectCards();
+						$timeout(function(){
+							$scope.playCards(player);
+						},500);
+					}
+					else{
+						//else, gotta forfeit
+						throw "Don't have forfeit function yet."
+					}
+				}
+				//hand has different cards, more than one card
+				else{
+
+					//sort handValues from weakest to greatest
+					handValues = handValues.sort(sortHand);
+					console.log(player.name+", hand: "+handValues);
+					console.log("playable: "+$scope.playable);
+					//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
+					$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
+						if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
+							curr = next;
+						}
+						return curr;
+					},handValues[handValues.length-1]);
+
+					//cycle hand
+					// if cardstoplay.value is 1,2,7,8,10, just find one card to play
+					// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
+					if(isMagicOrAce($scope.cardsToPlay.value)){
+						$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
+							if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
+								curr = next;
+							}
+								return curr;
+						},{}));
+					}
+					else{
+						$scope.selectCards();
+					}
 					$timeout(function(){
 						$scope.playCards(player);
 					},500);
 				}
-				else{
-					//else, gotta forfeit
-					throw "Don't have forfeit function yet."
-				}
 			}
-			//hand has different cards, more than one card
+			//else, set next player
 			else{
-
-				//sort handValues from weakest to greatest
-				handValues = handValues.sort(sortHand);
-				console.log(player.name+", hand: "+handValues);
-				console.log("playable: "+$scope.playable);
-				//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
-				$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
-					if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
-						curr = next;
-					}
-					return curr;
-				},handValues[handValues.length-1]);
-
-				//cycle hand
-				// if cardstoplay.value is 1,2,7,8,10, just find one card to play
-				// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
-				if(isMagicOrAce($scope.cardsToPlay.value)){
-					$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
-						if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
-							curr = next;
-						}
-							return curr;
-					},{}));
-				}
-				else{
-					$scope.selectCards();
-				}
-				$timeout(function(){
-					$scope.playCards(player);
-				},500);
+				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
+				//allow clicks
+				$scope.waitingForInput = true;
 			}
-		}
-		//else, set next player
-		else{
-			$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
-			//allow clicks
-			$scope.waitingForInput = true;
-		}
+						
+		},500);
 	};
 	
 	//FOR AI: get the Number value i'd need to beat on the pile
