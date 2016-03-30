@@ -599,11 +599,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					$scope.runNextTurn();
 				},1000);
 			}
-			else if($scope.pile[$scope.pile.length-1].value===10){
+			//if top of pile is 10, or top four cards are same value
+			else if($scope.pile[$scope.pile.length-1].value===10 || $scope.pile[$scope.pile.length-1].value === $scope.pile[$scope.pile.length-2].value && $scope.pile[$scope.pile.length-2].value === $scope.pile[$scope.pile.length-3].value && $scope.pile[$scope.pile.length-3].value === $scope.pile[$scope.pile.length-4].value){
+				//blow up deck, draw phase, then next player turn
 				$scope.blowUp = true;
 				//wait for shake animation to finish
 				$timeout(function(){
-					//if top of pile is 10, blow up deck, draw phase, then next player turn
+					//empty pile, conclude anim and turn
 					$scope.pile = [];
 					$scope.drawCards(player);
 					$scope.blowUp = false;
