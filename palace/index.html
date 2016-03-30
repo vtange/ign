@@ -19,7 +19,7 @@
 			<p>{{gameIsAt}}</p>
 			<div data-ng-if="getCurrentPlayer().human">
 				<div class="btn">Play Selected</div>
-				<div class="btn" data-ng-if="!getCurrentPlayer().first">Change Upper Palace</div>
+				<div class="btn" data-ng-if="!getCurrentPlayer().first" data-ng-click="enterSwapMode(getCurrentPlayer(),null)">{{swapPalaceBtn}}</div>
 			</div>
 		</div>
 		<div class="vert-centered" id="center-area">

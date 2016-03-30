@@ -180,6 +180,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { };
 		}
 	};
+	//controls swap button text
+	$scope.swapPalaceBtn = "Change Upper Palace";
 	
 	/* ---------- */
 	/* GAME STATE */
@@ -621,8 +623,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		if(player.human){
 			$scope.waitingForInput = false;
 			$scope.swapMode = true;
+			$scope.swapPalaceBtn = "Confirm Upper Palace"
 		}
-		
+
 		//put Upper Palace cards on hand
 		player.upp_palace.forEach(function(card){
 			$scope.currentHand.push(card);
