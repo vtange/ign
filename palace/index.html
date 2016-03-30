@@ -53,7 +53,7 @@
 					<div data-ng-repeat="card in player1.sec_palace" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
-					<div data-ng-repeat="card in player1.upp_palace" class="card">
+					<div data-ng-repeat="card in player1.upp_palace" data-ng-style="cardAnims(card)" class="card">
 						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 						<div class="vert-centered center-stuff">
 							<div class="vert-centered">
@@ -71,7 +71,7 @@
 					<div data-ng-repeat="card in player2.sec_palace" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
-					<div data-ng-repeat="card in player2.upp_palace" class="card">
+					<div data-ng-repeat="card in player2.upp_palace" data-ng-style="cardAnims(card)" class="card">
 						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 						<div class="vert-centered center-stuff">
 							<div class="vert-centered">
@@ -89,7 +89,7 @@
 				  	<div data-ng-repeat="card in player3.sec_palace" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
-					<div data-ng-repeat="card in player3.upp_palace" class="card">
+					<div data-ng-repeat="card in player3.upp_palace" data-ng-style="cardAnims(card)" class="card">
 						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 						<div class="vert-centered center-stuff">
 							<div class="vert-centered">
@@ -107,7 +107,7 @@
 					<div data-ng-repeat="card in player4.sec_palace" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
-					<div data-ng-repeat="card in player4.upp_palace" class="card">
+					<div data-ng-repeat="card in player4.upp_palace" data-ng-style="cardAnims(card)" class="card">
 						<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 						<div class="vert-centered center-stuff">
 							<div class="vert-centered">

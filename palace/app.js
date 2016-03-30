@@ -145,13 +145,21 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		if($scope.getSelected().indexOf(card.id)!==-1){
 			if(card.beingPlayed){
 				//selected and being played -> glow and float up
-				return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
+				//if card is a palace card and player is player 1 or player 2 (float down)
+				//if current player hand is empty -> it's a palace card
+				if($scope.getCurrentPlayer().hand.length < 1 && $scope.getCurrentPlayer().name==="Player 1" || $scope.getCurrentPlayer().name==="Player 2"){
+					return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(50px)" };
+				}
+				//else
+				else{
+					return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
+				}
 			}
 			//selected only -> glow
 			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)" };
 		}
-		//else if player is playing a 3 and this card is not a 3. (not selected yet duh)
-		else if ($scope.cardsToPlay.value!==null){
+		//else if card is on hand but not of same value of as target value
+		else if ($scope.getCurrentHand().indexOf(card)!== -1 && $scope.cardsToPlay.value!==null){
 			if(card.value !== $scope.cardsToPlay.value){
 				return { "opacity": 0.75, "cursor": "default" };
 			}
@@ -500,9 +508,27 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//only continue if swapMode is resolved
 				swapMode.promise.then(function(str){
 					var handValues = [];
-					player.hand.forEach(function(card){
-						handValues.push(card.value);
-					});
+					
+					//if player.hand is empty
+					if(player.hand.length < 1){
+						//if player.upp-palace is empty
+						if(player.upp_palace.length < 1){
+							//play secret palace
+							throw "Secret Palace time";
+						}
+						else{
+							//play upper palace
+							player.upp_palace.forEach(function(card){
+								handValues.push(card.value);
+							});
+						}
+					}
+					else{
+						//else play hand
+						player.hand.forEach(function(card){
+							handValues.push(card.value);
+						});
+					}
 
 					//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
 
@@ -543,7 +569,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						else{
 							//cycle hand
 							// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
-							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
 							if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
 								$scope.cardsToPlay.cards.push(player.hand.reduce(function(curr,next){
 									if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
@@ -552,6 +577,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 										return curr;
 								},{}));
 							}
+							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
 							else{
 								$scope.selectCards(player);
 							}
@@ -573,12 +599,22 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(player){
-		player.hand.forEach(function(card){
-				if(card.value===$scope.cardsToPlay.value){
-					//highlight card, rdy it for play
-					$scope.cardsToPlay.cards.push(card);
-				}
-		});
+		if(player.hand.length < 1){
+			player.upp_palace.forEach(function(card){
+					if(card.value===$scope.cardsToPlay.value){
+						//highlight card, rdy it for play
+						$scope.cardsToPlay.cards.push(card);
+					}
+			});
+		}
+		else{
+			player.hand.forEach(function(card){
+					if(card.value===$scope.cardsToPlay.value){
+						//highlight card, rdy it for play
+						$scope.cardsToPlay.cards.push(card);
+					}
+			});
+		}
 	};
 
 	//FOR AI && PLAYER: play card(s) (make all selected cards float up and move to pile, remove from current hand)
@@ -599,19 +635,34 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		var ids = $scope.cardsToPlay.cards.map(function(card){
 			return card.id;
 		});
-		//glow and float those cards
-		player.hand.forEach(function(card){
-			if(ids.indexOf(card.id)!==-1)
-				card.beingPlayed = true;
-		});
-
+		
+		//play upper palace
+		if(player.hand.length < 1){
+			//glow and float those cards
+			player.upp_palace.forEach(function(card){
+				if(ids.indexOf(card.id)!==-1)
+					card.beingPlayed = true;
+			});
+			//drop played cards from hand
+			player.upp_palace = player.hand.filter(function(card){
+				return ids.indexOf(card.id)===-1;
+			});
+		}
+		else{
+			//glow and float those cards
+			player.hand.forEach(function(card){
+				if(ids.indexOf(card.id)!==-1){
+					card.beingPlayed = true;
+				}
+			});
+			//drop played cards from hand
+			player.hand = player.hand.filter(function(card){
+				return ids.indexOf(card.id)===-1;
+			});
+		}
+		
 		//fade out current hand
 		$scope.handOn = false;
-
-		//drop played cards from hand
-		player.hand = player.hand.filter(function(card){
-			return ids.indexOf(card.id)===-1;
-		});
 
 		//wait for card to appear on pile
 		$timeout(function(){
