@@ -30,7 +30,7 @@ body {
 /* Cards */
 .card, #pile, #deck{
 	transition: all 0.3s ease;
-	
+
 	position: relative;
 	height:300px;
 	width:200px;
@@ -213,7 +213,7 @@ body {
 	background:rgba(50,50,50,0.5);
 	border: 1px solid #dce;
 }
-#pile .card{
+#pile > div, #pile .card{
 	position: absolute;
 	top:0;
 	left:0;
@@ -230,20 +230,20 @@ body {
 }
 @keyframes pileBlowUp
 {
-0% {left:8px;}
-10% {left:-8px;}
-30% {left:8px;}
-60% {left:-8px;}
-100% {left:0px;}
+0% {transform:translateX(12px);}
+10% {transform:translateX(-12px);}
+30% {transform:translateX(12px);}
+60% {transform:translateX(-12px);}
+100% {transform:translateX(12px);}
 }
 
 @-webkit-keyframes pileBlowUp /* Safari and Chrome */
 {
-0% {left:8px;}
-10% {left:-8px;}
-30% {left:8px;}
-60% {left:-8px;}
-100% {left:0px;}
+0% {transform:translateX(12px);}
+10% {transform:translateX(-12px);}
+30% {transform:translateX(12px);}
+60% {transform:translateX(-12px);}
+100% {transform:translateX(12px);}
 }
 
 /* deck placeholder positioning */

@@ -178,7 +178,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//ng-style - a 10 is played and the pile blows up
 	$scope.blowUpAnim = function(){
 		if($scope.blowUp){
-			return { "animation" : "pileBlowUp .5s;" };
+			return { "animation" : "pileBlowUp 0.75s" };
 		}
 		else{
 			return { };
@@ -600,14 +600,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				},1000);
 			}
 			else if($scope.pile[$scope.pile.length-1].value===10){
-				//wait for card to be placed on pile
+				$scope.blowUp = true;
+				//wait for shake animation to finish
 				$timeout(function(){
 					//if top of pile is 10, blow up deck, draw phase, then next player turn
 					$scope.pile = [];
-					$scope.blowUp = true;
 					$scope.drawCards(player);
+					$scope.blowUp = false;
+					//wait for pile to clear
 					$timeout(function(){
-						$scope.blowUp = false;
 						$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
 						$scope.runNextTurn();
 					},1000);
