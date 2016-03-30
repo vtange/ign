@@ -681,13 +681,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						player.upp_palace.push(swappedCard);
 
 						//remove card from current hand
-						$scope.currentHand = $scope.currentHand.filter(function(card){
-							return card.id !== swappedCard.id;
+						$scope.currentHand = $scope.currentHand.filter(function(card_in_hand){
+							return card_in_hand.id !== swappedCard.id;
 						});
 
 						// watch out. since $scope.currentHand = player.hand in $scope.runnextTurn you must update player.hand as well.
-						player.hand = player.hand.filter(function(card){
-							return card.id !== swappedCard.id;
+						player.hand = player.hand.filter(function(card_in_hand){
+							return card_in_hand.id !== swappedCard.id;
 						});
 					});
 
@@ -707,10 +707,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		//if game is in swapmode, save the selected cards and end swapmode
 		else{
 			if($scope.cardsToPlay.cards.length === 3){
-				$scope.cardsToPlay.cards.forEach(function(card){
-						player.upp_palace.push(card);
+				$scope.cardsToPlay.cards.forEach(function(swappedCard){
+						player.upp_palace.push(swappedCard);
 						$scope.currentHand = $scope.currentHand.filter(function(card_in_hand){
-							return card_in_hand.id !== card.id;
+							return card_in_hand.id !== swappedCard.id;
+						});
+						// watch out. since $scope.currentHand = player.hand in $scope.runnextTurn you must update player.hand as well.
+						player.hand = player.hand.filter(function(card_in_hand){
+							return card_in_hand.id !== swappedCard.id;
 						});
 				});
 				$scope.cardsToPlay.cards = [];
