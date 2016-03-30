@@ -24,10 +24,13 @@
 			</div>
 		</div>
 		<div class="vert-centered" id="center-area">
+			<!--MAIN MENU-->
 			<div class="vert-centered" data-ng-style="showMenu()">
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div><div class="btn">How to Play</div>
 			</div>
+			<!--GAME PILE AND DECK-->
 			<div class="vert-centered" data-ng-style="showDeck()">
+				<!--'pile' and 'deck' are hollow. A wrapper div around deck over pile to animate forfeit draw. 2 mock-cards on deck so what drawing doesn't show hollow part-->
 				<div id="pile" data-ng-style="blowUpAnim()">
 					<div data-ng-style="forfAnims()">
 						<div class="card" data-ng-repeat="card in pile">
@@ -42,8 +45,8 @@
 						</div>
 					</div>
 				</div>
-				<div id="deck"><div data-ng-show="deck.length" class="card" data-ng-style="drawAnims()" id="mock-card1"></div><div data-ng-show="deck.length" class="card" id="mock-card2"></div></div>
-			</div>			
+				<div id="deck"><div data-ng-show="deck.length" data-ng-style="drawAnims()" class="card" id="mock-card1"></div><div data-ng-show="deck.length" class="card" id="mock-card2"></div></div>
+			</div>
 		</div>
 		<div class="player-area" id="player1-area" data-ng-style="showPlayer(player1)">
 			<div class="secret-palace">
