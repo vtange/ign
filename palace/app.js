@@ -737,6 +737,27 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 
+	//FOR AI && PLAYER: Forfeit function
+	$scope.forfeit = function(player){
+
+		//pile move animation control, start next turn
+		player.forfeiting = true;
+		$timeout(function(){
+			player.forfeiting = false;
+				$timeout(function(){
+					$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 0 : $scope.nextPlayer + 1;
+					$scope.runNextTurn();
+				},250);
+		},750);
+
+		//for each in pile, push to hand and remove from pile
+		$scope.pile.forEach(function(card){
+			player.hand.push(card);
+		});
+
+		$scope.pile = [];
+	};
+
 	//FOR PLAYER: select or deselect a card. depends on swapmode or if card is selected
 	$scope.selectCard = function(target_card){
 		//if target_card is not selected (select)
