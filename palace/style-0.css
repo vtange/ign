@@ -179,7 +179,7 @@ body {
 	font-size: 1rem;
 	margin-bottom: 10px;
 }
-#center-area, #whose-turn, .player-area{
+#center-area, #whose-turn, .player-area, .btn{
 	color:gold;
 }
 #center-area > div{
@@ -200,6 +200,12 @@ body {
 .btn:hover{
  	box-shadow: 0px 0px 10px rgba(200,200,200,0.5);
  	text-shadow: 0px 0px 10px rgba(200,200,100,0.5);
+}
+.btn:disabled{
+	opacity: 0.5;
+	cursor: default;
+}
+.btn:disabled:hover{
 }
 /* pile */
 /* shows on no card */

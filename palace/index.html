@@ -18,8 +18,8 @@
 		<div id="whose-turn" data-ng-style="showDeck()">
 			<p>{{gameIsAt}}</p>
 			<div data-ng-if="getCurrentPlayer().human">
-				<div class="btn">Play Selected</div>
-				<div class="btn" data-ng-if="!getCurrentPlayer().first" data-ng-click="enterSwapMode(getCurrentPlayer(),null)">{{swapPalaceBtn}}</div>
+				<button class="btn" data-ng-disabled="cantPlay()">Play Selected</button>
+				<button class="btn" data-ng-if="!getCurrentPlayer().first" data-ng-click="enterSwapMode(getCurrentPlayer(),null)">{{swapPalaceBtn}}</button>
 			</div>
 		</div>
 		<div class="vert-centered" id="center-area">

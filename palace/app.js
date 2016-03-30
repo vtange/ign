@@ -689,8 +689,18 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//set cardsToPlay.value to selected card
 				//limit playables to value
 	};
-	
-
+	//FOR PLAYER: disables play button when no selected cards, or in swap mode
+	$scope.cantPlay = function(){
+		if($scope.swapMode){
+			return true;
+		}
+		else if($scope.cardsToPlay.cards.length<1){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
 	
 	
 	
