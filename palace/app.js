@@ -654,7 +654,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else{
 			return false;
 		}
-	}
+	};
 
 	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
 	$scope.drawCards = function(player){
