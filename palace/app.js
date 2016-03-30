@@ -404,7 +404,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		});
 	};
 
-	//runs turn of current player
+	//runs turn of current player, gets card to beat and calcs rules
 	$scope.runNextTurn = function(){
 		
 		//disallow clicks
@@ -616,19 +616,22 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
 	$scope.drawCards = function(player){
-		//trigger anim once
-		player.isDrawing = true;
-		$timeout(function(){
-			player.isDrawing = false;
-		},750);
-		while(player.hand.length < 3){
-			player.hand.push($scope.deck[0]);
-			$scope.deck.splice(0,1);
+		if(player.hand.length < 3){
+			//trigger anim once
+			player.isDrawing = true;
+			$timeout(function(){
+				player.isDrawing = false;
+			},750);
+			while(player.hand.length < 3){
+				player.hand.push($scope.deck[0]);
+				$scope.deck.splice(0,1);
+			}
 		}
 	};
 	
 	//FOR AI && PLAYER: upper palace swap mode.
 	$scope.enterSwapMode = function(player, promise){
+		console.log(player.hand);
 		//if game is not in swapmode
 		if(!$scope.swapMode){
 			//prevent double tap and enter swapmode if human
@@ -643,7 +646,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				$scope.currentHand.push(card);
 			});
 			player.upp_palace = [];
-
+			console.log(player.hand);
 			//wait for hand to update
 			$timeout(function(){
 				//if AI
@@ -669,6 +672,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						$scope.currentHand = $scope.currentHand.filter(function(card){
 							return card.id !== swappedCard.id;
 						});
+						
 					});
 
 					//wait for upp_palace to update and hand
