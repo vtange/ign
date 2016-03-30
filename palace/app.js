@@ -32,8 +32,7 @@ app.factory('DATASTORE', function(){
 					id:id,
 					suit:suit,
 					value:i,
-					hidden:false,
-					beingPlayed:false
+					hidden:false
 				});
 				id++;
 			}
@@ -139,24 +138,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
-	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
+	//ng-style - glows and slide up selected cards that in cardsToPlay.
 	$scope.cardAnims = function(card){
 		//if card is selected
 		if($scope.getSelected().indexOf(card.id)!==-1){
-			if(card.beingPlayed){
-				//selected and being played -> glow and float up
-				//if card is a palace card and player is player 1 or player 2 (float down)
-				//if current player hand is empty -> it's a palace card
-				if($scope.getCurrentPlayer().hand.length < 1 && $scope.getCurrentPlayer().name==="Player 1" || $scope.getCurrentPlayer().name==="Player 2"){
-					return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(50px)" };
-				}
-				//else
-				else{
-					return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
-				}
-			}
-			//selected only -> glow
-			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)" };
+			//selected -> glow & slide up
+			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
 		}
 		//else if card is on hand but not of same value of as target value
 		else if ($scope.getCurrentHand().indexOf(card)!== -1 && $scope.cardsToPlay.value!==null){
@@ -635,34 +622,23 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		var ids = $scope.cardsToPlay.cards.map(function(card){
 			return card.id;
 		});
-		
-		//play upper palace
+	
+		//fade out current hand
+		$scope.handOn = false;
+
+		//remove cards
 		if(player.hand.length < 1){
-			//glow and float those cards
-			player.upp_palace.forEach(function(card){
-				if(ids.indexOf(card.id)!==-1)
-					card.beingPlayed = true;
-			});
-			//drop played cards from hand
+			//drop played cards from upper palace
 			player.upp_palace = player.hand.filter(function(card){
 				return ids.indexOf(card.id)===-1;
 			});
 		}
 		else{
-			//glow and float those cards
-			player.hand.forEach(function(card){
-				if(ids.indexOf(card.id)!==-1){
-					card.beingPlayed = true;
-				}
-			});
 			//drop played cards from hand
 			player.hand = player.hand.filter(function(card){
 				return ids.indexOf(card.id)===-1;
 			});
 		}
-		
-		//fade out current hand
-		$scope.handOn = false;
 
 		//wait for card to appear on pile
 		$timeout(function(){
