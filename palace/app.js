@@ -782,6 +782,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			player.first = true;
 		}
 
+		//fade out current hand
+		$scope.handOn = false;
+
 		//pile move animation control, start next turn
 		player.forfeiting = true;
 		$timeout(function(){
