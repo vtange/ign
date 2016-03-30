@@ -632,7 +632,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	
 	//FOR AI && PLAYER: upper palace swap mode.
 	$scope.enterSwapMode = function(player, promise){
-		console.log(player.hand);
+
 		//if game is not in swapmode
 		if(!$scope.swapMode){
 			//prevent double tap and enter swapmode if human
@@ -647,7 +647,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				$scope.currentHand.push(card);
 			});
 			player.upp_palace = [];
-			console.log(player.hand);
+
 			//wait for hand to update
 			$timeout(function(){
 				//if AI
@@ -662,6 +662,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					values = values.sort(sortHand);
 					//for each in handValues top 3, find a card in currhand with that value and push it to upp palace.
 					values.slice(3).forEach(function(value){
+
+						//get card to be put into upp-palace
 						var swappedCard = $scope.currentHand.reduce(function(curr,next){
 							if(curr.value !== next.value && next.value === value){
 								curr = next;
@@ -669,11 +671,19 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							}
 							return curr;
 						},$scope.currentHand[0]);
+
+						//push the card into the palace
 						player.upp_palace.push(swappedCard);
+
+						//remove card from current hand
 						$scope.currentHand = $scope.currentHand.filter(function(card){
 							return card.id !== swappedCard.id;
 						});
-						
+
+						// watch out. since $scope.currentHand = player.hand in $scope.runnextTurn you must update player.hand as well.
+						player.hand = player.hand.filter(function(card){
+							return card.id !== swappedCard.id;
+						});
 					});
 
 					//wait for upp_palace to update and hand
