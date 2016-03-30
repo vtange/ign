@@ -175,6 +175,24 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { "opacity" : 0 };
 		}
 	};
+	//ng-style - moves deck mock card to simulate deck drawing
+	$scope.forfAnims = function(){
+		if($scope.player1.forfeiting){
+			return { "animation" : "drawToPlayer1 0.75s" };
+		}
+		else if($scope.player2.forfeiting){
+			return { "animation" : "drawToPlayer2 0.75s" };
+		}
+		else if($scope.player3.forfeiting){
+			return { "animation" : "drawToPlayer3 0.75s" };
+		}
+		else if($scope.player4.forfeiting){
+			return { "animation" : "drawToPlayer4 0.75s" };
+		}
+		else{
+			return { };
+		}
+	};
 	//ng-style - a 10 is played and the pile blows up
 	$scope.blowUpAnim = function(){
 		if($scope.blowUp){
@@ -600,7 +618,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				},1000);
 			}
 			//if top of pile is 10, or top four cards are same value
-			else if($scope.pile[$scope.pile.length-1].value===10 || $scope.pile[$scope.pile.length-1].value === $scope.pile[$scope.pile.length-2].value && $scope.pile[$scope.pile.length-2].value === $scope.pile[$scope.pile.length-3].value && $scope.pile[$scope.pile.length-3].value === $scope.pile[$scope.pile.length-4].value){
+			else if($scope.pile[$scope.pile.length-1].value===10 || topFourSameValue()){
 				//blow up deck, draw phase, then next player turn
 				$scope.blowUp = true;
 				//wait for shake animation to finish
@@ -628,6 +646,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		},500);
 
 	};
+
+	function topFourSameValue(){
+		if($scope.pile.length>=4){
+			return $scope.pile[$scope.pile.length-1].value === $scope.pile[$scope.pile.length-2].value && $scope.pile[$scope.pile.length-2].value === $scope.pile[$scope.pile.length-3].value && $scope.pile[$scope.pile.length-3].value === $scope.pile[$scope.pile.length-4].value;
+		}
+		else{
+			return false;
+		}
+	}
 
 	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
 	$scope.drawCards = function(player){

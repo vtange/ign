@@ -28,6 +28,7 @@
 			</div>
 			<div class="vert-centered" data-ng-style="showDeck()">
 				<div id="pile" data-ng-style="blowUpAnim()">
+					<div data-ng-style="forfAnims()">
 						<div class="card" data-ng-repeat="card in pile" data-ng-animate="{ enter: 'ng-enter' }">
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 							<div class="vert-centered center-stuff">
@@ -38,6 +39,7 @@
 							</div>
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 						</div>
+					</div>
 				</div>
 				<div id="deck"><div data-ng-show="deck.length" class="card" data-ng-style="drawAnims()" id="mock-card1"></div><div data-ng-show="deck.length" class="card" id="mock-card2"></div></div>
 			</div>			
