@@ -511,7 +511,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						//if playable, play them all
 						if($scope.playable.indexOf(handValues[0])!==-1){
 							$scope.cardsToPlay.value = handValues[0];
-							$scope.selectCards();
+							$scope.selectCards(player);
 							$timeout(function(){
 								$scope.playCards(player);
 							},500);
@@ -807,8 +807,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.selectCard = function(target_card){
 		//if target_card is not selected (select)
 		if($scope.getSelected().indexOf(target_card.id)===-1){
-			//if in swapmode, just add a card to newUpperPalace
-			if($scope.swapMode && $scope.cardsToPlay.cards.length < 3){
+			//if in swapmode, just add a card to cardsToPlay
+			if($scope.swapMode){
 				$scope.cardsToPlay.cards.push(target_card);
 			}
 			//else if not in swap mode, add value to limit future clicks
