@@ -202,6 +202,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//show hand footer
 	$scope.handOn = false;
 	
+	//swap mode for player
+	$scope.swapMode = false;
+	
+	//animate pile blowing up
+	$scope.blowUp = false;
+	
 	//initiate form for checking cards to be played
 	//value prevents player from playing cards of different value
 	//cards keeps track of whole cards. this will be pushed to pile when "played()"
