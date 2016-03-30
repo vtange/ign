@@ -611,9 +611,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//reset current hand. give sometime for fadeout and translation animation (500), as well as pile addon animation (1000)
 			$scope.currentHand = [];
 
-			if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
+			//if the played card is actually an unplayable, forfeit
+			if($scope.playable.indexOf($scope.pile[$scope.pile.length-1].value)===-1){
 				$timeout(function(){
-					//if top of pile is 2 or 8, another turn for current player (no draw, since it's not end of turn)
+					$scope.forfeit(player);
+				},1000);
+			}
+			//if top of pile is 2 or 8, another turn for current player (no draw, since it's not end of turn)
+			else if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
+				$timeout(function(){
 					$scope.runNextTurn();
 				},1000);
 			}
@@ -837,7 +843,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 
-	//FOR PLAYER: disables play button when no selected cards, or in swap mode
+	//FOR PLAYER: disables swap button when one card is rdy to play
 	$scope.cantSwap = function(){
 		if(!$scope.swapMode&&$scope.cardsToPlay.cards.length>0){
 			return true;
@@ -846,7 +852,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return false;
 		}
 	};
-	
+
+	//FOR PLAYER: disables forfeit button when at least one selected cards, or in swap mode
+	$scope.cantForf = function(){
+		if($scope.swapMode||$scope.cardsToPlay.cards.length>0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
 	
 	
 	
