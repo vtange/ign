@@ -223,6 +223,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//show hand footer
 	$scope.handOn = false;
 	
+	//get hand cards
+	$scope.getCurrentHand = function(){
+		if(!$scope.handOn){
+			return [];
+		}
+		else{
+			return $scope.getCurrentPlayer().hand;
+		}
+	};
+	
 	//swap mode for player
 	$scope.swapMode = false;
 	

@@ -124,7 +124,7 @@
 			<div id="bg"></div>
 			<!-- cards in current player hand -->
 			<div id="hand" data-ng-style="showHand()">
-				<div data-ng-repeat="card in getCurrentPlayer().hand" data-ng-style="cardAnims(card)" data-ng-click="selectCard(card)" class="card">
+				<div data-ng-repeat="card in getCurrentHand()" data-ng-style="cardAnims(card)" data-ng-click="selectCard(card)" class="card">
 					<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 					<div class="vert-centered center-stuff">
 						<div class="vert-centered">
