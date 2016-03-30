@@ -566,9 +566,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		var ids = $scope.cardsToPlay.cards.map(function(card){
 			return card.id;
 		});
-		//make the cards float on actual hand
+		//make the cards on actual hand if their id is in the cardsToPlay area
 		$scope.currentHand.forEach(function(card){
-			card.beingPlayed = true;
+			if(ids.indexOf(card.id)!==-1)
+				card.beingPlayed = true;
 		});
 		player.hand = player.hand.filter(function(card){
 			return ids.indexOf(card.id)===-1;
