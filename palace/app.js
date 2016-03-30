@@ -617,13 +617,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI && PLAYER: draw cards phase. Only draw if deck.length > 0 and hand.length < 3
 	$scope.drawCards = function(player){
-		if(player.hand.length < 3){
+		if(player.hand.length < 3  && $scope.deck.length > 0){
 			//trigger anim once
 			player.isDrawing = true;
 			$timeout(function(){
 				player.isDrawing = false;
 			},750);
-			while(player.hand.length < 3){
+			while(player.hand.length < 3  && $scope.deck.length > 0){
 				player.hand.push($scope.deck[0]);
 				$scope.deck.splice(0,1);
 			}
