@@ -135,7 +135,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else
 			return { "opacity" : 0 };
 	};
-	//controls flipped cards in secret palace
+	//
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
@@ -219,9 +219,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//whose turn is it?
 	$scope.nextPlayer = 0;
-	
-	//for getting current player's hand
-	$scope.currentHand = [];
 
 	//show hand footer
 	$scope.handOn = false;
@@ -397,8 +394,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//3 cards each for...
 				//their secret palace
 				$scope.times(3,function(times){
-					//set deck[cardID] to hidden mode
-					$scope.deck[0].hidden = true;
 					//push random card of deck.length
 					$scope[player].sec_palace.push($scope.deck[0]);
 					//remove card from deck
@@ -433,12 +428,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$scope.waitingForInput = false;
 		
 			/*-----------------------*/
-			//PHASE 1: get playable cards (restrict player too)
+			//SET RULES FOR UPCOMING PLAYER
 			/*-----------------------*/
 			//get card to beat
 			var cardToBeat = $scope.cardToBeat();
+		
+			//get playables (cards that don't trigger forfeit)
 			//weakest ---> strongest
-			//must also apply to human player
 			$scope.playable = [3,4,5,6,9,11,12,13,1,7,8,2,10];
 			if (cardToBeat === 7){
 				$scope.playable = [3,4,5,6,7,8,2,10];
@@ -456,7 +452,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		//set player and hand, show hand
 		var player = $scope.getCurrentPlayer();
 		$scope.gameIsAt = player.name + "'s Turn";
-		$scope.currentHand = player.hand;
 		$scope.handOn = true;
 
 		//reset form
@@ -495,7 +490,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				//only continue if swapMode is resolved
 				swapMode.promise.then(function(str){
 					var handValues = [];
-					$scope.currentHand.forEach(function(card){
+					player.hand.forEach(function(card){
 						handValues.push(card.value);
 					});
 
@@ -540,7 +535,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
 							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
 							if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
-								$scope.cardsToPlay.cards.push($scope.currentHand.reduce(function(curr,next){
+								$scope.cardsToPlay.cards.push(player.hand.reduce(function(curr,next){
 									if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
 										curr = next;
 									}
@@ -548,7 +543,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 								},{}));
 							}
 							else{
-								$scope.selectCards();
+								$scope.selectCards(player);
 							}
 							$timeout(function(){
 								$scope.playCards(player);
@@ -567,8 +562,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 
 	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
-	$scope.selectCards = function(){
-		$scope.currentHand.forEach(function(card){
+	$scope.selectCards = function(player){
+		player.hand.forEach(function(card){
 				if(card.value===$scope.cardsToPlay.value){
 					//highlight card, rdy it for play
 					$scope.cardsToPlay.cards.push(card);
@@ -590,26 +585,28 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$scope.pile.push(card);
 		});
 		
-		//remove cards from player hand
+		//selects rdy to play cards based on id
 		var ids = $scope.cardsToPlay.cards.map(function(card){
 			return card.id;
 		});
-		//make the cards on actual hand if their id is in the cardsToPlay area
-		$scope.currentHand.forEach(function(card){
+		//glow and float those cards
+		player.hand.forEach(function(card){
 			if(ids.indexOf(card.id)!==-1)
 				card.beingPlayed = true;
-		});
-		player.hand = player.hand.filter(function(card){
-			return ids.indexOf(card.id)===-1;
 		});
 
 		//fade out current hand
 		$scope.handOn = false;
-		
+
+		//drop played cards from hand
+		player.hand = player.hand.filter(function(card){
+			return ids.indexOf(card.id)===-1;
+		});
+
 		//wait for card to appear on pile
 		$timeout(function(){
-			//reset current hand. give sometime for fadeout and translation animation (500), as well as pile addon animation (1000)
-			$scope.currentHand = [];
+
+			// give sometime for hand fadeout and card float animation (500), as well as pile addon animation (1000)
 
 			//if the played card is actually an unplayable, forfeit
 			if($scope.playable.indexOf($scope.pile[$scope.pile.length-1].value)===-1){
@@ -691,7 +688,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 			//put Upper Palace cards on hand
 			player.upp_palace.forEach(function(card){
-				$scope.currentHand.push(card);
+				player.hand.push(card);
 			});
 			player.upp_palace = [];
 
@@ -699,9 +696,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$timeout(function(){
 				//if AI
 				if(!player.human){
-					//get handValues
+					//get and use handValues instead so i can sort
 					var values = [];
-					$scope.currentHand.forEach(function(card){
+					player.hand.forEach(function(card){
 						values.push(card.value);
 					});
 
@@ -710,24 +707,19 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					//for each in handValues top 3, find a card in currhand with that value and push it to upp palace.
 					values.slice(3).forEach(function(value){
 
-						//get card to be put into upp-palace
-						var swappedCard = $scope.currentHand.reduce(function(curr,next){
+						//get card to be put into upp-palace. default first card in hand
+						var swappedCard = player.hand.reduce(function(curr,next){
 							if(curr.value !== next.value && next.value === value){
 								curr = next;
 								swappedCard = next;
 							}
 							return curr;
-						},$scope.currentHand[0]);
+						},player.hand[0]);
 
 						//push the card into the palace
 						player.upp_palace.push(swappedCard);
 
-						//remove card from current hand
-						$scope.currentHand = $scope.currentHand.filter(function(card_in_hand){
-							return card_in_hand.id !== swappedCard.id;
-						});
-
-						// watch out. since $scope.currentHand = player.hand in $scope.runnextTurn you must update player.hand as well.
+						//remove card from hand
 						player.hand = player.hand.filter(function(card_in_hand){
 							return card_in_hand.id !== swappedCard.id;
 						});
@@ -750,16 +742,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else{
 			if($scope.cardsToPlay.cards.length === 3){
 				$scope.cardsToPlay.cards.forEach(function(swappedCard){
-						// save the selected cards and end swapmode
-						player.upp_palace.push(swappedCard);
-						// remove selected cards from current hand
-						$scope.currentHand = $scope.currentHand.filter(function(card_in_hand){
-							return card_in_hand.id !== swappedCard.id;
-						});
-						// watch out. since $scope.currentHand = player.hand in $scope.runnextTurn you must update player.hand as well.
-						player.hand = player.hand.filter(function(card_in_hand){
-							return card_in_hand.id !== swappedCard.id;
-						});
+					
+					//push the card into the palace
+					player.upp_palace.push(swappedCard);
+				
+					// remove selected cards from hand
+					player.hand = player.hand.filter(function(card_in_hand){
+						return card_in_hand.id !== swappedCard.id;
+					});
 				});
 				$scope.cardsToPlay.cards = [];
 				$scope.swapMode = false;
