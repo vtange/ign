@@ -806,7 +806,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return false;
 		}
 	};
-	
+
+	//FOR PLAYER: disables play button when no selected cards, or in swap mode
+	$scope.cantSwap = function(){
+		if(!$scope.swapMode&&$scope.cardsToPlay.cards.length>0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
 	
 	
 	
