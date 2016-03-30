@@ -680,12 +680,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//FOR PLAYER: select or deselect a card. depends on swapmode or if card is selected
 	$scope.selectCard = function(target_card){
 		//if target_card is not selected (select)
-		if($scope.getSelected().indexOf(target_card.id)!==-1){
+		if($scope.getSelected().indexOf(target_card.id)===-1){
 			//if in swapmode, just add a card to newUpperPalace
 			if($scope.swapMode && $scope.cardsToPlay.cards.length < 3){
 				$scope.cardsToPlay.cards.push(target_card);
 			}
-			//else
+			//else if not in swap mode, add value to limit future clicks
 			else{
 				//set cardsToPlay.value to selected card
 					//limit playables to value
@@ -698,6 +698,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			$scope.cardsToPlay.cards = $scope.cardsToPlay.cards.filter(function(card){
 				return card.id !== target_card.id;
 			});
+			//remove value if no more cards
+			if($scope.cardsToPlay.cards.length<1){
+				$scope.cardsToPlay.value = null;
+			}
 		}
 	};
 
