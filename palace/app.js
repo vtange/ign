@@ -741,6 +741,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//FOR AI && PLAYER: Forfeit function
 	$scope.forfeit = function(player){
 
+		//if player.first is false, set it true now; they can't swap upper-palace cards now.
+		if(!player.first){
+			player.first = true;
+		}
+
 		//pile move animation control, start next turn
 		player.forfeiting = true;
 		$timeout(function(){
