@@ -141,10 +141,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
 	$scope.cardAnims = function(card){
-		var selectedCards = $scope.cardsToPlay.cards.map(function(card){
-			return card.id;
-		});
-		if(selectedCards.indexOf(card.id)!==-1){
+		if($scope.getSelected().indexOf(card.id)!==-1){
 			if(card.beingPlayed){
 				//selected and being played
 				return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
@@ -222,6 +219,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//get current player
 	$scope.getCurrentPlayer = function(){
 		return $scope[players[$scope.nextPlayer]];
+	};
+	
+	//get currently selected cards
+	$scope.getSelected = function(){
+		return $scope.cardsToPlay.cards.map(function(card){
+			return card.id;
+		});
 	};
 	
 	function isMagicOrAce(n){
@@ -623,7 +627,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		if(player.human){
 			$scope.waitingForInput = false;
 			$scope.swapMode = true;
-			$scope.swapPalaceBtn = "Confirm Upper Palace"
+			$scope.swapPalaceBtn = "Confirm Upper Palace";
 		}
 
 		//put Upper Palace cards on hand
@@ -673,22 +677,30 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		},1000);
 	};
 
-	//FOR PLAYER: select a card.
-	$scope.selectCard = function(){
-		//if in 
-		
-		//else
-			//set cardsToPlay.value to selected card
-				//limit playables to value
+	//FOR PLAYER: select or deselect a card. depends on swapmode or if card is selected
+	$scope.selectCard = function(target_card){
+		//if target_card is not selected (select)
+		if($scope.getSelected().indexOf(target_card.id)!==-1){
+			//if in swapmode, just add a card to newUpperPalace
+			if($scope.swapMode && $scope.cardsToPlay.cards.length < 3){
+				$scope.cardsToPlay.cards.push(target_card);
+			}
+			//else
+			else{
+				//set cardsToPlay.value to selected card
+					//limit playables to value
+				$scope.cardsToPlay.cards.push(target_card);
+				$scope.cardsToPlay.value = target_card.value;
+			}
+		}
+		//else (card is selected, deselect it)
+		else{
+			$scope.cardsToPlay.cards = $scope.cardsToPlay.cards.filter(function(card){
+				return card.id !== target_card.id;
+			});
+		}
 	};
 
-	//FOR PLAYER: deselect a card.
-	$scope.deselectCard = function(){
-		
-		//else
-			//set cardsToPlay.value to selected card
-				//limit playables to value
-	};
 	//FOR PLAYER: disables play button when no selected cards, or in swap mode
 	$scope.cantPlay = function(){
 		if($scope.swapMode){
