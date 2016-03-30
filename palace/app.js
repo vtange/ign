@@ -495,7 +495,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						}
 						else{
 							//else, gotta forfeit
-							throw "Don't have forfeit function yet."
+							$scope.forfeit(player);
 						}
 					}
 					//hand has different cards, more than one card
@@ -515,7 +515,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
-							throw "Don't have forfeit function yet."
+							$scope.forfeit(player);
 						}
 
 						//cycle hand
