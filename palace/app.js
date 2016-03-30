@@ -509,6 +509,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							return curr;
 						},handValues[handValues.length-1]);
 
+						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
+						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
+							throw "Don't have forfeit function yet."
+						}
+
 						//cycle hand
 						// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
 						// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
