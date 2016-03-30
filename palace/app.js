@@ -141,13 +141,20 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	};
 	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
 	$scope.cardAnims = function(card){
+		//if card is selected
 		if($scope.getSelected().indexOf(card.id)!==-1){
 			if(card.beingPlayed){
-				//selected and being played
+				//selected and being played -> glow and float up
 				return{ "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
 			}
-			//selected only
+			//selected only -> glow
 			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)" };
+		}
+		//else if player is playing a 3 and this card is not a 3. (not selected yet duh)
+		else if ($scope.cardsToPlay.value!==null){
+			if(card.value !== $scope.cardsToPlay.value){
+				return { "opacity": 0.75, "cursor": "default" };
+			}
 		}
 	};
 	//ng-style - moves deck mock card to simulate deck drawing
@@ -687,10 +694,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			}
 			//else if not in swap mode, add value to limit future clicks
 			else{
-				//set cardsToPlay.value to selected card
-					//limit playables to value
-				$scope.cardsToPlay.cards.push(target_card);
-				$scope.cardsToPlay.value = target_card.value;
+				if($scope.cardsToPlay.value === target_card.value || $scope.cardsToPlay.value === null){
+					//set cardsToPlay.value to selected card
+						//limit playables to value
+					$scope.cardsToPlay.cards.push(target_card);
+					$scope.cardsToPlay.value = target_card.value;
+				}
 			}
 		}
 		//else (card is selected, deselect it)
