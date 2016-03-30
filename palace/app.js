@@ -285,6 +285,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			ready: false,
 			first: false,
 			isDrawing: false,
+			forfeiting: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -295,6 +296,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			ready: false,
 			first: false,
 			isDrawing: false,
+			forfeiting: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -305,6 +307,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			ready: false,
 			first: false,
 			isDrawing: false,
+			forfeiting: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -315,6 +318,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			ready: false,
 			first: false,
 			isDrawing: false,
+			forfeiting: false,
 			sec_palace:[],
 			upp_palace:[],
 			hand:[],
@@ -595,6 +599,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				},1000);
 			}
 			else if($scope.pile[$scope.pile.length-1].value===10){
+				//wait for card to be placed on pile
 				$timeout(function(){
 					//if top of pile is 10, blow up deck, draw phase, then next player turn
 					$scope.pile = [];
@@ -704,11 +709,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				}
 			},1000);
 		}
-		//if game is in swapmode, save the selected cards and end swapmode
+		//if game is in swapmode
 		else{
 			if($scope.cardsToPlay.cards.length === 3){
 				$scope.cardsToPlay.cards.forEach(function(swappedCard){
+						// save the selected cards and end swapmode
 						player.upp_palace.push(swappedCard);
+						// remove selected cards from current hand
 						$scope.currentHand = $scope.currentHand.filter(function(card_in_hand){
 							return card_in_hand.id !== swappedCard.id;
 						});
