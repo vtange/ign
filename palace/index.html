@@ -17,9 +17,9 @@
     <div id="playing-field" data-ng-controller="MainCtrl">
 		<div id="whose-turn" data-ng-style="showDeck()">
 			<p>{{gameIsAt}}</p>
-			<div data-ng-if="isHuman(getCurrentPlayer())">
+			<div data-ng-if="getCurrentPlayer().human">
 				<div class="btn">Play Selected</div>
-				<div class="btn" data-ng-if="!isFirst(getCurrentPlayer())">Change Upper Palace</div>
+				<div class="btn" data-ng-if="!getCurrentPlayer().first">Change Upper Palace</div>
 			</div>
 		</div>
 		<div class="vert-centered" id="center-area">

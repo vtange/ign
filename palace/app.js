@@ -139,14 +139,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
-	//controls "Change Upper Palace" button. Show if first turn and not in swap mode yet.
-	$scope.isFirst = function(player){
-		return player.first;
-	};
-	//show hide buttons on human turns
-	$scope.isHuman = function(player){
-		return player.human;
-	};
 	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
 	$scope.cardAnims = function(card){
 		var selectedCards = $scope.cardsToPlay.cards.map(function(card){
