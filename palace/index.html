@@ -30,7 +30,7 @@
 			<div class="vert-centered" data-ng-style="showDeck()">
 				<div id="pile" data-ng-style="blowUpAnim()">
 					<div data-ng-style="forfAnims()">
-						<div class="card" data-ng-repeat="card in pile" data-ng-animate="{ enter: 'ng-enter' }">
+						<div class="card" data-ng-repeat="card in pile">
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 							<div class="vert-centered center-stuff">
 								<div class="vert-centered">
