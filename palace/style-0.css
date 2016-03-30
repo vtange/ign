@@ -171,6 +171,14 @@ body {
 	opacity: 0.9;
 	text-align: center;
 }
+#whose-turn > div{
+	width: 20%;
+	margin: auto;
+}
+#whose-turn .btn{
+	font-size: 1rem;
+	margin-bottom: 10px;
+}
 #center-area, #whose-turn, .player-area{
 	color:gold;
 }

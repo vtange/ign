@@ -15,7 +15,13 @@
 </head>
 <body data-ng-app="palace-game">
     <div id="playing-field" data-ng-controller="MainCtrl">
-		<div id="whose-turn" data-ng-style="showDeck()">{{gameIsAt}}</div>
+		<div id="whose-turn" data-ng-style="showDeck()">
+			<p>{{gameIsAt}}</p>
+			<div data-ng-if="isHuman(getCurrentPlayer())">
+				<div class="btn">Play Selected</div>
+				<div class="btn" data-ng-if="!isFirst(getCurrentPlayer())">Change Upper Palace</div>
+			</div>
+		</div>
 		<div class="vert-centered" id="center-area">
 			<div class="vert-centered" data-ng-style="showMenu()">
 				<h1>Palace</h1><div data-ng-click="startGame()" class="btn">Play</div><div class="btn">How to Play</div>

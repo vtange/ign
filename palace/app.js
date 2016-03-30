@@ -139,6 +139,14 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.isHidden = function(card){
 		return card.hidden;
 	};
+	//controls "Change Upper Palace" button. Show if first turn and not in swap mode yet.
+	$scope.isFirst = function(player){
+		return player.first;
+	};
+	//show hide buttons on human turns
+	$scope.isHuman = function(player){
+		return player.human;
+	};
 	//ng-style - glows selected cards that in cardsToPlay. Also translate cards when they are 'beingPlayed'
 	$scope.cardAnims = function(card){
 		var selectedCards = $scope.cardsToPlay.cards.map(function(card){
@@ -180,6 +188,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return { };
 		}
 	};
+	
 	/* ---------- */
 	/* GAME STATE */
 	/* ---------- */
@@ -194,7 +203,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//whose turn is it?
 	$scope.nextPlayer = 0;
-
+	
 	//for getting current player's hand
 	$scope.currentHand = [];
 
@@ -210,6 +219,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//used to loop over players
 	var players = ['player1','player2','player3','player4'];
 
+	//get current player
+	$scope.getCurrentPlayer = function(){
+		return $scope[players[$scope.nextPlayer]];
+	};
+	
 	function isMagicOrAce(n){
 		return n === 1 || n === 2 || n === 7 || n === 8 || n === 10;
 	};
@@ -407,7 +421,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			}
 
 		//set player and hand, show hand
-		var player = $scope[players[$scope.nextPlayer]];
+		var player = $scope.getCurrentPlayer();
 		$scope.gameIsAt = player.name + "'s Turn";
 		$scope.currentHand = player.hand;
 		$scope.handOn = true;
@@ -422,10 +436,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			if(!player.human){
 				$scope.AITurn(player,cardToBeat);
 			}
-			//else, set next player
+			//else just allow clicks, set next player on card play
 			else{
-				$scope.nextPlayer = $scope.nextPlayer + 1 >= players.length ? 1 : $scope.nextPlayer + 1;
-				//allow clicks
 				$scope.waitingForInput = true;
 			}
 						
