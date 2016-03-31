@@ -373,10 +373,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//set up game. disallow clicks during set up.
 	$scope.setupGame = function(){
-
-		//rebuild deck, reset palaces, hands, pile cards
-		$scope.deck = DATASTORE.makeDeck();
-		$scope.resetState();
 	
 		var rdyPlayers = {};
 			players.forEach(function(player){
