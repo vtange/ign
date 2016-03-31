@@ -548,21 +548,31 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							}
 							return curr;
 						},handValues[handValues.length-1]);
-
+						console.log("I'm going to play: "+$scope.cardsToPlay.value);
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
 							$scope.forfeit(player);
 						}
 						else{
-							//cycle hand
+							//cycle hand or upper palace
 							// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
 							if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
-								$scope.cardsToPlay.cards.push(player.hand.reduce(function(curr,next){
-									if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
-										curr = next;
-									}
-										return curr;
-								},{}));
+								if(player.hand.length < 1){
+									$scope.cardsToPlay.cards.push(player.upp_palace.reduce(function(curr,next){
+										if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
+											curr = next;
+										}
+											return curr;
+									},{}));
+								}
+								else{
+									$scope.cardsToPlay.cards.push(player.hand.reduce(function(curr,next){
+										if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
+											curr = next;
+										}
+											return curr;
+									},{}));
+								}
 							}
 							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
 							else{
@@ -587,6 +597,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(player){
 		if(player.hand.length < 1){
+			console.log("looking in upper palace");
 			player.upp_palace.forEach(function(card){
 					if(card.value===$scope.cardsToPlay.value){
 						//highlight card, rdy it for play
@@ -629,7 +640,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		//remove cards
 		if(player.hand.length < 1){
 			//drop played cards from upper palace
-			player.upp_palace = player.hand.filter(function(card){
+			player.upp_palace = player.upp_palace.filter(function(card){
 				return ids.indexOf(card.id)===-1;
 			});
 		}
