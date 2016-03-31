@@ -47,7 +47,6 @@ app.factory('DATASTORE', function(){
 
 
 app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($scope, $q, $timeout, DATASTORE){
-    $scope.deck = DATASTORE.deck; // load service
 	//ng-style - controls image on JQK
 	$scope.getFace = function(suit,value){
 		switch(suit){
@@ -343,6 +342,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			upp_palace:[],
 			hand:[],
 		};
+		$scope.playingGame = false;
+		$scope.gameIsAt = "Setting up Game...";
+		$scope.waitingForInput = true;
+		$scope.nextPlayer = 0;
+		$scope.deck = DATASTORE.makeDeck();
 		$scope.pile = [];
 	};
 	$scope.resetState();
@@ -704,7 +708,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				},1000);
 			}
 			//else if (check player sec_palace, upp_palace, and hand, all [], roll victory)
-			
+			else if(player.sec_palace.length<1 && player.upp_palace.length<1 && player.hand.length<1){
+				$scope.cueVictory(player);
+			}
 			//if top of pile is 2 or 8, another turn for current player (no draw, since it's not end of turn)
 			else if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
 				$timeout(function(){
@@ -968,6 +974,15 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return false;
 		}
 	};
+	
+	//FOR AI && PLAYER: Win.
+	$scope.cueVictory = function(player){
+		$scope.gameIsAt = player.name + " Wins!";
+		$timeout(function(){
+			$scope.resetState();
+		},2000);
+	};
+	
 }]);//end of controller
 	
 Array.prototype.allValuesSame = function() {
