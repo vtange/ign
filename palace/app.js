@@ -502,6 +502,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						if(player.upp_palace.length < 1){
 							//play secret palace
 							throw "Secret Palace time";
+							//select random card from secret palace length
+							$scope.cardsToPlay.cards.push(player.sec_palace[Math.floor(Math.random()*player.sec_palace.length)])
+							//play it and cross fingers
+							$timeout(function(){
+								$scope.playCards(player);
+							},500);
 						}
 						else{
 							//play upper palace
@@ -566,10 +572,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						//INTEL
 						console.log(player.name+", hand: "+handValues);
 						console.log("playable: "+$scope.playable);
-						console.log("I'm going to play: "+$scope.cardsToPlay.value);
 
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
+							console.log("Tried to play: "+$scope.cardsToPlay.value+", had to forfeit");
 							$scope.forfeit(player);
 						}
 						else{
@@ -668,28 +674,21 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$scope.handOn = false;
 
 		//remove cards
-		if(player.sec_palace.getFirstElementThat(function(card){
-			return ids.indexOf(card.id)!==-1;
-		})){
-			//drop played cards from upper palace
-			player.sec_palace = player.sec_palace.filter(function(card){
-				return ids.indexOf(card.id)===-1;
-			});
-		}
-		else if(player.upp_palace.getFirstElementThat(function(card){
-			return ids.indexOf(card.id)!==-1;
-		})){
-			//drop played cards from upper palace
-			player.upp_palace = player.upp_palace.filter(function(card){
-				return ids.indexOf(card.id)===-1;
-			});
-		}
-		else{
-			//drop played cards from hand
-			player.hand = player.hand.filter(function(card){
-				return ids.indexOf(card.id)===-1;
-			});
-		}
+		//drop played cards from secret palace
+		player.sec_palace = player.sec_palace.filter(function(card){
+			return ids.indexOf(card.id)===-1;
+		});
+	
+		//drop played cards from upper palace
+		player.upp_palace = player.upp_palace.filter(function(card){
+			return ids.indexOf(card.id)===-1;
+		});
+	
+		//drop played cards from hand
+		player.hand = player.hand.filter(function(card){
+			return ids.indexOf(card.id)===-1;
+		});
+
 
 		//wait for card to appear on pile
 		$timeout(function(){
