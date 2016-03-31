@@ -138,6 +138,13 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else
 			$scope.pileOn = true;
 	};
+	//turn on and off tutorial
+	$scope.showTut = function(){
+		if($scope.tutOn)
+			$scope.tutOn = false;
+		else
+			$scope.tutOn = true;
+	};
 	//ng-style - glows and slide up selected cards that in cardsToPlay.
 	$scope.cardAnims = function(card){
 		//if card is selected
@@ -217,16 +224,19 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//show hand footer
 	$scope.handOn = false;
-	
+
 	//show pile list
 	$scope.pileOn = false;
 
+	//show tutorial
+	$scope.tutOn = false;
+
 	//swap mode for player
 	$scope.swapMode = false;
-	
+
 	//animate pile blowing up
 	$scope.blowUp = false;
-	
+
 	//initiate form for checking cards to be played
 	//value prevents player from playing cards of different value
 	//cards keeps track of whole cards. this will be pushed to pile when "played()"
