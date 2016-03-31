@@ -543,7 +543,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						console.log("playable: "+$scope.playable);
 						//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
 						$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
-							if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
+							if($scope.playable.indexOf(curr) > $scope.playable.indexOf(next) && $scope.playable.indexOf(next)!==-1){
 								curr = next;
 							}
 							return curr;
