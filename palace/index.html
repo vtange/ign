@@ -51,7 +51,7 @@
 		<div class="player-area" id="player1-area" data-ng-style="showPlayer(player1)">
 			<div class="palace-guard" data-ng-hide="palaceAccess(player1)"></div>
 			<div class="secret-palace">
-					<div data-ng-repeat="card in player1.sec_palace" class="card flipped-card"></div>
+					<div data-ng-repeat="card in player1.sec_palace" data-ng-style="cardAnims(card)" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
 					<div data-ng-repeat="card in player1.upp_palace" data-ng-style="cardAnims(card)" class="card">
@@ -70,7 +70,7 @@
 		<div class="player-area" id="player2-area" data-ng-style="showPlayer(player2)">
 			<div class="palace-guard" data-ng-hide="palaceAccess(player2)"></div>
 			<div class="secret-palace">
-					<div data-ng-repeat="card in player2.sec_palace" class="card flipped-card"></div>
+					<div data-ng-repeat="card in player2.sec_palace" data-ng-style="cardAnims(card)" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
 					<div data-ng-repeat="card in player2.upp_palace" data-ng-style="cardAnims(card)" class="card">
@@ -89,7 +89,7 @@
 		<div class="player-area" id="player3-area" data-ng-style="showPlayer(player3)">
 			<div class="palace-guard" data-ng-hide="palaceAccess(player3)"></div>
 			<div class="secret-palace">
-				  	<div data-ng-repeat="card in player3.sec_palace" class="card flipped-card"></div>
+				  	<div data-ng-repeat="card in player3.sec_palace" data-ng-style="cardAnims(card)" class="card flipped-card"></div>
 			</div>
 			<div class="upper-palace">
 					<div data-ng-repeat="card in player3.upp_palace" data-ng-style="cardAnims(card)" class="card">
