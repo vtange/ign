@@ -145,7 +145,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			//selected -> glow & slide up
 			return { "box-shadow" : "0px 0px 25px rgba(155,255,255,0.8)", "transform":"translateY(-50px)" };
 		}
-		//else if card is on hand but not of same value of as target value
+		//else if card is on hand (does not affect palace cards) but not of same value of as target value
 		else if ($scope.getCurrentHand().indexOf(card)!== -1 && $scope.cardsToPlay.value!==null){
 			if(card.value !== $scope.cardsToPlay.value){
 				return { "opacity": 0.75, "cursor": "default" };
@@ -903,7 +903,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 
-	//FOR PLAYER: select or deselect a palace card. depends on if card is selected
+	//FOR PLAYER: blocks clicking on upper palace
 	$scope.palaceAccess = function(player){
 		var selected_card_ids = $scope.getSelected();
 		var filtered_hand = player.hand.filter(function(card){
@@ -918,6 +918,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 
+	//FOR PLAYER: blocks clicking on secret palace
+	$scope.secretAccess = function(player){
+		//will not respond unless upperpalace and hand are empty
+		if(player.hand.length < 1 && player.upp_palace.length < 1){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
 }]);//end of controller
 	
 Array.prototype.allValuesSame = function() {
