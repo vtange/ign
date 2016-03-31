@@ -548,7 +548,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 								curr = next;
 							}
 							return curr;
-						},handValues[handValues.length-1]);
+						},handValues[0]);
 						console.log("I'm going to play: "+$scope.cardsToPlay.value);
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
