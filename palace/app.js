@@ -131,9 +131,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		else
 			return { "opacity" : 0 };
 	};
-	//
-	$scope.isHidden = function(card){
-		return card.hidden;
+	//turn on and off pile list
+	$scope.showPile = function(){
+		if($scope.pileOn)
+			$scope.pileOn = false;
+		else
+			$scope.pileOn = true;
 	};
 	//ng-style - glows and slide up selected cards that in cardsToPlay.
 	$scope.cardAnims = function(card){
@@ -215,6 +218,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//show hand footer
 	$scope.handOn = false;
 	
+	//show pile list
+	$scope.pileOn = false;
+
 	//swap mode for player
 	$scope.swapMode = false;
 	

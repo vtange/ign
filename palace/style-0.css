@@ -164,8 +164,18 @@ body {
 }
 /*  Mini Cards for How-To and Pile   */
 	.card-mini {
+		transition: all 0.3s ease;
+
+		position: relative;
 		height:150px;
 		width:100px;
+		background:#fff;
+		border-radius: 5px;
+		padding:10px;
+		margin:10px;
+
+		display: flex;
+		flex-direction: column;
 	}
 	/* number font, default black */
 	.card-mini .card-value{
@@ -225,8 +235,7 @@ body {
 }
 /* pile */
 /* shows on no card */
-#pile, #deck{
-	background:rgba(50,50,50,0.5);
+#pile, #deck, .big-box {
 	border: 1px solid #dce;
 }
 #pile > div, #pile .card{
@@ -261,7 +270,43 @@ body {
 60% {transform:translateX(-12px);}
 100% {transform:translateX(12px);}
 }
+/* pile and tutorial box */
+.big-box{
+	position: absolute;
+	height:80%;
+	width:80%;
+	z-index: 200;
+}
+.big-box h1{
+	text-align: center;
+	color:#fff;
+}
+#pile-list > div{
+	display: flex;
+	flex-wrap: wrap;
+	border-top: 1px solid #dce;
+}
+/*----------*/
+/*-X-*/
+/*----------*/
+a:hover{
+    text-decoration: none;
+}
+a.boxclose{
+    position: absolute;
+	top:0;
+	right:15px;
 
+    cursor:pointer;
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: bold;
+	z-index: 9;
+}
+.boxclose:before{
+    content: "×";
+}
+/* X */
 /* deck placeholder positioning */
 #deck > div {
 	position: absolute;
@@ -326,8 +371,10 @@ body {
 100% {left:-500px;top:500px;opacity: 0;}
 }
 /* playing area */
-.player-area, .btn{
+.player-area, .btn, .big-box {
 	border-radius:10px;
+}
+#pile, #deck, .player-area, .btn, .big-box {
 	background-color: rgba(50,50,50,0.5);
 }
 .player-area{

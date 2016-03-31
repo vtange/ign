@@ -16,6 +16,15 @@
 <body data-ng-app="palace-game">
     <div id="playing-field" data-ng-controller="MainCtrl">
 		<div id="click-guard" data-ng-hide="waitingForInput"></div>
+		<div class="vert-centered big-box" id="pile-list" data-ng-if="pileOn">
+			<a class="boxclose" data-ng-click="showPile()"></a>
+			<h1>The Pile</h1>
+			<div>
+				<div class="card-mini" data-ng-repeat="card in pile">
+					<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
+				</div>
+			</div>
+		</div>
 		<div id="whose-turn" data-ng-style="showDeck()">
 			<p>{{gameIsAt}}</p>
 			<div data-ng-if="getCurrentPlayer().human">
@@ -33,7 +42,7 @@
 			<div class="vert-centered" data-ng-style="showDeck()">
 				<!--'pile' and 'deck' are hollow. A wrapper div around deck over pile to animate forfeit draw. 2 mock-cards on deck so what drawing doesn't show hollow part-->
 				<div id="pile" data-ng-style="blowUpAnim()">
-					<div data-ng-style="forfAnims()">
+					<div data-ng-style="forfAnims()" data-ng-click="showPile()">
 						<div class="card" data-ng-repeat="card in pile">
 							<div><div class="card-value" data-ng-style="color(card.suit)">{{JQK(card.value)}}</div><div class="card-suit" data-ng-style="getSuit(card.suit)"></div></div>
 							<div class="vert-centered center-stuff">
