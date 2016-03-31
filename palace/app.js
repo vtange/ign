@@ -517,7 +517,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						});
 					}
 
-					//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+					//ADVANCED : forfeit on purpose to take in pile if pile has great value (lots of magics or ace);
 					//ADVANCED : play hand and cards on upper palace if same value
 
 					//if hand has one card or all same cards
@@ -540,8 +540,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 						//sort handValues from weakest to greatest
 						handValues = handValues.sort(sortHand);
-						console.log(player.name+", hand: "+handValues);
-						console.log("playable: "+$scope.playable);
+
 						//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
 						$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
 							if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
@@ -549,7 +548,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							}
 							return curr;
 						},handValues[handValues.length-1]);
+
+						//INTEL
+						console.log(player.name+", hand: "+handValues);
+						console.log("playable: "+$scope.playable);
 						console.log("I'm going to play: "+$scope.cardsToPlay.value);
+
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
 							$scope.forfeit(player);
@@ -557,22 +561,16 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						else{
 							//cycle hand or upper palace
 							// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
-							if(isMagicOrAce($scope.cardsToPlay.value)||mustBeat===2||mustBeat===8){
+							if(isMagicOrAce($scope.cardsToPlay.value)){
 								if(player.hand.length < 1){
-									$scope.cardsToPlay.cards.push(player.upp_palace.reduce(function(curr,next){
-										if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
-											curr = next;
-										}
-											return curr;
-									},{}));
+									$scope.cardsToPlay.cards.push(player.upp_palace.getFirstElementThat(function(card){
+										return card.value === $scope.cardsToPlay.value;
+									}));
 								}
 								else{
-									$scope.cardsToPlay.cards.push(player.hand.reduce(function(curr,next){
-										if(curr.value !== next.value && next.value === $scope.cardsToPlay.value){
-											curr = next;
-										}
-											return curr;
-									},{}));
+									$scope.cardsToPlay.cards.push(player.hand.getFirstElementThat(function(card){
+										return card.value === $scope.cardsToPlay.value;
+									}));
 								}
 							}
 							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
@@ -932,6 +930,17 @@ Array.prototype.allValuesSame = function() {
 
     return true;
 }
-	
+
+Array.prototype.getFirstElementThat = function(test) {
+
+    for(var i = 0; i < this.length; i++)
+    {
+        if (test(this[i])){
+			return this[i];
+		}
+    }
+	return null;
+}
+
   //end of function
 })();
