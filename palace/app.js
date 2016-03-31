@@ -525,10 +525,24 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						//if playable, play them all
 						if($scope.playable.indexOf(handValues[0])!==-1){
 							$scope.cardsToPlay.value = handValues[0];
-							$scope.selectCards(player);
-							$timeout(function(){
-								$scope.playCards(player);
-							},500);
+							//POSSIBLE COMBO:
+							//search upper_palace for any cards of same value as $scope.cardsToPlay.value
+							//if there is a card
+							if(player.upp_palace.getFirstElementThat(function(card){
+								return card.value === $scope.cardsToPlay.value;
+							})){
+								$scope.comboSelect(player);
+								$timeout(function(){
+									$scope.playCards(player);
+								},500);
+							}
+							//else, just play what's on hand
+							else{
+								$scope.selectCards(player);
+								$timeout(function(){
+									$scope.playCards(player);
+								},500);
+							}
 						}
 						else{
 							//else, gotta forfeit
@@ -614,6 +628,23 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		}
 	};
 
+	//FOR AI: Pushes all cards on hand AND upper palace of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
+	$scope.comboSelect = function(player){
+		//cycle hand or upper palace
+		player.upp_palace.forEach(function(card){
+			if(card.value===$scope.cardsToPlay.value){
+				//highlight card, rdy it for play
+				$scope.cardsToPlay.cards.push(card);
+			}
+		});
+		player.hand.forEach(function(card){
+			if(card.value===$scope.cardsToPlay.value){
+				//highlight card, rdy it for play
+				$scope.cardsToPlay.cards.push(card);
+			}
+		});
+	};
+
 	//FOR AI && PLAYER: play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
 
@@ -637,7 +668,17 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		$scope.handOn = false;
 
 		//remove cards
-		if(player.hand.length < 1){
+		if(player.sec_palace.getFirstElementThat(function(card){
+			return ids.indexOf(card.id)!==-1;
+		})){
+			//drop played cards from upper palace
+			player.sec_palace = player.sec_palace.filter(function(card){
+				return ids.indexOf(card.id)===-1;
+			});
+		}
+		else if(player.upp_palace.getFirstElementThat(function(card){
+			return ids.indexOf(card.id)!==-1;
+		})){
 			//drop played cards from upper palace
 			player.upp_palace = player.upp_palace.filter(function(card){
 				return ids.indexOf(card.id)===-1;
@@ -755,13 +796,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					values.slice(3).forEach(function(value){
 
 						//get card to be put into upp-palace. default first card in hand
-						var swappedCard = player.hand.reduce(function(curr,next){
-							if(curr.value !== next.value && next.value === value){
-								curr = next;
-								swappedCard = next;
-							}
-							return curr;
-						},player.hand[0]);
+						var swappedCard = player.hand.getFirstElementThat(function(card){
+							return card.value === value;
+						});
 
 						//push the card into the palace
 						player.upp_palace.push(swappedCard);
