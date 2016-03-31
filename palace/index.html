@@ -15,6 +15,7 @@
 </head>
 <body data-ng-app="palace-game">
     <div id="playing-field" data-ng-controller="MainCtrl">
+		<div id="click-guard" data-ng-hide="waitingForInput"></div>
 		<div id="whose-turn" data-ng-style="showDeck()">
 			<p>{{gameIsAt}}</p>
 			<div data-ng-if="getCurrentPlayer().human">
