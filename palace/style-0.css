@@ -162,8 +162,24 @@ body {
 		width: 48px;
 	}
 }
-/*              */
-
+/*  Mini Cards for How-To and Pile   */
+	.card-mini {
+		height:150px;
+		width:100px;
+	}
+	/* number font, default black */
+	.card-mini .card-value{
+		width: 48px;
+		text-align: center;
+		font-size: 2em;
+		color:#222;
+	}
+	/* base pic is 48 x 48 */
+	.card-mini .card-suit{
+		background-repeat: no-repeat;
+		height:48px;
+		width: 48px;
+	}
 /* center area */
 #whose-turn{
 	transition: all 0.5s ease;
