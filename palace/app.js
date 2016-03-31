@@ -559,24 +559,9 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 							$scope.forfeit(player);
 						}
 						else{
-							//cycle hand or upper palace
-							// if cardstoplay.value is 1,2,7,8,10, OR if card to beat is a 2 or 8 (your own) just find one card to play
-							if(isMagicOrAce($scope.cardsToPlay.value)){
-								if(player.hand.length < 1){
-									$scope.cardsToPlay.cards.push(player.upp_palace.getFirstElementThat(function(card){
-										return card.value === $scope.cardsToPlay.value;
-									}));
-								}
-								else{
-									$scope.cardsToPlay.cards.push(player.hand.getFirstElementThat(function(card){
-										return card.value === $scope.cardsToPlay.value;
-									}));
-								}
-							}
-							// else find all cards that have cardstoplay.value and push them to cardstoplay.cards
-							else{
-								$scope.selectCards(player);
-							}
+							//find all cards that have cardstoplay.value and push them to cardstoplay.cards
+							$scope.selectCards(player);
+
 							$timeout(function(){
 								$scope.playCards(player);
 							},500);
@@ -595,22 +580,37 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI: Pushes all cards on hand of $scope.cardsToPlay.value to $scope.cardsToPlay.cards
 	$scope.selectCards = function(player){
-		if(player.hand.length < 1){
-			console.log("looking in upper palace");
-			player.upp_palace.forEach(function(card){
-					if(card.value===$scope.cardsToPlay.value){
-						//highlight card, rdy it for play
-						$scope.cardsToPlay.cards.push(card);
-					}
-			});
+		//cycle hand or upper palace
+		// if cardstoplay.value is 1,2,7,8,10, just find one card to play
+		if(isMagicOrAce($scope.cardsToPlay.value)){
+			if(player.hand.length < 1){
+				$scope.cardsToPlay.cards.push(player.upp_palace.getFirstElementThat(function(card){
+					return card.value === $scope.cardsToPlay.value;
+				}));
+			}
+			else{
+				$scope.cardsToPlay.cards.push(player.hand.getFirstElementThat(function(card){
+					return card.value === $scope.cardsToPlay.value;
+				}));
+			}
 		}
 		else{
-			player.hand.forEach(function(card){
-					if(card.value===$scope.cardsToPlay.value){
-						//highlight card, rdy it for play
-						$scope.cardsToPlay.cards.push(card);
-					}
-			});
+			if(player.hand.length < 1){
+				player.upp_palace.forEach(function(card){
+						if(card.value===$scope.cardsToPlay.value){
+							//highlight card, rdy it for play
+							$scope.cardsToPlay.cards.push(card);
+						}
+				});
+			}
+			else{
+				player.hand.forEach(function(card){
+						if(card.value===$scope.cardsToPlay.value){
+							//highlight card, rdy it for play
+							$scope.cardsToPlay.cards.push(card);
+						}
+				});
+			}
 		}
 	};
 
