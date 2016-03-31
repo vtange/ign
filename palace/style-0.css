@@ -275,6 +275,8 @@ body {
 	position: absolute;
 	height:80%;
 	width:80%;
+	padding-left:40px;
+	padding-right:40px;
 	z-index: 200;
 }
 .big-box h1{
@@ -286,6 +288,86 @@ body {
 	flex-wrap: wrap;
 	border-top: 1px solid #dce;
 }
+#tutorial{
+	text-transform: none;
+	color:#fff;
+}
+#tutorial section{
+	line-height: 2.2em;
+}
+#tutorial b{
+	margin-left: 20px;
+	font-size: 1.25em;
+}
+#tutorial span{
+	vertical-align: text-bottom;
+	font-size:1.75em;
+}
+.card-rep{
+	position: relative;
+	display: inline-block;
+	background-color: #fff;
+	width: 1.25em;
+	border-radius: 5px;
+}
+/* half styled chars */
+.halfStyle, .halfStyle10 {
+    position:relative;
+    display:inline-block;
+    font-size:1.75em; /* or any font size will work */
+    color: transparent; /* hide the base character */
+    overflow:hidden;
+    white-space: pre; /* to preserve the spaces from collapsing */
+}
+.halfStyle:before { /* creates the top part */
+    display:block;
+    z-index:2;
+    position:absolute;
+    top:0;
+    height: 50%;
+    content: attr(data-content); /* dynamic content for the pseudo element */
+    overflow:hidden;
+    pointer-events: none; /* so the base char is selectable by mouse */
+    color: #d00; /* red */
+	
+	transform: translateX(50%);
+}
+.halfStyle:after { /* creates the bottom part */
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:0;
+    height: 100%;
+    content: attr(data-content); /* dynamic content for the pseudo element */
+    overflow:hidden;
+    pointer-events: none; /* so the base char is selectable by mouse */
+    color: #222; /* black */
+	
+	transform: translateX(50%);
+}
+.halfStyle10:before { /* creates the top part */
+    display:block;
+    z-index:2;
+    position:absolute;
+    top:0;
+    height: 50%;
+    content: attr(data-content); /* dynamic content for the pseudo element */
+    overflow:hidden;
+    pointer-events: none; /* so the base char is selectable by mouse */
+    color: #d00; /* red */
+}
+.halfStyle10:after { /* creates the bottom part */
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:0;
+    height: 100%;
+    content: attr(data-content); /* dynamic content for the pseudo element */
+    overflow:hidden;
+    pointer-events: none; /* so the base char is selectable by mouse */
+    color: #222; /* black */
+}
+/**/
 /*----------*/
 /*-X-*/
 /*----------*/
@@ -375,7 +457,7 @@ a.boxclose{
 	border-radius:10px;
 }
 #pile, #deck, .player-area, .btn, .big-box {
-	background-color: rgba(50,50,50,0.5);
+	background-color: rgba(50,50,50,0.7);
 }
 .player-area{
 	transition: all 0.5s ease;

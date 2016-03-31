@@ -19,7 +19,36 @@
 		<div class="vert-centered big-box" id="tutorial" data-ng-if="tutOn">
 			<a class="boxclose" data-ng-click="showTut()"></a>
 			<h1>How to Play Palace</h1>
-		
+			<section>
+			<b>Rules</b>
+			<br>
+			Every turn, players play one or more cards of the same value into a pile beside the center, draw cards if possible until 3 on hand.
+			<br>
+			On the first turn, players can swap out their Upper Palace cards with cards they have in their hand.
+			<br>
+			From weakest to strongest:
+			<br>
+				<div class="card-rep halfStyle" data-content="3">3</div><span> &#60; </span><div class="card-rep halfStyle" data-content="4">4</div><span> &#60; </span><div class="card-rep halfStyle" data-content="5">5</div><span> &#60; </span><div class="card-rep halfStyle" data-content="6">6</div><span> &#60; </span><div class="card-rep halfStyle" data-content="9">9</div><span> &#60; </span><div class="card-rep halfStyle" data-content="J">J</div><span> &#60; </span><div class="card-rep halfStyle" data-content="Q">Q</div><span> &#60; </span><div class="card-rep halfStyle" data-content="K">K</div><span> &#60; </span><div class="card-rep halfStyle" data-content="1">1</div><span> &#60; [<strong>Magic Cards</strong>]</span>
+			<br>
+			If you play a card too weak or are unable to play, you must forfeit and pick up the pile into your hand.
+			<br><br>
+					<b>Magic Cards</b>
+			<br>
+			Magic Cards can be played over any card, even other Magic Cards. It is often a good idea to always save one on your hand to prevent getting wiped by an enemy Ace or Magic Card.
+			<br>
+			<div class="card-rep halfStyle" data-content="2">2</div> : Must be immediately followed up by the player with another card, unless it is the last card played by the player before a win.
+			<br>
+			<div class="card-rep halfStyle" data-content="7">7</div> : Next Player must follow up with a card with a weaker value than 7. (3,4,5, or 6. Magics are OK too).
+			<br>
+			<div class="card-rep halfStyle" data-content="8">8</div> : Functions similar to a 2 but must be followed up by the player with a card greater than 8.
+			<br>
+			<div class="card-rep halfStyle10" data-content="10">10</div> : "Blows up" the pile. Removes itself and all cards below from play so players who forfeit thereafter don't end up with a huge hand.
+			<br><br>
+					<b>How to Win</b>
+			<br>
+			Play out all cards on your hand, then your Upper Palace, then your Secret Palace. Player who first empties out all his/her cards wins
+			<br>
+			</section>
 		</div>
 		<div class="vert-centered big-box" id="pile-list" data-ng-if="pileOn">
 			<a class="boxclose" data-ng-click="showPile()"></a>
