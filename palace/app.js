@@ -40,8 +40,6 @@ app.factory('DATASTORE', function(){
 		return storage.shuffle(deck);//shuffle before return for convenience
 	};
 
-	storage.deck = storage.makeDeck();
-
   return storage;
 });//end of service
 
@@ -217,16 +215,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//show hand footer
 	$scope.handOn = false;
 	
-	//get hand cards
-	$scope.getCurrentHand = function(){
-		if(!$scope.handOn){
-			return [];
-		}
-		else{
-			return $scope.getCurrentPlayer().hand;
-		}
-	};
-	
 	//swap mode for player
 	$scope.swapMode = false;
 	
@@ -246,7 +234,17 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	$scope.getCurrentPlayer = function(){
 		return $scope[players[$scope.nextPlayer]];
 	};
-	
+
+	//get hand cards
+	$scope.getCurrentHand = function(){
+		if(!$scope.handOn){
+			return [];
+		}
+		else{
+			return $scope.getCurrentPlayer().hand;
+		}
+	};
+
 	//get currently selected cards
 	$scope.getSelected = function(){
 		return $scope.cardsToPlay.cards.map(function(card){
