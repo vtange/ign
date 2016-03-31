@@ -518,6 +518,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					}
 
 					//ADVANCED : use a forfeit function to take in pile if pile has great value (lots of magics or ace);
+					//ADVANCED : play hand and cards on upper palace if same value
 
 					//if hand has one card or all same cards
 					if(handValues.length===1||handValues.allValuesSame()){
