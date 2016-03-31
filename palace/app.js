@@ -544,11 +544,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						console.log("playable: "+$scope.playable);
 						//cycle handValues from left to right, find weakest playable value. and set to cardstoplay.value
 						$scope.cardsToPlay.value = handValues.reduce(function(curr,next){
-							if($scope.playable.indexOf(curr) > $scope.playable.indexOf(next) && $scope.playable.indexOf(next)!==-1){
+							if(handValues.indexOf(curr) > handValues.indexOf(next) && $scope.playable.indexOf(next)!==-1){
 								curr = next;
 							}
 							return curr;
-						},handValues[0]);
+						},handValues[handValues.length-1]);
 						console.log("I'm going to play: "+$scope.cardsToPlay.value);
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
