@@ -904,9 +904,22 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return false;
 		}
 	};
-	
-	
-	
+
+	//FOR PLAYER: select or deselect a palace card. depends on if card is selected
+	$scope.palaceAccess = function(player){
+		var selected_card_ids = $scope.getSelected();
+		var filtered_hand = player.hand.filter(function(card){
+			return selected_card_ids.indexOf(card.id)===-1;
+		});
+		//will not respond unless palace is playable (only playable if player's hand after being filtered for selected cards is [])
+		if(filtered_hand.length < 1){
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
+
 }]);//end of controller
 	
 Array.prototype.allValuesSame = function() {
