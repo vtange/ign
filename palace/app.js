@@ -500,14 +500,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					if(player.hand.length < 1){
 						//if player.upp-palace is empty
 						if(player.upp_palace.length < 1){
-							//play secret palace
-							throw "Secret Palace time";
-							//select random card from secret palace length
-							$scope.cardsToPlay.cards.push(player.sec_palace[Math.floor(Math.random()*player.sec_palace.length)])
-							//play it and cross fingers
-							$timeout(function(){
-								$scope.playCards(player);
-							},500);
+							//do nothing, empty hand values means it's secret palace time
 						}
 						else{
 							//play upper palace
@@ -526,8 +519,17 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					//ADVANCED : forfeit on purpose to take in pile if pile has great value (lots of magics or ace);
 					//ADVANCED : play hand and cards on upper palace if same value
 
+					//if handValues is still empty (Secret Palace Time)
+					if(handValues.length < 1){
+
+						$scope.cardsToPlay.cards.push(player.sec_palace[Math.floor(Math.random()*player.sec_palace.length)])
+
+						$timeout(function(){
+							$scope.playCards(player);
+						},500);
+					}
 					//if hand has one card or all same cards
-					if(handValues.length===1||handValues.allValuesSame()){
+					else if(handValues.length===1||handValues.allValuesSame()){
 						//if playable, play them all
 						if($scope.playable.indexOf(handValues[0])!==-1){
 							$scope.cardsToPlay.value = handValues[0];
@@ -701,6 +703,8 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 					$scope.forfeit(player);
 				},1000);
 			}
+			//else if (check player sec_palace, upp_palace, and hand, all [], roll victory)
+			
 			//if top of pile is 2 or 8, another turn for current player (no draw, since it's not end of turn)
 			else if($scope.pile[$scope.pile.length-1].value===2||$scope.pile[$scope.pile.length-1].value===8){
 				$timeout(function(){
