@@ -611,9 +611,21 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 				}));
 			}
 			else{
-				$scope.cardsToPlay.cards.push(player.hand.getFirstElementThat(function(card){
-					return card.value === $scope.cardsToPlay.value;
-				}));
+				//if you only have 1s or 2s or whatever left from victory, play them all
+				if(player.sec_palace.length<1 && player.upp_palace.length<1){
+					player.hand.forEach(function(card){
+							if(card.value===$scope.cardsToPlay.value){
+								//highlight card, rdy it for play
+								$scope.cardsToPlay.cards.push(card);
+							}
+					});
+				}
+				//else
+				else{
+					$scope.cardsToPlay.cards.push(player.hand.getFirstElementThat(function(card){
+						return card.value === $scope.cardsToPlay.value;
+					}));
+				}
 			}
 		}
 		else{
