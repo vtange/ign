@@ -423,6 +423,6 @@ body {
 #hand .card, .secret-palace .card, .upper-palace .card, #pile .card{
 	cursor: pointer;
 }
-#hand .card:hover{
+#hand .card:hover, .secret-palace .card:hover, .upper-palace .card:hover, #pile .card:hover{
 	box-shadow: 0px 0px 25px rgba(155,255,255,0.8);
 }
