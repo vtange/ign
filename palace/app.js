@@ -394,7 +394,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			});
 		var all = $q.all([rdyPlayers.player1.promise, rdyPlayers.player2.promise, rdyPlayers.player3.promise, rdyPlayers.player4.promise]);
 		function allSuccess(){
-			console.log("all players loaded");
 			$scope.runNextTurn();
 		};
 	    all.then(allSuccess);
@@ -586,12 +585,11 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 						},handValues[handValues.length-1]);
 
 						//INTEL
-						console.log(player.name+", hand: "+handValues);
-						console.log("playable: "+$scope.playable);
+						//console.log(player.name+", hand: "+handValues);
+						//console.log("playable: "+$scope.playable);
 
 						//FAILSAFE, prevent AI playing last card in hand even if not valid: if $scope.cardsToPlay.value isn't a playable value, forfeit.
 						if($scope.playable.indexOf($scope.cardsToPlay.value)===-1){
-							console.log("Tried to play: "+$scope.cardsToPlay.value+", had to forfeit");
 							$scope.forfeit(player);
 						}
 						else{
@@ -689,7 +687,7 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 		
 		//push cards to pile
 		$scope.cardsToPlay.cards.forEach(function(card){
-			console.log(player.name+" played " + card.value);
+			//console.log(player.name+" played " + card.value);
 			$scope.pile.push(card);
 		});
 		
