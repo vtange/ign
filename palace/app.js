@@ -442,9 +442,6 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//runs turn of current player, gets card to beat and calcs rules
 	$scope.runNextTurn = function(){
 		
-		//disallow clicks
-		$scope.waitingForInput = false;
-		
 			/*-----------------------*/
 			//SET RULES FOR UPCOMING PLAYER
 			/*-----------------------*/
@@ -680,6 +677,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 	//FOR AI && PLAYER: play card(s) (make all selected cards float up and move to pile, remove from current hand)
 	$scope.playCards = function(player){
 
+		//prevent button mashing
+		//disallow clicks
+		if($scope.waitingForInput){
+			$scope.waitingForInput = false;
+		}
+
 		//if player.first is false, set it true now; they can't swap upper-palace cards now.
 		if(!player.first){
 			player.first = true;
@@ -879,6 +882,12 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 
 	//FOR AI && PLAYER: Forfeit function
 	$scope.forfeit = function(player){
+
+		//prevent button mashing
+		//disallow clicks
+		if($scope.waitingForInput){
+			$scope.waitingForInput = false;
+		}
 
 		//if player.first is false, set it true now; they can't swap upper-palace cards now.
 		if(!player.first){
