@@ -718,6 +718,10 @@ app.controller('MainCtrl', ['$scope', '$q', '$timeout', 'DATASTORE', function($s
 			return ids.indexOf(card.id)===-1;
 		});
 
+		//reset hand positioning
+		document.getElementById("player-hand").style.webkitTransform = 'translateX(-50%)';
+		document.getElementById("player-hand").style.mozTransform = 'translateX(-50%)';
+		document.getElementById("player-hand").style.transform = 'translateX(-50%)';
 
 		//wait for card to appear on pile
 		$timeout(function(){
@@ -1032,15 +1036,15 @@ app.directive('ngSideScroll', function() {
 							if(delta > 0) {
 								//see more towards left (<____-3____-2____-1____0)
 								//if new position would still be less than hibound
-								if(position+delta < hiBound){
-									position+=delta;
+								if(position+delta*3 < hiBound){
+									position+=delta*3;
 								}
 							}
 							else if (delta < 0){
 								//see more towards right (0____1____2____3____>)
 								//if new position would still be more than lobound
-								if(lowBound < position+delta){
-									position+=delta;
+								if(lowBound < position+delta*3){
+									position+=delta*3;
 								}
 							}
 
