@@ -1,5 +1,5 @@
 Play this game now at http://vtange.github.io/palace/
-^ has a slightly updated AI
+, <-- has a slightly updated AI
 
 # Palace
 
