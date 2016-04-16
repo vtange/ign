@@ -1,3 +1,6 @@
+Play this game now at http://vtange.github.io/palace/
+^ has a slightly updated AI
+
 # Palace
 
 The Objective: Play out all cards on your hand, then your Upper Palace, then your Secret Palace. Player who first empties out all his/her cards wins
